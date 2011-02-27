@@ -21,8 +21,8 @@ import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.UTF8 as U
 
 freenode = defaultConfig
-  { cAddr = "irc.freenode.net"
-  , cNick = "mssbotdev"
+  { cAddr = "213.179.58.83"
+  , cNick = "sidj"
   , cChannels = ["##mssdev", "#maelstrom"]
   , cEvents = events
   }
@@ -34,8 +34,18 @@ urlFile = "/var/tmp/mssboturl"
 onMessage :: EventFunc
 onMessage s m
   | msg == "?h" = do
-    sendMsg s chan "Commands (prefix ?): h (help), tell <nick> <message>, ping, t <string> (translate), g <query> (google), wik <query>, weather <location>[,province], d <[x|]<y>d<z>[+/-w]>... (dice); Passive: Report titles for urls;"
+    sendMsg s chan "Commands (prefix ?): h (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, weather <location>[,province], d <[x|]<y>d<z>[+/-w]>... (dice); Passive: Report titles for urls;"
   | msg == "?ping" = sendMsg s chan $ address nick "pong!"
+  | B.isPrefixOf "?ping " msg = do
+		let url = flip stringRegex "(http(s)?://)?(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*" $ takeWhile (/=' ') $ stringDropCmd msg
+		putStrLn url
+		if length url > 0 then do
+		(_, Just kind, _, _) <- createProcess (proc "ping" ["-c 2 -w 3", url]){ std_out = CreatePipe}
+		ping <- hGetContents kind
+		let time = stringRegex ping "(?<=time=)[0-9]*"
+		putStrLn time
+		sendMsg s chan $ address nick $ if length time > 0 then concat [time, "ms"] else "Can't connect."
+		else sendMsg s chan $ address nick "pong!"
   | msg == "?mt" = do
 		cur <- withMPD $ currentSong
 		stat <- withMPD $ status
