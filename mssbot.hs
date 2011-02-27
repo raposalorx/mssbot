@@ -9,7 +9,6 @@ import GHC.Exts( IsString(..) )
 import Text.Regex.PCRE
 import Network.HTTP.Wget
 import System.IO
-import qualified System.IO.UTF8 as I
 import System.Exit
 import System.Process
 import System.Random
@@ -17,8 +16,13 @@ import System.Directory
 import Language.Translate.Google
 import Web.Encodings
 import Network.MPD
+import qualified System.IO.UTF8 as I
 import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.UTF8 as U
+
+tellFile = "/var/tmp/mssbottelllist"
+googleFile = "/var/tmp/mssbotgoogle"
+urlFile = "/var/tmp/mssboturl"
 
 killSpaces :: String -> String
 killSpaces [] = ""
@@ -31,50 +35,43 @@ runCmd cmd options = do
 	runForce <- hGetContents force
 	putStrLn runForce
 
+download :: String -> String -> IO()
+download url file = runCmd "curl" ["-sSL", "--user-agent","Mozilla/4.0", "-o",file, url]
+
 getTitle :: String -> IO String
 getTitle url = do
 	putStrLn $ concat ["Getting ", url] 
-	runCmd "curl" ["-sSL", "--user-agent","Mozilla/4.0", "-o","/var/tmp/mssboturltmp", url]
-	(_, Just kind, _, _) <- createProcess (proc "file" ["-b", "/var/tmp/mssboturltmp"]){ std_out = CreatePipe }
+	download url urlFile
+	(_, Just kind, _, _) <- createProcess (proc "file" ["-b", urlFile]){ std_out = CreatePipe }
 	kindoffile <- hGetContents kind
 	let ftype = takeWhile (/=' ') kindoffile
 	putStrLn $ concat ["It's a ", ftype, " document"]
 	if ftype == "HTML" || ftype == "xHTML" then do
---	hin <- openFile "/var/tmp/mssboturltmp" ReadMode
---	hSetEncoding hin utf8
-	hin <- I.readFile "/var/tmp/mssboturltmp"
-	tloop hin
+	html <- I.readFile urlFile
+--	tloop hin
+	let title = killSpaces $ flip stringRegex "(?<=>)[^<]*" $ stringRegex html "<[^>]*[tT][iI][tT][lL][eE][^>]*>[^<]*<[^>]*/[^>]*[tT][iI][tT][lL][eE][^>]*>"
+	if length title > 0 then return title else return ""
 	else return ""
-	where
-		tloop html = do
---			html <- hGetContents h
-			let title0 = stringRegex html "<[^>]*[tT][iI][tT][lL][eE][^>]*>[^<]*<[^>]*/[^>]*[tT][iI][tT][lL][eE][^>]*>"
-			putStrLn title0
-			let title1 = stringRegex title0 "(?<=>)[^<]*"
-			putStrLn title1
-			let title = killSpaces title1 
-			if length title > 0 then return title else return ""
+--	where
+--		tloop html = do
+--			let title = killSpaces $ flip stringRegex "(?<=>)[^<]*" $ stringRegex html "<[^>]*[tT][iI][tT][lL][eE][^>]*>[^<]*<[^>]*/[^>]*[tT][iI][tT][lL][eE][^>]*>"
+--			let title0 = stringRegex html "<[^>]*[tT][iI][tT][lL][eE][^>]*>[^<]*<[^>]*/[^>]*[tT][iI][tT][lL][eE][^>]*>"
+--			putStrLn title0
+--			let title1 = stringRegex title0 "(?<=>)[^<]*"
+--			putStrLn title1
+--			let title = killSpaces title1 
+--			if length title > 0 then return title else return ""
 
 tell :: MIrc -> B.ByteString -> String -> IO()
 tell s chan nik = do
-	isTellFile <- doesFileExist "/var/tmp/mssbottelllist"
+	isTellFile <- doesFileExist tellFile
 	if isTellFile then do
---	hin <- openFile "/var/tmp/mssbottelllist" ReadMode
---	all <- hGetContents hin
-	all <- I.readFile "/var/tmp/mssbottelllist"
+	all <- I.readFile tellFile
 	let messages = map (\a -> read a :: (String, String, String, String)) $ lines all
 	let tells = map (\(a,b,c,t) -> concat $ [t, " UTC <",b,"> tell ",nik," ",c]) $ filter (\(a,b,c,t) -> isPrefixOf (lower a) (lower nik)) messages
 	goTell s chan tells
---	hout <- openFile "/var/tmp/mssbottelllist" WriteMode
---	hPutStr hout $ unlines $ map (show) $ filter (\(a,b,c,t) -> not (isPrefixOf (lower a) (lower nik))) messages
-	I.writeFile "/var/tmp/mssbottelllist" $ unlines $ map (show) $ filter (\(a,b,c,t) -> not (isPrefixOf (lower a) (lower nik))) messages
---	hClose hin
---	hClose hout
-	else do
---	hout <- openFile "/var/tmp/mssbottelllist" WriteMode
---	hPutStr hout ""
---	hClose hout
-	I.writeFile "/var/tmp/mssbottelllist" ""
+	I.writeFile tellFile $ unlines $ map (show) $ filter (\(a,b,c,t) -> not (isPrefixOf (lower a) (lower nik))) messages
+	else I.writeFile tellFile ""
 	where
 		goTell _ _ [] = return ()
 		goTell s chan (t:ts) = do 
@@ -174,16 +171,12 @@ onMessage s m
 		let times = stringRegex stats "(?<=stTime = \\()[^\\)]*"
 		let curtime = time $ read $ stringRegex times "[^\\.]*"
 		let lentime = time $ read $ stringRegex times "(?<=,).*"
-		if state == "Stopped" then sendMsg s chan $ U.fromString state else do
-		sendMsg s chan $ U.fromString $ concat [state, ": ", song, " - ", artist, " [", curtime, "/", lentime, "]"]
+		if state == "Stopped" then sendMsg s chan $ U.fromString state else sendMsg s chan $ U.fromString $ concat [state, ": ", song, " - ", artist, " [", curtime, "/", lentime, "]"]
   | B.isPrefixOf "?tell " msg = do
 		let (mnick, message) = span (/=' ') $ stringDropCmd msg
 		ftime <- getCurrentTime
 		let time = stringRegex (show ftime) "[^\\.]*(?=:[0-9]{2}\\.)"
---		hout <- openFile "/var/tmp/mssbottelllist" AppendMode
---		hPutStr hout $ concat [show (mnick, nick, concat [dropWhile (==' ') message], time),"\n"]
---		hClose hout
-		I.appendFile "/var/tmp/mssbotgoogletmp" $ concat [show (mnick, nick, concat [dropWhile (==' ') message], time),"\n"]
+		I.appendFile tellFile $ concat [show (mnick, nick, concat [dropWhile (==' ') message], time),"\n"]
 		sendMsg s chan $ U.fromString "I'll totally pass that on for you!"
   | B.isPrefixOf "?t " msg = do
 		trans <- translate (dropCommand msg) Nothing English
@@ -193,26 +186,18 @@ onMessage s m
 		sendMsg s chan $ address nick ds
   | B.isPrefixOf "?g " msg = do
 		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=", spaceToPlus $ stringDropCmd msg]
-		runCmd "curl" ["-sS", "--user-agent","Mozilla/4.0", "-o","/var/tmp/mssbotgoogletmp", search]
---		hin <- openFile "/var/tmp/mssbotgoogletmp" ReadMode
---		redir <- hGetContents hin
-		redir <- I.readFile "/var/tmp/mssbotgoogletmp"
+		download search googleFile
+		redir <- I.readFile googleFile
 		sendMsg s chan $ address nick $ stringRegex redir "(?<=\"url\":\")[^\"]*"
---		hClose hin
   | B.isPrefixOf "?wik " msg = do
 		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=%3Asite+www.wikipedia.com+", spaceToPlus $ stringDropCmd msg]
-		runCmd "curl" ["-sS", "--user-agent","Mozilla/4.0", "-o","/var/tmp/mssbotgoogletmp", search]
---		hin <- openFile "/var/tmp/mssbotgoogletmp" ReadMode
---		redir <- hGetContents hin
-		redir <- I.readFile "/var/tmp/mssbotgoogletmp"
+		download search googleFile
+		redir <- I.readFile googleFile
 		sendMsg s chan $ address nick $ stringRegex redir "(?<=\"url\":\")[^\"]*"
---		hClose hin
   | B.isPrefixOf "?weather " msg = do
 		let search = concat ["http://www.google.com/ig/api?weather=", spaceToPlus $ stringDropCmd msg]
-		runCmd "curl" ["-sS", "--user-agent","Mozilla/4.0", "-o","/var/tmp/mssbotgoogletmp", search]
---		hin <- openFile "/var/tmp/mssbotgoogletmp" ReadMode
---		redir <- hGetContents hin
-		redir <- I.readFile "/var/tmp/mssbotgoogletmp"
+		download search googleFile
+		redir <- I.readFile googleFile
 		if boolRegex redir "city data" then do
 		let his = map (\a -> read a ::Int) $ map (head) $ listRegex redir "(?<=<high data=\")[^\"]*"
 		let lows = map (\a -> read a ::Int) $ map (head) $ listRegex redir "(?<=<low data=\")[^\"]*"
@@ -222,7 +207,7 @@ onMessage s m
 		else putStrLn search
   | otherwise = do
 		let message = B.unpack msg
-		let url = stringRegex message "(http(s)?://)(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*"-- "(com|ca|uk|fr|net|org|ru|me|gov|co|jp|info|cc)(/)?[^ ]*"
+		let url = stringRegex message "(http(s)?://)(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*"
 		tell s chan nick
 		if length url > 0 then do
 		title <- getTitle url
