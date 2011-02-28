@@ -22,7 +22,7 @@ import qualified Data.ByteString.UTF8 as U
 
 freenode = defaultConfig
   { cAddr = "213.179.58.83"
-  , cNick = "sidjdev"
+  , cNick = "sidj"
   , cChannels = ["##mssdev", "#maelstrom"]
   , cEvents = events
   }
