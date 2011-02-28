@@ -22,7 +22,7 @@ import qualified Data.ByteString.UTF8 as U
 
 freenode = defaultConfig
   { cAddr = "213.179.58.83"
-  , cNick = "sidj"
+  , cNick = "sidjdev"
   , cChannels = ["##mssdev", "#maelstrom"]
   , cEvents = events
   }
@@ -40,8 +40,7 @@ onMessage s m
 		let url = flip stringRegex "(http(s)?://)?(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*" $ takeWhile (/=' ') $ stringDropCmd msg
 		putStrLn url
 		if length url > 0 then do
-		(_, Just kind, _, _) <- createProcess (proc "ping" ["-c 2 -w 3", url]){ std_out = CreatePipe}
-		ping <- hGetContents kind
+		ping <- readProcess "ping" ["-c 2 -w 3", url] ""
 		let time = stringRegex ping "(?<=time=)[0-9]*"
 		putStrLn time
 		sendMsg s chan $ address nick $ if length time > 0 then concat [time, "ms"] else "Can't connect."
@@ -108,8 +107,7 @@ getTitle :: String -> IO String
 getTitle url = do
 	putStrLn $ concat ["Getting ", url] 
 	download url urlFile
-	(_, Just kind, _, _) <- createProcess (proc "file" ["-b", urlFile]){ std_out = CreatePipe }
-	kindoffile <- hGetContents kind
+	kindoffile <- readProcess "file" ["-b", urlFile] ""
 	let ftype = takeWhile (/=' ') kindoffile
 	putStrLn $ concat ["It's a ", ftype, " document"]
 	if ftype == "HTML" || ftype == "xHTML" then do
@@ -139,14 +137,8 @@ killSpaces [] = ""
 killSpaces (a:[]) = if a=='\t' || a=='\n' then [] else [a]
 killSpaces (a:b:ss) = if (a == ' ' && b == ' ') || a=='\t' || a=='\n' then killSpaces $ b:ss else a: (killSpaces $ b:ss)
 
-runCmd :: String -> [String] -> IO ()
-runCmd cmd options = do
-	(_, Just force, _, _) <- createProcess (proc cmd options){ std_out = CreatePipe }
-	runForce <- hGetContents force
-	putStrLn runForce
-
 download :: String -> String -> IO()
-download url file = runCmd "curl" ["-sSL", "--user-agent","Mozilla/4.0", "-o",file, url]
+download url file = readProcess "curl" ["-sSL", "--user-agent","Mozilla/4.0", "-o",file, url] "" >> return ()
 
 droll :: (Int, Int, Int, Int) -> IO [Int]
 droll (_, _, _, 0) = return []
