@@ -22,8 +22,8 @@ import qualified Data.ByteString.UTF8 as U
 
 freenode = defaultConfig
   { cAddr = "213.179.58.83"
-  , cNick = "sidjdev"
-  , cChannels = ["##mssdev", "#maelstrom"]
+  , cNick = "sidj"
+  , cChannels = ["##mssdev", "#maelstrom", "#tatoeba", "##mssdnd"]
   , cEvents = events
   }
 
