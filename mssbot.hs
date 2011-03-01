@@ -22,7 +22,7 @@ import qualified Data.ByteString.UTF8 as U
 
 freenode = defaultConfig
   { cAddr = "213.179.58.83"
-  , cNick = "sidj"
+  , cNick = "sidjdev"
   , cChannels = ["##mssdev", "#maelstrom"]
   , cEvents = events
   }
@@ -45,6 +45,14 @@ onMessage s m
 		putStrLn time
 		sendMsg s chan $ address nick $ if length time > 0 then concat [time, "ms"] else "Can't connect."
 		else sendMsg s chan $ address nick "pong!"
+--  | B.isPrefixOf "?bc " msg = do -- no output for some reason
+--		let eq = stringDropCmd msg
+--		out <- readProcess "bc" [] eq
+--		sendMsg s chan $ address nick $ out
+  | B.isPrefixOf "?dc " msg = do
+		let eq = stringDropCmd msg
+		out <- readProcess "dc" [] eq
+		sendMsg s chan $ address nick $ out
   | msg == "?mt" = do
 		cur <- withMPD $ currentSong
 		stat <- withMPD $ status
@@ -209,7 +217,7 @@ secondBuffer (s:[]) = '0':s:""
 secondBuffer s = s
 
 time :: Int -> String
-time i = concat [show minutes, ":", secondBuffer $ show seconds]
+time i = if minutes == 0 && seconds == 0 then "--:--" else concat [show minutes, ":", secondBuffer $ show seconds]
 	where
 		minutes = floor $ flip (/) 60 $ fromIntegral i
 		seconds = i - (minutes*60)
