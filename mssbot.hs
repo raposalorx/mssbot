@@ -22,8 +22,8 @@ import qualified Data.ByteString.UTF8 as U
 
 freenode = defaultConfig
   { cAddr = "213.179.58.83"
-  , cNick = "sidj"
-  , cChannels = ["##mssdev", "#maelstrom", "#tatoeba", "##mssdnd"]
+  , cNick = "sidjdev"
+  , cChannels = ["##mssdev", "#maelstrom"]--, "#tatoeba", "##mssdnd"]
   , cEvents = events
   }
 
@@ -36,7 +36,7 @@ onMessage s m
   | msg == "?h" = sendMsg s chan "Commands (prefix ?): h (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, weather <location>[,province], d <[x|]<y>d<z>[+/-w]>... (dice), bc <equation> (broken), dc <RPN>; Passive: Report titles for urls;"
   | B.isInfixOf "sidj" (U.fromString $ lower $ U.toString msg) = do
 	let (sal,check) = span (/=' ') $ U.toString msg
-	if lower check == " sidj" then do
+	if (noSpaces $ lower check) == "sidj" then do
 	sendMsg s chan $ U.fromString $ concat [sal, " ", nick]
 	else return ()
   | msg == "?ping" = sendMsg s chan $ address nick "pong!"
@@ -211,6 +211,9 @@ boolRegex orig regex = orig =~ regex :: Bool
 
 spaceToPlus :: String -> String
 spaceToPlus = map (\a -> if a==' ' then '+' else a)
+
+noSpaces :: String -> String
+noSpaces = foldr (\a b -> if a==' ' then b else a:b) ""
 
 address :: String -> String -> B.ByteString
 address nik s = U.fromString $ concat [nik, ": ", s]
