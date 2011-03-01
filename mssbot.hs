@@ -34,7 +34,7 @@ urlFile = "/var/tmp/mssboturl"
 onMessage :: EventFunc
 onMessage s m
   | msg == "?h" = do
-    sendMsg s chan "Commands (prefix ?): h (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, weather <location>[,province], d <[x|]<y>d<z>[+/-w]>... (dice); Passive: Report titles for urls;"
+    sendMsg s chan "Commands (prefix ?): h (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, weather <location>[,province], d <[x|]<y>d<z>[+/-w]>... (dice), bc <equation> (broken), dc <RPN>; Passive: Report titles for urls;"
   | msg == "?ping" = sendMsg s chan $ address nick "pong!"
   | B.isPrefixOf "?ping " msg = do
 		let url = flip stringRegex "(http(s)?://)?(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*" $ takeWhile (/=' ') $ stringDropCmd msg
