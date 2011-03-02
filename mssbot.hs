@@ -42,12 +42,10 @@ onMessage s m
   | msg == "?ping" = sendMsg s chan $ address nick "pong!"
   | B.isPrefixOf "?ping " msg = do
 		let url = flip stringRegex "(http(s)?://)?(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*" $ takeWhile (/=' ') $ stringDropCmd msg
-		putStrLn url
 		if length url > 0 then do
 		ping <- readProcess "ping" ["-c 2 -w 3", url] ""
 		let time = stringRegex ping "(?<=time=)[0-9]*"
-		putStrLn time
-		sendMsg s chan $ address nick $ if length time > 0 then concat [time, "ms"] else "Can't connect."
+		sendMsg s chan $ address nick $ length time > 0 ? concat [time, "ms"] $ "Can't connect."
 		else sendMsg s chan $ address nick "pong!"
 --  | B.isPrefixOf "?bc " msg = do -- no output for some reason
 --		let eq = stringDropCmd msg
@@ -68,7 +66,7 @@ onMessage s m
 		let times = stringRegex stats "(?<=stTime = \\()[^\\)]*"
 		let curtime = time $ read $ stringRegex times "[^\\.]*"
 		let lentime = time $ read $ stringRegex times "(?<=,).*"
-		if state == "Stopped" then sendMsg s chan $ U.fromString state else sendMsg s chan $ U.fromString $ concat [state, ": ", song, " - ", artist, " [", curtime, "/", lentime, "]"]
+		sendMsg s chan $ U.fromString $ state == "Stopped" ? state $ concat [state, ": ", song, " - ", artist, " [", curtime, "/", lentime, "]"]
   | B.isPrefixOf "?tell " msg = do
 		let (mnick, message) = span (/=' ') $ stringDropCmd msg
 		ftime <- getCurrentTime
@@ -109,7 +107,7 @@ onMessage s m
 		if length url > 0 then do
 		title <- getTitle url
 		sendMsg s chan $ U.fromString $ decodeHtml title
-		else putStrLn $ show m
+		else putStrLn $ concat ["< ", nick, "> ", U.toString msg]
   where chan = fromJust $ mChan m
         msg = mMsg m
         nik = fromJust $ mNick m
@@ -125,7 +123,7 @@ getTitle url = do
 	if ftype == "HTML" || ftype == "xHTML" then do
 	html <- I.readFile urlFile
 	let title = killSpaces $ flip stringRegex "(?<=>)[^<]*" $ stringRegex html "<[^>]*[tT][iI][tT][lL][eE][^>]*>[^<]*<[^>]*/[^>]*[tT][iI][tT][lL][eE][^>]*>"
-	if length title > 0 then return title else return ""
+	length title > 0 ? return title $ return ""
 	else return ""
 
 tell :: MIrc -> B.ByteString -> String -> IO()
@@ -146,8 +144,8 @@ tell s chan nik = do
 
 killSpaces :: String -> String
 killSpaces [] = ""
-killSpaces (a:[]) = if a=='\t' || a=='\n' then [] else [a]
-killSpaces (a:b:ss) = if (a == ' ' && b == ' ') || a=='\t' || a=='\n' then killSpaces $ b:ss else a: (killSpaces $ b:ss)
+killSpaces (a:[]) = a=='\t' || a=='\n' ? [] $ [a]
+killSpaces (a:b:ss) = ((a == ' ' && b == ' ') || a=='\t' || a=='\n' ? (\z->z) $ (a:)) $ killSpaces $ b:ss
 
 download :: String -> String -> IO()
 download url file = readProcess "curl" ["-sSL", "--user-agent","Mozilla/4.0", "-o",file, url] "" >> return ()
@@ -166,19 +164,19 @@ droll (d, multi, offset, num) = do
 			return $ r+r2
 
 dieMulti :: String -> Int
-dieMulti a = if length b == 0 then 1 else read b ::Int
+dieMulti a = length b == 0 ? 1 $ read b ::Int
 	where b = stringRegex a "([0-9]+)?(?=d)"
 
 dieOffset :: String -> Int
-dieOffset a = if length b == 0 then 0 else if head b == '+' then read $ drop 1 b ::Int else read b ::Int
+dieOffset a = length b == 0 ? 0 $ if head b == '+' then read $ drop 1 b ::Int else read b ::Int
 	where b = stringRegex a "(\\+|-)[0-9]+"
 
 dieLoop :: String -> Int
-dieLoop a = if length b == 0 then 1 else read b ::Int
+dieLoop a = length b == 0 ? 1 $ read b ::Int
 	where b = stringRegex a "[0-9]+(?=\\|)"
 
 dieD :: String -> Int
-dieD a = if b == "%" then 100 else read b ::Int
+dieD a = b == "%" ? 100 $ read b ::Int
 	where b = stringRegex a "(?<=d)([0-9]+|%)"
 
 roll :: Int -> IO Int
@@ -210,10 +208,10 @@ boolRegex :: String -> String -> Bool
 boolRegex orig regex = orig =~ regex :: Bool
 
 spaceToPlus :: String -> String
-spaceToPlus = map (\a -> if a==' ' then '+' else a)
+spaceToPlus = map (\a -> a==' ' ? '+' $ a)
 
 noSpaces :: String -> String
-noSpaces = foldr (\a b -> if a==' ' then b else a:b) ""
+noSpaces = foldr (\a b -> a==' ' ? b $ a:b) ""
 
 address :: String -> String -> B.ByteString
 address nik s = U.fromString $ concat [nik, ": ", s]
@@ -224,7 +222,7 @@ secondBuffer (s:[]) = '0':s:""
 secondBuffer s = s
 
 time :: Int -> String
-time i = if minutes == 0 && seconds == 0 then "--:--" else concat [show minutes, ":", secondBuffer $ show seconds]
+time i = minutes == 0 && seconds == 0 ? "--:--" $ concat [show minutes, ":", secondBuffer $ show seconds]
 	where
 		minutes = floor $ flip (/) 60 $ fromIntegral i
 		seconds = i - (minutes*60)
@@ -236,6 +234,11 @@ capitalize :: String -> String
 capitalize (s:ss) = (toUpper s):ss
 
 events = [(Privmsg onMessage)]
+
+-- ternary
+infixr 1 ?
+True ? x = const x
+False ? _ = id
 
 main = do
   connect freenode False True
