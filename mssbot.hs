@@ -20,9 +20,13 @@ import qualified System.IO.UTF8 as I
 import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.UTF8 as U
 
+botName = "sidj"
+
 freenode = defaultConfig
   { cAddr = "213.179.58.83"
-  , cNick = "sidj"
+  , cNick = botName
+  , cUsername = botName
+  , cRealname = botName
   , cChannels = ["##mssdev", "#maelstrom", "#tatoeba", "##mssdnd"]
   , cEvents = events
   }
@@ -241,5 +245,5 @@ True ? x = const x
 False ? _ = id
 
 main = do
-  connect freenode False True
+  connect freenode False False
 
