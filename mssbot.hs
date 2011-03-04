@@ -37,7 +37,7 @@ urlFile = "/var/tmp/mssboturl"
 
 onMessage :: EventFunc
 onMessage s m
-  | msg == "?h" = sendMsg s chan "Commands (prefix ?): h (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, weather <location>[,province], d <[x|]<y>d<z>[+/-w]>... (dice), bc <equation> (broken), dc <RPN>; Passive: Report titles for urls;"
+  | msg == "?h" = sendMsg s chan "Commands (prefix ?): h (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, tube <query> (youtube), weather <location>[,province], d <[x|]<y>d<z>[+/-w]>... (dice), bc <equation> (broken), dc <RPN>; Passive: Report titles for urls;"
   | B.isInfixOf "sidj" (U.fromString $ lower $ U.toString msg) = do
 	let (sal,check) = span (/=' ') $ U.toString msg
 	if (noSpaces $ lower check) == "sidj" then do
@@ -51,10 +51,10 @@ onMessage s m
 		let time = stringRegex ping "(?<=time=)[0-9]*"
 		sendMsg s chan $ address nick $ length time > 0 ? concat [time, "ms"] $ "Can't connect."
 		else sendMsg s chan $ address nick "pong!"
---  | B.isPrefixOf "?bc " msg = do -- no output for some reason
---		let eq = stringDropCmd msg
---		out <- readProcess "bc" [] eq
---		sendMsg s chan $ address nick $ out
+  | B.isPrefixOf "?bc " msg = do -- no output for some reason
+		let eq = stringDropCmd msg
+		out <- readProcess "bc" [] eq
+		sendMsg s chan $ address nick $ out
   | B.isPrefixOf "?dc " msg = do
 		let eq = stringDropCmd msg
 		out <- readProcess "dc" [] eq
@@ -90,6 +90,11 @@ onMessage s m
 		sendMsg s chan $ address nick $ stringRegex redir "(?<=\"url\":\")[^\"]*"
   | B.isPrefixOf "?wik " msg = do
 		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=%3Asite+www.wikipedia.com+", spaceToPlus $ stringDropCmd msg]
+		download search googleFile
+		redir <- I.readFile googleFile
+		sendMsg s chan $ address nick $ stringRegex redir "(?<=\"url\":\")[^\"]*"
+  | B.isPrefixOf "?tube " msg = do
+		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=%3Asite+www.youtube.com+", spaceToPlus $ stringDropCmd msg]
 		download search googleFile
 		redir <- I.readFile googleFile
 		sendMsg s chan $ address nick $ stringRegex redir "(?<=\"url\":\")[^\"]*"
