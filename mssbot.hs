@@ -40,7 +40,7 @@ onMessage s m
   | msg == "?h" = sendMsg s chan "Commands (prefix ?): h (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, tube <query> (youtube), weather <location>[,province], d <[x|]<y>d<z>[+/-w]>... (dice), bc <equation> (broken), dc <RPN>; Passive: Report titles for urls;"
   | B.isInfixOf "sidj" (U.fromString $ lower $ U.toString msg) = do
 	let (sal,check) = span (/=' ') $ U.toString msg
-	if (noSpaces $ lower check) == "sidj" then do
+	if (noSpaces $ noPunc $ lower check) == "sidj" then do
 	sendMsg s chan $ U.fromString $ concat [sal, " ", nick]
 	else return ()
   | msg == "?ping" = sendMsg s chan $ address nick "pong!"
@@ -227,6 +227,9 @@ spaceToPlus = map (\a -> a==' ' ? '+' $ a)
 
 noSpaces :: String -> String
 noSpaces = foldr (\a b -> a==' ' ? b $ a:b) ""
+
+noPunc :: String -> String
+noPunc = foldr (\a b -> a=='.' || a==',' || a=='!' ? b $ a:b) ""
 
 address :: String -> String -> B.ByteString
 address nik s = U.fromString $ concat [nik, ": ", s]
