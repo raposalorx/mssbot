@@ -87,17 +87,23 @@ onMessage s m
 		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=", spaceToPlus $ stringDropCmd msg]
 		download search googleFile
 		redir <- I.readFile googleFile
-		sendMsg s chan $ address nick $ stringRegex redir "(?<=\"url\":\")[^\"]*"
+		let url = stringRegex redir "(?<=\"url\":\")[^\"]*"
+		title <- getTitle url
+		sendMsg s chan $ address nick $ concat [url, " -- ", title]
   | B.isPrefixOf "?wik " msg = do
 		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=%3Asite+www.wikipedia.com+", spaceToPlus $ stringDropCmd msg]
 		download search googleFile
 		redir <- I.readFile googleFile
-		sendMsg s chan $ address nick $ stringRegex redir "(?<=\"url\":\")[^\"]*"
+		let url = stringRegex redir "(?<=\"url\":\")[^\"]*"
+		title <- getTitle url
+		sendMsg s chan $ address nick $ concat [url, " -- ", title]
   | B.isPrefixOf "?tube " msg = do
 		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=%3Asite+www.youtube.com+", spaceToPlus $ stringDropCmd msg]
 		download search googleFile
 		redir <- I.readFile googleFile
-		sendMsg s chan $ address nick $ stringRegex redir "(?<=\"url\":\")[^\"]*"
+		let url = stringRegex redir "(?<=\"url\":\")[^\"]*"
+		title <- getTitle url
+		sendMsg s chan $ address nick $ concat [url, " -- ", title]
   | B.isPrefixOf "?weather " msg = do
 		let search = concat ["http://www.google.com/ig/api?weather=", spaceToPlus $ stringDropCmd msg]
 		download search googleFile
