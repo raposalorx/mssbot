@@ -16,18 +16,23 @@ import System.Directory
 import Language.Translate.Google
 import Web.Encodings
 import Network.MPD
+import Data.ConfigFile
+import Control.Monad.Error
+import Control.Concurrent.MVar
+import Control.Concurrent
+import System.Posix.Unistd
 import qualified System.IO.UTF8 as I
 import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.UTF8 as U
 
-botName = "sidj"
+botName = "sidjdev"
 
 freenode = defaultConfig
   { cAddr = "213.179.58.83"
   , cNick = botName
   , cUsername = botName
   , cRealname = botName
-  , cChannels = ["##mssdev", "#maelstrom", "#tatoeba", "##mssdnd"]
+  , cChannels = ["##mssdev"]--, "#maelstrom", "#tatoeba", "##mssdnd"]
   , cEvents = events
   }
 
@@ -258,6 +263,37 @@ infixr 1 ?
 True ? x = const x
 False ? _ = id
 
+initConfig :: IO FilePath
+initConfig = do
+	home <- getHomeDirectory
+	let configdir = home ++ "/.mssbot"
+	exists <- doesDirectoryExist configdir
+	not exists ? createDirectory configdir $ return ()
+	fileexists <- doesFileExist (configdir++"/default.irc")	
+	if not fileexists then I.writeFile (configdir++"/default.irc") $ unlines ["network: irc.network.net", "name: botName", "channels = [\"#chan\"]"] else return ()
+	return configdir
+
+readConfig :: FilePath -> IO IrcConfig
+readConfig file = do 
+	rv <- runErrorT $ do
+		cp <- join $ liftIO $ readfile emptyCP file
+		let x = cp
+		network <- get x "DEFAULT" "network"
+		liftIO $ putStrLn network
+		name <- get x "DEFAULT" "name"
+		liftIO $ putStrLn name
+		channels <- get x "DEFAULT" "channels"
+		liftIO $ putStrLn channels
+		return defaultConfig {cAddr = network, cNick = name, cUsername = name, cRealname = name, cChannels = (read channels ::[String]), cEvents = events}
+	return $ either (\a -> defaultConfig) (\b -> b) rv
+
 main = do
-  connect freenode False False
+	configdir <- initConfig
+	fullfilelist <- getDirectoryContents configdir
+	let files = map ((configdir++"/")++) $ drop 2 fullfilelist
+	putStrLn $ show configdir
+	putStrLn $ show files
+	configs <- mapM (readConfig) files
+	mapM (\net -> connect net True True) $ drop 1 configs
+	connect (configs!!0) False True
 
