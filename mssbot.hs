@@ -25,10 +25,6 @@ import qualified System.IO.UTF8 as I
 import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.UTF8 as U
 
-tellFile = "/var/tmp/mssbottelllist"
-googleFile = "/var/tmp/mssbotgoogle"
-urlFile = "/var/tmp/mssboturl"
-
 onMessage :: EventFunc
 onMessage s m
   | msg == "?h" = sendMsg s chan "Commands (prefix ?): h (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, tube <query> (youtube), weather <location>[,province], d <[x|]<y>d<z>[+/-w]>... (dice), bc <equation> (broken), dc <RPN>; Passive: Report titles for urls;"
@@ -64,6 +60,7 @@ onMessage s m
 		let (mnick, message) = span (/=' ') $ stringDropCmd msg
 		ftime <- getCurrentTime
 		let time = stringRegex (show ftime) "[^\\.]*(?=:[0-9]{2}\\.)"
+		tellFile <- getTellFile
 		I.appendFile tellFile $ concat [show (mnick, nick, concat [dropWhile (==' ') message], time),"\n"]
 		sendMsg s chan $ U.fromString "I'll totally pass that on for you!"
   | B.isPrefixOf "?t " msg = do
@@ -74,6 +71,7 @@ onMessage s m
 		sendMsg s chan $ address nick ds
   | B.isPrefixOf "?g " msg = do
 		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=", spaceToPlus $ stringDropCmd msg]
+		googleFile <- getGoogleFile
 		download search googleFile
 		redir <- I.readFile googleFile
 		let url = stringRegex redir "(?<=\"url\":\")[^\"]*"
@@ -81,6 +79,7 @@ onMessage s m
 		sendMsg s chan $ address nick $ concat [url, " -- ", title]
   | B.isPrefixOf "?wik " msg = do
 		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=%3Asite+www.wikipedia.com+", spaceToPlus $ stringDropCmd msg]
+		googleFile <- getGoogleFile
 		download search googleFile
 		redir <- I.readFile googleFile
 		let url = stringRegex redir "(?<=\"url\":\")[^\"]*"
@@ -88,6 +87,7 @@ onMessage s m
 		sendMsg s chan $ address nick $ concat [url, " -- ", title]
   | B.isPrefixOf "?tube " msg = do
 		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=%3Asite+www.youtube.com+", spaceToPlus $ stringDropCmd msg]
+		googleFile <- getGoogleFile
 		download search googleFile
 		redir <- I.readFile googleFile
 		let url = stringRegex redir "(?<=\"url\":\")[^\"]*"
@@ -95,6 +95,7 @@ onMessage s m
 		sendMsg s chan $ address nick $ concat [url, " -- ", title]
   | B.isPrefixOf "?weather " msg = do
 		let search = concat ["http://www.google.com/ig/api?weather=", spaceToPlus $ stringDropCmd msg]
+		googleFile <- getGoogleFile
 		download search googleFile
 		redir <- I.readFile googleFile
 		if boolRegex redir "city data" then do
@@ -108,15 +109,16 @@ onMessage s m
 		let message = B.unpack msg
 		let url = stringRegex message "(http(s)?://)(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*"
 		tell s chan nick
-		if B.isInfixOf "sidj" (U.fromString $ lower $ U.toString msg) then do
+		myNick <- getNickname s
+		if B.isInfixOf myNick (U.fromString $ lower $ U.toString msg) then do
 		let (sal,check) = span (/=' ') $ U.toString msg
-		if (noSpaces $ noPunc $ lower check) == "sidj" then do
+		if (noSpaces $ noPunc $ lower check) == (U.toString myNick) then do
 		sendMsg s chan $ U.fromString $ concat [sal, " ", nick]
 		else return () else return ()
 		if length url > 0 then do
 		title <- getTitle url
 		sendMsg s chan $ U.fromString $ decodeHtml title
-		else putStrLn $ concat ["< ", nick, "> ", U.toString msg]
+		else return () --putStrLn $ concat ["< ", nick, "> ", U.toString msg]
   where chan = fromJust $ mChan m
         msg = mMsg m
         nik = fromJust $ mNick m
@@ -125,6 +127,7 @@ onMessage s m
 getTitle :: String -> IO String
 getTitle url = do
 	putStrLn $ concat ["Getting ", url] 
+	urlFile <- getUrlFile
 	download url urlFile
 	kindoffile <- readProcess "file" ["-b", urlFile] ""
 	let ftype = takeWhile (/=' ') kindoffile
@@ -137,6 +140,7 @@ getTitle url = do
 
 tell :: MIrc -> B.ByteString -> String -> IO()
 tell s chan nik = do
+	tellFile <- getTellFile
 	isTellFile <- doesFileExist tellFile
 	if isTellFile then do
 	all <- I.readFile tellFile
@@ -247,6 +251,16 @@ capitalize (s:ss) = (toUpper s):ss
 
 events = [(Privmsg onMessage)]
 
+getTellFile = do
+	home <- getHomeDirectory
+	return $ home++"/.mssbot/telllist"
+getGoogleFile = do
+	home <- getHomeDirectory
+	return $ home++"/.mssbot/googletmp"
+getUrlFile = do
+	home <- getHomeDirectory
+	return $ home++"/.mssbot/urltmp"
+
 -- ternary
 infixr 1 ?
 True ? x = const x
@@ -268,26 +282,24 @@ readConfig file = do
 		cp <- join $ liftIO $ readfile emptyCP file
 		let x = cp
 		network <- get x "DEFAULT" "network"
-		liftIO $ putStrLn network
 		name <- get x "DEFAULT" "name"
-		liftIO $ putStrLn name
 		channels <- get x "DEFAULT" "channels"
-		liftIO $ putStrLn channels
 		return defaultConfig {cAddr = network, cNick = name, cUsername = name, cRealname = name, cChannels = (read channels ::[String]), cEvents = events}
 	return $ either (\a -> defaultConfig) (\b -> b) rv
 
 dropConfigs :: [FilePath] -> [FilePath]
 dropConfigs [] = []
-dropConfigs (f:fs) = if f=="." || f==".." || f=="default.irc" then dropConfigs fs else f: dropConfigs fs
+dropConfigs (f:fs) = if f=="." || f==".." || f=="default.irc" || (not $ isInfixOf ".irc" f) then dropConfigs fs else f: dropConfigs fs
 
 main = do
 	configdir <- initConfig
 	fullfilelist <- getDirectoryContents configdir
-	putStrLn $ show fullfilelist
 	let files = map ((configdir++"/")++) $ dropConfigs fullfilelist
+	putStr "Opening: "
 	putStrLn $ show configdir
+	putStr "Connecting to: "
 	putStrLn $ show files
 	configs <- mapM (readConfig) files
-	mapM (\net -> connect net True True) $ drop 1 configs
-	connect (configs!!0) False True
+	mapM (\net -> connect net True False) $ drop 1 configs
+	connect (configs!!0) False False
 
