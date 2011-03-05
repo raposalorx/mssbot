@@ -25,17 +25,6 @@ import qualified System.IO.UTF8 as I
 import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.UTF8 as U
 
-botName = "sidjdev"
-
-freenode = defaultConfig
-  { cAddr = "213.179.58.83"
-  , cNick = botName
-  , cUsername = botName
-  , cRealname = botName
-  , cChannels = ["##mssdev"]--, "#maelstrom", "#tatoeba", "##mssdnd"]
-  , cEvents = events
-  }
-
 tellFile = "/var/tmp/mssbottelllist"
 googleFile = "/var/tmp/mssbotgoogle"
 urlFile = "/var/tmp/mssboturl"
@@ -43,11 +32,6 @@ urlFile = "/var/tmp/mssboturl"
 onMessage :: EventFunc
 onMessage s m
   | msg == "?h" = sendMsg s chan "Commands (prefix ?): h (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, tube <query> (youtube), weather <location>[,province], d <[x|]<y>d<z>[+/-w]>... (dice), bc <equation> (broken), dc <RPN>; Passive: Report titles for urls;"
-  | B.isInfixOf "sidj" (U.fromString $ lower $ U.toString msg) = do
-	let (sal,check) = span (/=' ') $ U.toString msg
-	if (noSpaces $ noPunc $ lower check) == "sidj" then do
-	sendMsg s chan $ U.fromString $ concat [sal, " ", nick]
-	else return ()
   | msg == "?ping" = sendMsg s chan $ address nick "pong!"
   | B.isPrefixOf "?ping " msg = do
 		let url = flip stringRegex "(http(s)?://)?(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*" $ takeWhile (/=' ') $ stringDropCmd msg
@@ -124,6 +108,11 @@ onMessage s m
 		let message = B.unpack msg
 		let url = stringRegex message "(http(s)?://)(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*"
 		tell s chan nick
+		if B.isInfixOf "sidj" (U.fromString $ lower $ U.toString msg) then do
+		let (sal,check) = span (/=' ') $ U.toString msg
+		if (noSpaces $ noPunc $ lower check) == "sidj" then do
+		sendMsg s chan $ U.fromString $ concat [sal, " ", nick]
+		else return () else return ()
 		if length url > 0 then do
 		title <- getTitle url
 		sendMsg s chan $ U.fromString $ decodeHtml title
