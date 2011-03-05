@@ -287,10 +287,15 @@ readConfig file = do
 		return defaultConfig {cAddr = network, cNick = name, cUsername = name, cRealname = name, cChannels = (read channels ::[String]), cEvents = events}
 	return $ either (\a -> defaultConfig) (\b -> b) rv
 
+dropConfigs :: [FilePath] -> [FilePath]
+dropConfigs [] = []
+dropConfigs (f:fs) = if f=="." || f==".." || f=="default.irc" then dropConfigs fs else f: dropConfigs fs
+
 main = do
 	configdir <- initConfig
 	fullfilelist <- getDirectoryContents configdir
-	let files = map ((configdir++"/")++) $ drop 2 fullfilelist
+	putStrLn $ show fullfilelist
+	let files = map ((configdir++"/")++) $ dropConfigs fullfilelist
 	putStrLn $ show configdir
 	putStrLn $ show files
 	configs <- mapM (readConfig) files
