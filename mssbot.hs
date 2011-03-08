@@ -249,7 +249,11 @@ lower = map (toLower)
 capitalize :: String -> String
 capitalize (s:ss) = (toUpper s):ss
 
-events = [(Privmsg onMessage)]
+onDisconnect mIrc = do
+	m <- reconnect mIrc
+	either (\err -> putStrLn $ "Unable to reconnect: " ++ show err) (\_ -> putStrLn "Successfully reconnected.") m
+
+events = [(Privmsg onMessage),(Disconnect onDisconnect)]
 
 getTellFile = do
 	home <- getHomeDirectory
