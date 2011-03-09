@@ -161,7 +161,7 @@ killSpaces (a:[]) = a=='\t' || a=='\n' ? [] $ [a]
 killSpaces (a:b:ss) = ((a == ' ' && b == ' ') || a=='\t' || a=='\n' ? (\z->z) $ (a:)) $ killSpaces $ b:ss
 
 download :: String -> String -> IO()
-download url file = readProcess "curl" ["-sSL", "--user-agent","Mozilla/4.0", "-o",file, url] "" >> return ()
+download url file = readProcess "curl" ["-sSL", "-m 5", "--user-agent","Mozilla/4.0", "-o",file, url] "" >> return ()
 
 droll :: (Int, Int, Int, Int) -> IO [Int]
 droll (_, _, _, 0) = return []
