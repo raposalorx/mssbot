@@ -36,10 +36,10 @@ onMessage s m
 		let time = stringRegex ping "(?<=time=)[0-9]*"
 		sendMsg s chan $ address nick $ length time > 0 ? concat [time, "ms"] $ "Can't connect."
 		else sendMsg s chan $ address nick "pong!"
-  | B.isPrefixOf "?bc " msg = do -- no output for some reason
+{-  | B.isPrefixOf "?bc " msg = do -- no output for some reason
 		let eq = stringDropCmd msg
 		out <- readProcess "bc" [] eq
-		sendMsg s chan $ address nick $ out
+		sendMsg s chan $ address nick $ out-}
   | B.isPrefixOf "?dc " msg = do
 		let eq = stringDropCmd msg
 		out <- readProcess "dc" [] eq
