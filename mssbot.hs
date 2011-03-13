@@ -27,23 +27,23 @@ import qualified Data.ByteString.UTF8 as U
 
 onMessage :: EventFunc
 onMessage s m
-  | msg == "?h" = sendMsg s chan "Commands (prefix ?): h (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, tube <query> (youtube), weather <location>[,province[,country]], d <[x|]<y>d<z>[+/-w]>... (dice), bc <equation> (broken), dc <RPN>; Passive: Report titles for urls;"
-  | msg == "?ping" = sendMsg s chan $ address nick "pong!"
+  | msg == "?h" = send s m "Commands (prefix ?): h (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, tube <query> (youtube), weather <location>[,province[,country]], d <[x|]<y>d<z>[+/-w]>... (dice), bc <equation> (broken), dc <RPN>; Passive: Report titles for urls;"
+  | msg == "?ping" = send s m $ address nick "pong!"
   | B.isPrefixOf "?ping " msg = do
 		let url = flip stringRegex "(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*" $ takeWhile (/=' ') $ stringDropCmd msg
 		if length url > 0 then do
-		ping <- readProcess "ping" ["-c 2 -w 3", url] ""
+		ping <- runCmd "ping" ["-c 2 -w 3", url] ""
 		let time = stringRegex ping "(?<=time=)[0-9]*"
-		sendMsg s chan $ address nick $ length time > 0 ? concat [time, "ms"] $ "Can't connect."
-		else sendMsg s chan $ address nick "pong!"
+		send s m $ address nick $ length time > 0 ? concat [time, "ms"] $ "Can't connect."
+		else send s m $ address nick "pong!"
 {-  | B.isPrefixOf "?bc " msg = do -- no output for some reason
 		let eq = stringDropCmd msg
-		out <- readProcess "bc" [] eq
-		sendMsg s chan $ address nick $ out-}
+		out <- runCmd "bc" [] eq
+		send s m chan nik $ address nick $ out-}
   | B.isPrefixOf "?dc " msg = do
 		let eq = stringDropCmd msg
-		out <- readProcess "dc" [] eq
-		sendMsg s chan $ address nick $ out
+		out <- runCmd "dc" [] eq
+		send s m $ address nick $ out
   | msg == "?mt" = do
 		cur <- withMPD $ currentSong
 		stat <- withMPD $ status
@@ -55,20 +55,20 @@ onMessage s m
 		let times = stringRegex stats "(?<=stTime = \\()[^\\)]*"
 		let curtime = time $ read $ stringRegex times "[^\\.]*"
 		let lentime = time $ read $ stringRegex times "(?<=,).*"
-		sendMsg s chan $ U.fromString $ state == "Stopped" ? state $ concat [state, ": ", song, " - ", artist, " [", curtime, "/", lentime, "]"]
+		send s m $ state == "Stopped" ? state $ concat [state, ": ", song, " - ", artist, " [", curtime, "/", lentime, "]"]
   | B.isPrefixOf "?tell " msg = do
 		let (mnick, message) = span (/=' ') $ stringDropCmd msg
 		ftime <- getCurrentTime
 		let time = stringRegex (show ftime) "[^\\.]*(?=:[0-9]{2}\\.)"
 		tellFile <- getTellFile
 		I.appendFile tellFile $ concat [show (mnick, nick, concat [dropWhile (==' ') message], time),"\n"]
-		sendMsg s chan $ U.fromString "I'll totally pass that on for you!"
+		send s m "I'll totally pass that on for you!"
   | B.isPrefixOf "?t " msg = do
 		trans <- translate (dropCommand msg) Nothing English
-		sendMsg s chan $ address nick $ decodeHtml $ U.toString $ either (\e -> U.fromString e) (\r -> r) trans
+		send s m $ address nick $ decodeHtml $ U.toString $ either (\e -> U.fromString e) (\r -> r) trans
   | B.isPrefixOf "?d " msg = do
 		ds <- collapseroll $ map (droll) $ map (\a -> (dieD a, dieMulti a, dieOffset a, dieLoop a)) $ map (head) $ listRegex (stringDropCmd msg) "([0-9]?\\|)?([0-9]+)?d([0-9]+|%)((\\+|-)[0-9]+)?"
-		sendMsg s chan $ address nick ds
+		send s m $ address nick ds
   | B.isPrefixOf "?g " msg = do
 		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=", spaceToPlus $ stringDropCmd msg]
 		googleFile <- getGoogleFile
@@ -76,7 +76,7 @@ onMessage s m
 		redir <- I.readFile googleFile
 		let url = stringRegex redir "(?<=\"url\":\")[^\"]*"
 		title <- getTitle url
-		sendMsg s chan $ address nick $ concat [url, " -- ", title]
+		send s m $ address nick $ concat [url, " -- ", title]
   | B.isPrefixOf "?wik " msg = do
 		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=%3Asite+www.wikipedia.com+", spaceToPlus $ stringDropCmd msg]
 		googleFile <- getGoogleFile
@@ -84,7 +84,7 @@ onMessage s m
 		redir <- I.readFile googleFile
 		let url = stringRegex redir "(?<=\"url\":\")[^\"]*"
 		title <- getTitle url
-		sendMsg s chan $ address nick $ concat [url, " -- ", title]
+		send s m $ address nick $ concat [url, " -- ", title]
   | B.isPrefixOf "?tube " msg = do
 		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=%3Asite+www.youtube.com+", spaceToPlus $ stringDropCmd msg]
 		googleFile <- getGoogleFile
@@ -92,7 +92,7 @@ onMessage s m
 		redir <- I.readFile googleFile
 		let url = stringRegex redir "(?<=\"url\":\")[^\"]*"
 		title <- getTitle url
-		sendMsg s chan $ address nick $ concat [url, " -- ", title]
+		send s m $ address nick $ concat [url, " -- ", title]
   | B.isPrefixOf "?weather " msg = do
 		let search = concat ["http://www.google.com/ig/api?weather=", spaceToPlus $ stringDropCmd msg]
 		googleFile <- getGoogleFile
@@ -103,22 +103,22 @@ onMessage s m
 		let lows = map (\a -> read a ::Int) $ map (head) $ listRegex redir "(?<=<low data=\")[^\"]*"
 		let conditions = map (head) $ listRegex redir "(?<=<condition data=\")[^\"]*"
 		let form = concat [stringRegex redir "(?<=<city data=\")[^\"]*", ": ", stringRegex redir "(?<=<temp_c data=\")[^\"]*", "C ", show $ fToC $ his!!0, "H ", show $ fToC $ lows!!0, "L ", stringRegex redir "(?<=<wind_condition data=\")[^\"]*"," and ", conditions!!0, ", expect ", conditions!!1]
-		sendMsg s chan $ address nick form
+		send s m $ address nick form
 		else putStrLn search
   | otherwise = do
 		let message = B.unpack msg
 		let url = stringRegex message "(http(s)?://)(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*"
-		tell s chan nick
+		tell s m nick
 		myNick <- getNickname s
 		if B.isInfixOf myNick (U.fromString $ lower $ U.toString msg) then do
 		let (sal,check) = span (/=' ') $ U.toString msg
 		if (noSpaces $ noPunc $ lower check) == (U.toString myNick) then do
-		sendMsg s chan $ U.fromString $ concat [sal, " ", nick]
+		send s m $ concat [sal, " ", nick]
 		else return () else return ()
 		if length url > 0 then do
 		title <- getTitle url
-		sendMsg s chan $ U.fromString $ decodeHtml title
-		else return () --putStrLn $ concat ["< ", nick, "> ", U.toString msg]
+		send s m $ decodeHtml title
+		else putStrLn $ concat [U.toString chan, " -> ", "< ", nick, "> ", U.toString msg]
   where chan = fromJust $ mChan m
         msg = mMsg m
         nik = fromJust $ mNick m
@@ -129,7 +129,7 @@ getTitle url = do
 	putStrLn $ concat ["Getting ", url] 
 	urlFile <- getUrlFile
 	download url urlFile
-	kindoffile <- readProcess "file" ["-b", urlFile] ""
+	kindoffile <- runCmd "file" ["-b", urlFile] ""
 	let ftype = takeWhile (/=' ') kindoffile
 	putStrLn $ concat ["It's a ", ftype, " document"]
 	if ftype == "HTML" || ftype == "xHTML" then do
@@ -138,22 +138,36 @@ getTitle url = do
 	length title > 0 ? return title $ return ""
 	else return ""
 
-tell :: MIrc -> B.ByteString -> String -> IO()
-tell s chan nik = do
+tell :: MIrc -> IrcMessage -> String -> IO()
+tell s m nik = do
 	tellFile <- getTellFile
 	isTellFile <- doesFileExist tellFile
 	if isTellFile then do
 	all <- I.readFile tellFile
 	let messages = map (\a -> read a :: (String, String, String, String)) $ lines all
 	let tells = map (\(a,b,c,t) -> concat $ [t, " UTC <",b,"> tell ",nik," ",c]) $ filter (\(a,b,c,t) -> isPrefixOf (lower a) (lower nik)) messages
-	goTell s chan tells
+	goTell s m tells
 	I.writeFile tellFile $ unlines $ map (show) $ filter (\(a,b,c,t) -> not (isPrefixOf (lower a) (lower nik))) messages
 	else I.writeFile tellFile ""
 	where
 		goTell _ _ [] = return ()
-		goTell s chan (t:ts) = do 
-			sendMsg s chan $ U.fromString t
-			goTell s chan ts
+		goTell s m (t:ts) = do
+			sendRaw s $ U.fromString $ concat ["PRIVMSG ", U.toString $ fromJust $ mNick m, " :", t]
+			goTell s m ts
+
+send :: MIrc -> IrcMessage -> String -> IO()
+send s m msg = do
+	let chan = fromJust $ mChan m
+	nick <- getNickname s
+	let from = fromJust $ mNick m
+	let to = if nick == chan then from else chan
+	sendRaw s $ U.fromString $ concat ["PRIVMSG ", U.toString to, " :", msg]
+
+runCmd :: String -> [String] -> String -> IO String
+runCmd cmd args stdin = do
+	(exit,out,err) <- readProcessWithExitCode cmd args stdin
+	putStrLn $ show exit
+	if exit==ExitSuccess then return out else return "Command Failed"
 
 killSpaces :: String -> String
 killSpaces [] = ""
@@ -161,7 +175,8 @@ killSpaces (a:[]) = a=='\t' || a=='\n' ? [] $ [a]
 killSpaces (a:b:ss) = ((a == ' ' && b == ' ') || a=='\t' || a=='\n' ? (\z->z) $ (a:)) $ killSpaces $ b:ss
 
 download :: String -> String -> IO()
-download url file = readProcess "curl" ["-sSL", "-m", "5", "--user-agent","Mozilla/4.0", "-o",file, url] "" >> return ()
+download url file = runCmd "curl" ["-sSL", "-m", "10", "--user-agent","Mozilla/4.0", "-o",file, url] "" >> return ()
+	--if success == "Command Failed" then  I.writeFile file "<title>Can't get Title</title>" else return ()
 
 droll :: (Int, Int, Int, Int) -> IO [Int]
 droll (_, _, _, 0) = return []
@@ -229,8 +244,8 @@ noSpaces = foldr (\a b -> a==' ' ? b $ a:b) ""
 noPunc :: String -> String
 noPunc = foldr (\a b -> a=='.' || a==',' || a=='!' ? b $ a:b) ""
 
-address :: String -> String -> B.ByteString
-address nik s = U.fromString $ concat [nik, ": ", s]
+address :: String -> String -> String
+address nik s = concat [nik, ": ", s]
 
 secondBuffer :: String -> String
 secondBuffer [] = "00"
