@@ -27,10 +27,10 @@ import qualified Data.ByteString.UTF8 as U
 
 onMessage :: EventFunc
 onMessage s m
-  | msg == "?h" = sendMsg s chan "Commands (prefix ?): h (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, tube <query> (youtube), weather <location>[,province], d <[x|]<y>d<z>[+/-w]>... (dice), bc <equation> (broken), dc <RPN>; Passive: Report titles for urls;"
+  | msg == "?h" = sendMsg s chan "Commands (prefix ?): h (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, tube <query> (youtube), weather <location>[,province[,country]], d <[x|]<y>d<z>[+/-w]>... (dice), bc <equation> (broken), dc <RPN>; Passive: Report titles for urls;"
   | msg == "?ping" = sendMsg s chan $ address nick "pong!"
   | B.isPrefixOf "?ping " msg = do
-		let url = flip stringRegex "(http(s)?://)?(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*" $ takeWhile (/=' ') $ stringDropCmd msg
+		let url = flip stringRegex "(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*" $ takeWhile (/=' ') $ stringDropCmd msg
 		if length url > 0 then do
 		ping <- readProcess "ping" ["-c 2 -w 3", url] ""
 		let time = stringRegex ping "(?<=time=)[0-9]*"
