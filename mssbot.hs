@@ -118,7 +118,7 @@ onMessage s m
 		if length url > 0 then do
 		title <- getTitle url
 		send s m $ decodeHtml title
-		else putStrLn $ concat [U.toString chan, " -> ", "< ", nick, "> ", U.toString msg]
+		else return () -- putStrLn $ concat [U.toString chan, " -> ", "< ", nick, "> ", U.toString msg]
   where chan = fromJust $ mChan m
         msg = mMsg m
         nik = fromJust $ mNick m
