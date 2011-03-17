@@ -30,5 +30,6 @@ Executable mssbot
                     time >= 1.1.4,
                     ConfigFile >= 1.0.6,
                     unix >= 2.4.0.2,
-                    mtl >= 1.1.0.2
+                    mtl >= 1.1.0.2,
+                    datetime >= 0.2
 
