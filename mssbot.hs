@@ -3,7 +3,7 @@ import Network.SimpleIRC
 import Data.Maybe
 import Data.String
 import Data.List
-import Data.Time
+import Data.DateTime
 import Data.Char
 import GHC.Exts( IsString(..) )
 import Text.Regex.PCRE
@@ -25,9 +25,22 @@ import qualified System.IO.UTF8 as I
 import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.UTF8 as U
 
+help s m "h"		= send s m "?h [command] - A help dialog for command, Or a list of commands."
+help s m "tell"		= send s m "?tell <nick> <message> - Send \"<nick> tell message\" as a PM to nick next time they speak."
+help s m "ping"		= send s m "?ping [url] - Ping a site and return it's response time. Or just pong the user."
+help s m "t"		= send s m "?t <string> - Translate string to English using google translate."
+help s m "g"		= send s m "?g <query> - Return the first google search result matching query."
+help s m "wik"		= send s m "?wik <query> - Return the first wikipedia search result matching query."
+help s m "tube"		= send s m "?tube <query> - Return the first youtube search result matching query."
+help s m "weather"	= send s m "?weather <location>[,province[,country]] - Get the weather from location."
+help s m "d"		= send s m "?d <[x|]<y>d<z>[+/-w]>... - Sum of the values of y dice with z sides, plus or minus w, x times."
+
 onMessage :: EventFunc
 onMessage s m
-  | msg == "?h" = send s m "Commands (prefix ?): h (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, tube <query> (youtube), weather <location>[,province[,country]], d <[x|]<y>d<z>[+/-w]>... (dice), bc <equation> (broken), dc <RPN>; Passive: Report titles for urls;"
+  | msg == "?h" = send s m "Commands (prefix ?): h [command] (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, tube <query> (youtube), weather <location>[,province[,country]], d <[x|]<y>d<z>[+/-w]>... (dice); Passive: Report titles for urls;"
+  | B.isPrefixOf "?h " msg = do
+		let cmd = takeWhile (/=' ') $ stringDropCmd msg
+		help s m cmd
   | msg == "?ping" = send s m $ address nick "pong!"
   | B.isPrefixOf "?ping " msg = do
 		let url = flip stringRegex "(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*" $ takeWhile (/=' ') $ stringDropCmd msg
@@ -40,10 +53,10 @@ onMessage s m
 		let eq = stringDropCmd msg
 		out <- runCmd "bc" [] eq
 		send s m chan nik $ address nick $ out-}
-  | B.isPrefixOf "?dc " msg = do
+{-  | B.isPrefixOf "?dc " msg = do
 		let eq = stringDropCmd msg
 		out <- runCmd "dc" [] eq
-		send s m $ address nick $ out
+		send s m $ address nick $ out-}
   | msg == "?mt" = do
 		cur <- withMPD $ currentSong
 		stat <- withMPD $ status
@@ -58,11 +71,25 @@ onMessage s m
 		send s m $ state == "Stopped" ? state $ concat [state, ": ", song, " - ", artist, " [", curtime, "/", lentime, "]"]
   | B.isPrefixOf "?tell " msg = do
 		let (mnick, message) = span (/=' ') $ stringDropCmd msg
+		if all (\a -> any (\b -> b==a) (['a'..'z']++['A'..'Z'])) mnick then do
 		ftime <- getCurrentTime
 		let time = stringRegex (show ftime) "[^\\.]*(?=:[0-9]{2}\\.)"
 		tellFile <- getTellFile
 		I.appendFile tellFile $ concat [show (mnick, nick, concat [dropWhile (==' ') message], time),"\n"]
 		send s m "I'll totally pass that on for you!"
+		else send s m "That's not a valid nick, try again."
+{-  | B.isPrefixOf "?remind " msg = do
+		let (mnick, mmessage) = span (/=' ') $ stringDropCmd msg
+		putStrLn mmessage
+		let (attime, message) = span (/=' ') $ dropWhile (==' ') mmessage
+		putStrLn message
+		ftime <- getCurrentTime
+		let fnewtime = findRemindTime attime ftime
+		putStrLn fnewtime
+		let newtime = stringRegex fnewtime ".*(?=:[0-9]{2} UTC)"
+		remindFile <- getRemindFile
+		I.appendFile remindFile $ concat [show (mnick, dropWhile (==' ') message, newtime),"\n"]
+		send s m $ concat ["Cool, I'll remind you on ", newtime]-}
   | B.isPrefixOf "?t " msg = do
 		trans <- translate (dropCommand msg) Nothing English
 		send s m $ address nick $ decodeHtml $ U.toString $ either (\e -> U.fromString e) (\r -> r) trans
@@ -78,7 +105,7 @@ onMessage s m
 		title <- getTitle url
 		send s m $ address nick $ concat [url, " -- ", title]
   | B.isPrefixOf "?wik " msg = do
-		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=%3Asite+www.wikipedia.com+", spaceToPlus $ stringDropCmd msg]
+		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=site%3Awww.wikipedia.com+", spaceToPlus $ stringDropCmd msg]
 		googleFile <- getGoogleFile
 		download search googleFile
 		redir <- I.readFile googleFile
@@ -86,7 +113,7 @@ onMessage s m
 		title <- getTitle url
 		send s m $ address nick $ concat [url, " -- ", title]
   | B.isPrefixOf "?tube " msg = do
-		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=%3Asite+www.youtube.com+", spaceToPlus $ stringDropCmd msg]
+		let search = concat ["http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q=sit%3Awww.youtube.com+", spaceToPlus $ stringDropCmd msg]
 		googleFile <- getGoogleFile
 		download search googleFile
 		redir <- I.readFile googleFile
@@ -154,6 +181,14 @@ tell s m nik = do
 		goTell s m (t:ts) = do
 			sendRaw s $ U.fromString $ concat ["PRIVMSG ", U.toString $ fromJust $ mNick m, " :", t]
 			goTell s m ts
+
+{-findRemindTime :: String -> DateTime -> String
+findRemindTime at cur = show $ addMinutes (days*24*60) $ addMinutes (hours*60) $ addMinutes minutes $ addSeconds seconds cur
+	where
+		seconds = read $ (\a -> if a=="" then "0" else a) $ stringRegex at "[0-9]+(?=s)" ::Integer
+		minutes = read $ (\a -> if a=="" then "0" else a) $ stringRegex at "[0-9]+(?=m)" ::Integer
+		hours = read $ (\a -> if a=="" then "0" else a) $ stringRegex at "[0-9]+(?=h)" ::Integer
+		days = read $ (\a -> if a=="" then "0" else a) $ stringRegex at "[0-9]+(?=d)" ::Integer-}
 
 send :: MIrc -> IrcMessage -> String -> IO()
 send s m msg = do
@@ -279,6 +314,9 @@ getGoogleFile = do
 getUrlFile = do
 	home <- getHomeDirectory
 	return $ home++"/.mssbot/urltmp"
+getRemindFile = do
+	home <- getHomeDirectory
+	return $ home++"/.mssbot/remindlist"
 
 -- ternary
 infixr 1 ?
