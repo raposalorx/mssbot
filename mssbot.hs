@@ -159,7 +159,7 @@ getTitle url = do
 	kindoffile <- runCmd "file" ["-b", urlFile] ""
 	let ftype = takeWhile (/=' ') kindoffile
 	putStrLn $ concat ["It's a ", ftype, " document"]
-	if ftype == "HTML" || ftype == "xHTML" then do
+	if ftype == "HTML" || ftype == "xHTML" || ftype == "XML" then do
 	html <- I.readFile urlFile
 	let title = killSpaces $ flip stringRegex "(?<=>)[^<]*" $ stringRegex html "<[^>]*[tT][iI][tT][lL][eE][^>]*>[^<]*<[^>]*/[^>]*[tT][iI][tT][lL][eE][^>]*>"
 	length title > 0 ? return title $ return ""
