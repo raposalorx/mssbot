@@ -1,9 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 import Network.SimpleIRC
 import Data.Maybe
+import Data.Time
 import Data.String
 import Data.List
-import Data.DateTime
 import Data.Char
 import GHC.Exts( IsString(..) )
 import Text.Regex.PCRE
