@@ -140,7 +140,7 @@ onMessage s m
             else putStrLn search
     | otherwise = do
         let message = B.unpack msg
-        let url = stringRegex message "(http(s)?://)(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ()[]`'\"]*"
+        let url = stringRegex message "(http(s)?://)(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ()[\\]`'\"]*"
         tell s m nick
         myNick <- getNickname s
         if B.isInfixOf myNick (U.fromString $ lower $ U.toString msg) then do
