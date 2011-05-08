@@ -25,6 +25,8 @@ import qualified System.IO.UTF8 as I
 import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.UTF8 as U
 
+helpstr = "Commands (prefix ?): h [command] (help), tell <nick> <message>, ping [url], dc <equation>, eval <expression>, t <string>, g <query>, wik <query>, tube <query>, weather <location>[,province[,country]], d <[x|]<y>d<z>[+/-w]>...; Passive: Report titles for urls;"
+
 help s m "h"		= send s m "?h [command] - A help dialog for command, Or a list of commands."
 help s m "tell"		= send s m "?tell <nick> <message> - Send \"<nick> tell message\" as a PM to nick next time they speak."
 help s m "ping"		= send s m "?ping [url] - Ping a site and return it's response time. Or just pong the user."
@@ -36,11 +38,11 @@ help s m "wik"		= send s m "?wik <query> - Return the first wikipedia search res
 help s m "tube"		= send s m "?tube <query> - Return the first youtube search result matching query."
 help s m "weather"	= send s m "?weather <location>[,province[,country]] - Get the weather from location."
 help s m "d"		= send s m "?d <[x|]<y>d<z>[+/-w]>... - Sum of the values of y dice with z sides, plus or minus w, x times."
-help s m _          = send s m "Commands (prefix ?): h [command] (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, tube <query> (youtube), weather <location>[,province[,country]], d <[x|]<y>d<z>[+/-w]>... (dice); Passive: Report titles for urls;"
+help s m _          = send s m helpstr
 
 onMessage :: EventFunc
 onMessage s m
-    | msg == "?h" = send s m "Commands (prefix ?): h [command] (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, tube <query> (youtube), weather <location>[,province[,country]], d <[x|]<y>d<z>[+/-w]>... (dice); Passive: Report titles for urls;"
+    | msg == "?h" = send s m helpstr
     | B.isPrefixOf "?h " msg = help s m $ takeWhile (/=' ') $ stringDropCmd msg
     | msg == "?ping" = send s m $ address nick "pong!"
     | B.isPrefixOf "?ping " msg = do
