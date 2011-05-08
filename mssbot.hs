@@ -36,6 +36,7 @@ help s m "wik"		= send s m "?wik <query> - Return the first wikipedia search res
 help s m "tube"		= send s m "?tube <query> - Return the first youtube search result matching query."
 help s m "weather"	= send s m "?weather <location>[,province[,country]] - Get the weather from location."
 help s m "d"		= send s m "?d <[x|]<y>d<z>[+/-w]>... - Sum of the values of y dice with z sides, plus or minus w, x times."
+help s m _          = send s m "Commands (prefix ?): h [command] (help), tell <nick> <message>, ping [url], t <string> (translate), g <query> (google), wik <query>, tube <query> (youtube), weather <location>[,province[,country]], d <[x|]<y>d<z>[+/-w]>... (dice); Passive: Report titles for urls;"
 
 onMessage :: EventFunc
 onMessage s m
