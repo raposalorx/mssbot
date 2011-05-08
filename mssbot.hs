@@ -54,7 +54,7 @@ onMessage s m
             else send s m $ address nick "pong!"
     | B.isPrefixOf "?eval " msg = do
         let eq = stringDropCmd msg
-        out <- runCmd "mueval" ["-e", eq] ""
+        out <- runCmd "mueval" ["-m","Text.Regex.PCRE","-e", eq] ""
         putStrLn out
         send s m $ address nick $ out
     | B.isPrefixOf "?dc " msg = do
