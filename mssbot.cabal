@@ -1,6 +1,6 @@
 Name:               mssbot
-Version:            0.7
-License:            OtherLicense
+Version:            0.7.5
+License:            BSD3
 License-File:       LICENSE
 Author:             Brian Robertson <raposa.msscripting@gmail.com>
 Maintainer:         Brian Robertson <raposa.msscripting@gmail.com>
@@ -30,6 +30,7 @@ Executable mssbot
                     time >= 1.1.4,
                     ConfigFile >= 1.0.6,
                     unix >= 2.4.0.2,
-                    mtl >= 1.1.0.2
+                    mtl >= 1.1.0.2,
+                    regex-compat >= 0.93.1
 --                    mueval >= 0.8.1
 

@@ -6,7 +6,10 @@ import Data.String
 import Data.List
 import Data.Char
 import GHC.Exts( IsString(..) )
+import Text.Regex
 import Text.Regex.PCRE
+import Text.Regex.PCRE.String
+import Data.Functor
 import Network.HTTP.Wget
 import System.IO
 import System.Exit
@@ -25,7 +28,7 @@ import qualified System.IO.UTF8 as I
 import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.UTF8 as U
 
-helpstr = "Commands (prefix ?): h [command] (help), tell <nick> <message>, ping [url], dc <equation>, eval <expression>, t <string>, g <query>, wik <query>, tube <query>, weather <location>[,province[,country]], d <[x|]<y>d<z>[+/-w]>...; Passive: Report titles for urls;"
+helpstr = "Commands (prefix ?): h [command] (help), tell <nick> <message>, ping [url], dc <equation>, eval <expression>, t <string>, g <query>, wik <query>, tube <query>, weather <location>[,province[,country]], d <[x|]<y>d<z>[+/-w]>..., tatl #; Passive: Report titles for urls;"
 
 help s m "h"		= send s m "?h [command] - A help dialog for command, Or a list of commands."
 help s m "tell"		= send s m "?tell <nick> <message> - Send \"<nick> tell message\" as a PM to nick next time they speak."
@@ -38,6 +41,7 @@ help s m "wik"		= send s m "?wik <query> - Return the first wikipedia search res
 help s m "tube"		= send s m "?tube <query> - Return the first youtube search result matching query."
 help s m "weather"	= send s m "?weather <location>[,province[,country]] - Get the weather from location."
 help s m "d"		= send s m "?d <[x|]<y>d<z>[+/-w]>... - Sum of the values of y dice with z sides, plus or minus w, x times."
+help s m "tatl"     = send s m "?tatl # - Link the sentance numbered # from tatoeba.org"
 help s m _          = send s m helpstr
 
 onMessage :: EventFunc
@@ -138,6 +142,10 @@ onMessage s m
             let form = concat [stringRegex redir "(?<=<city data=\")[^\"]*", ": ", stringRegex redir "(?<=<temp_c data=\")[^\"]*", "C ", show $ fToC $ his!!0, "H ", show $ fToC $ lows!!0, "L ", stringRegex redir "(?<=<wind_condition data=\")[^\"]*"," and ", conditions!!0, ", expect ", conditions!!1]
             send s m $ address nick form
             else putStrLn search
+    | B.isPrefixOf "?tatl " msg = do
+        let url = concat ["http://tatoeba.org/eng/sentences/show/", stringDropCmd msg]
+        title <- getTitle url
+        send s m $ address nick $ concat ["\"", stringRegex title "(?<=sentence: ).*$", "\" ( ",url," )"]
     | otherwise = do
         let message = B.unpack msg
         let url = stringRegex message "(http(s)?://)(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ()[\\]`'\"]*"
@@ -168,7 +176,7 @@ getTitle url = do
     putStrLn $ concat ["It's a ", ftype, " document"]
     if ftype == "HTML" || ftype == "xHTML" || ftype == "XML" then do
         html <- I.readFile urlFile
-        let title = killSpaces $ flip stringRegex "(?<=>)[^<]*" $ stringRegex html "<[^>]*[tT][iI][tT][lL][eE][^>]*>[^<]*<[^>]*/[^>]*[tT][iI][tT][lL][eE][^>]*>"
+        let title =  killSpaces $ map (\x -> if x=='\r' then ' ' else x) $ flip stringRegex "(?<=>)[^<]*" $ stringRegex (unwords.lines $ html)  "<[^>]*[tT][iI][tT][lL][eE][^>]*>[^<]*<[^>]*/[^>]*[tT][iI][tT][lL][eE][^>]*>"
         length title > 0 ? return title $ return ""
         else return ""
 
@@ -273,6 +281,18 @@ stringRegex orig regex = orig =~ regex
 
 listRegex :: String -> String -> [[String]]
 listRegex orig regex = orig =~ regex :: [[String]]
+
+--compRegex :: String -> IO Text.Regex.PCRE.String.Regex
+--compRegex s = either (\_ -> makeRegex "") (\x -> x) <$> compile compUTF8 0 s
+
+evalRegex :: Text.Regex.PCRE.String.Regex -> String -> IO (String, String, String, [String])
+evalRegex reg s = either (\_ -> ("","","",[""])) (\x -> maybe ("","","",[""]) (\y -> y) x) <$> regexec reg s
+
+pullResult :: (String, String, String, [String]) -> String
+pullResult (_,x,_,_) = x
+
+matchRegex :: Text.Regex.PCRE.String.Regex -> String -> IO String
+matchRegex reg s = pullResult <$> evalRegex reg s
 
 boolRegex :: String -> String -> Bool
 boolRegex orig regex = orig =~ regex :: Bool
