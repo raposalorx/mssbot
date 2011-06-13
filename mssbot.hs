@@ -176,7 +176,8 @@ getTitle url = do
     putStrLn $ concat ["It's a ", ftype, " document"]
     if ftype == "HTML" || ftype == "xHTML" || ftype == "XML" then do
         html <- I.readFile urlFile
-        let title =  killSpaces $ map (\x -> if x=='\r' then ' ' else x) $ flip stringRegex "(?<=>)[^<]*" $ stringRegex (unwords.lines $ html)  "<[^>]*[tT][iI][tT][lL][eE][^>]*>[^<]*<[^>]*/[^>]*[tT][iI][tT][lL][eE][^>]*>"
+        let title0 =  killSpaces $ map (\x -> if x=='\r' then ' ' else x) $ flip stringRegex "(?<=>)[^<]*" $ stringRegex (unwords.lines $ html)  "<[^>]*[tT][iI][tT][lL][eE][^>]*>[^<]*<[^>]*/[^>]*[tT][iI][tT][lL][eE][^>]*>"
+        let title =  if (length $ stringRegex title0 "&rlm;.$") > 0 then reverse $ drop 6 $ reverse title0 else title0
         length title > 0 ? return title $ return ""
         else return ""
 
