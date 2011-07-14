@@ -28,14 +28,15 @@ import qualified System.IO.UTF8 as I
 import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.UTF8 as U
 
-helpstr = "Commands (prefix ?): h [command] (help), tell <nick> <message>, ping [url], dc <equation>, eval <expression>, t <string>, g <query>, wik <query>, tube <query>, weather <location>[,province[,country]], d <[x|]<y>d<z>[+/-w]>..., tatl #; Passive: Report titles for urls;"
+helpstr = "Commands (prefix ?): h [command] (help), tell <nick> <message>, ping [url], dc <equation>, eval <expression>, t [url], trans <string>, g <query>, wik <query>, tube <query>, weather <location>[,province[,country]], d <[x|]<y>d<z>[+/-w]>..., tatl #; Passive: Report titles for urls;"
 
 help s m "h"		= send s m "?h [command] - A help dialog for command, Or a list of commands."
 help s m "tell"		= send s m "?tell <nick> <message> - Send \"<nick> tell message\" as a PM to nick next time they speak."
 help s m "ping"		= send s m "?ping [url] - Ping a site and return it's response time. Or just pong the user."
 help s m "dc"       = send s m "?dc <equation> - Arbitrary precision reverse polish calculator."
 help s m "eval"     = send s m "?eval <expression> - Haskell expression"
-help s m "t"		= send s m "?t <string> - Translate string to English using google translate."
+help s m "t"		= send s m "?t [url] - Gets either url or the previous URL from the channel."
+help s m "trans"    = send s m "?trans <string> - Translate string into english."
 help s m "g"		= send s m "?g <query> - Return the first google search result matching query."
 help s m "wik"		= send s m "?wik <query> - Return the first wikipedia search result matching query."
 help s m "tube"		= send s m "?tube <query> - Return the first youtube search result matching query."
@@ -56,11 +57,21 @@ onMessage s m
             let time = stringRegex ping "(?<=time=)[0-9]*"
             send s m $ address nick $ length time > 0 ? concat [time, "ms"] $ "Can't connect."
             else send s m $ address nick "pong!"
+    | msg == "?t" = do
+        tfile <- getTitleFile chan
+        title <- I.readFile tfile
+        send s m $ decodeHtml title
+    | B.isPrefixOf "?t " msg = do
+        let url = flip stringRegex "(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*" $ takeWhile (/=' ') $ stringDropCmd msg
+        if length url > 0 then do
+            title <- getTitle url
+            send s m $ decodeHtml title
+            else return ()
     | B.isPrefixOf "?eval " msg = do
         let eq = stringDropCmd msg
         out <- runCmd "mueval" ["-m","Text.Regex.PCRE","-e", eq] ""
         putStrLn out
-        send s m $ address nick $ out
+        send s m $ address nick $ out 
     | B.isPrefixOf "?dc " msg = do
         let eq = map (\x -> if x=='!' then ' ' else x) $ stringDropCmd msg
         out <- runCmd "dc" [] (eq++" n")
@@ -100,7 +111,7 @@ onMessage s m
         remindFile <- getRemindFile
         I.appendFile remindFile $ concat [show (mnick, dropWhile (==' ') message, newtime),"\n"]
         send s m $ concat ["Cool, I'll remind you on ", newtime]-}
-    | B.isPrefixOf "?t " msg = do
+    | B.isPrefixOf "?trans " msg = do
         trans <- translate (dropCommand msg) Nothing English
         send s m $ address nick $ decodeHtml $ U.toString $ either (\e -> U.fromString e) (\r -> r) trans
     | B.isPrefixOf "?d " msg = do
@@ -158,10 +169,12 @@ onMessage s m
                 else return () else return ()
         if length url > 0 then do
             title <- getTitle url
-            send s m $ decodeHtml title
+            tfile <- getTitleFile chan
+            I.writeFile tfile title
             else return () -- putStrLn $ concat [U.toString chan, " -> ", "< ", nick, "> ", U.toString msg]
     --    putStrLn $ show m
-    where chan = fromJust $ mChan m
+    where channel = fromJust $ mChan m
+          chan = U.toString channel
           msg = mMsg m
           nik = fromJust $ mNick m
           nick = U.toString nik
@@ -176,8 +189,7 @@ getTitle url = do
     putStrLn $ concat ["It's a ", ftype, " document"]
     if ftype == "HTML" || ftype == "xHTML" || ftype == "XML" then do
         html <- I.readFile urlFile
-        let title0 =  killSpaces $ map (\x -> if x=='\r' then ' ' else x) $ flip stringRegex "(?<=>)[^<]*" $ stringRegex (unwords.lines $ html)  "<[^>]*[tT][iI][tT][lL][eE][^>]*>[^<]*<[^>]*/[^>]*[tT][iI][tT][lL][eE][^>]*>"
-        let title =  if (length $ stringRegex title0 "&rlm;.$") > 0 then reverse $ drop 6 $ reverse title0 else title0
+        let title =  killSpaces $ map (\x -> if x=='\r' then ' ' else x) $ flip stringRegex "(?<=>)[^<]*" $ stringRegex (unwords.lines $ html)  "<[^>]*[tT][iI][tT][lL][eE][^>]*>[^<]*<[^>]*/[^>]*[tT][iI][tT][lL][eE][^>]*>"
         length title > 0 ? return title $ return ""
         else return ""
 
@@ -344,6 +356,9 @@ getGoogleFile = do
 getUrlFile = do
     home <- getHomeDirectory
     return $ home++"/.mssbot/urltmp"
+getTitleFile chan = do
+    home <- getHomeDirectory
+    return $ home++"/.mssbot/"++chan++"title"
 getRemindFile = do
     home <- getHomeDirectory
     return $ home++"/.mssbot/remindlist"
