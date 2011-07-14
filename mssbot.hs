@@ -65,6 +65,8 @@ onMessage s m
         let url = flip stringRegex "(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*" $ takeWhile (/=' ') $ stringDropCmd msg
         if length url > 0 then do
             title <- getTitle url
+            tfile <- getTitleFile chan
+            I.writeFile tfile title
             send s m $ decodeHtml title
             else return ()
     | B.isPrefixOf "?eval " msg = do
