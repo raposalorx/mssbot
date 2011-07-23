@@ -185,7 +185,8 @@ getTitle :: String -> IO String
 getTitle url = do
     putStrLn $ concat ["Getting ", url] 
     urlFile <- getUrlFile
-    download url urlFile
+    let patchedUrl = if (length $ stringRegex url "(http(s)?://)(www.)?youtube.com(/)?[^ ()[\\]`'\"]*") > 0 then url++"&gl=CA&hl=en" else url
+    download patchedUrl urlFile
     kindoffile <- runCmd "file" ["-b", urlFile] ""
     let ftype = takeWhile (/=' ') kindoffile
     putStrLn $ concat ["It's a ", ftype, " document"]
