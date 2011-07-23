@@ -62,7 +62,7 @@ onMessage s m
         title <- I.readFile tfile
         send s m $ decodeHtml title
     | B.isPrefixOf "?t " msg = do
-        let url = flip stringRegex "(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*" $ takeWhile (/=' ') $ stringDropCmd msg
+        let url = flip stringRegex "(http(s)?://)?(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*" $ takeWhile (/=' ') $ stringDropCmd msg
         if length url > 0 then do
             title <- getTitle url
             tfile <- getTitleFile chan
@@ -185,7 +185,7 @@ getTitle :: String -> IO String
 getTitle url = do
     putStrLn $ concat ["Getting ", url] 
     urlFile <- getUrlFile
-    let patchedUrl = if (length $ stringRegex url "(http(s)?://)(www.)?youtube.com(/)?[^ ()[\\]`'\"]*") > 0 then url++"&gl=CA&hl=en" else url
+    let patchedUrl = if (length $ stringRegex url "(http(s)?://)?(www.)?youtube.com(/)?[^ ()[\\]`'\"]*") > 0 then url++"&gl=CA&hl=en" else url
     download patchedUrl urlFile
     kindoffile <- runCmd "file" ["-b", urlFile] ""
     let ftype = takeWhile (/=' ') kindoffile
