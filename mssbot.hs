@@ -17,13 +17,14 @@ import System.Process
 import System.Random
 import System.Directory
 import Language.Translate.Google
-import Web.Encodings
-import Network.MPD
+--import Web.Encodings
+--import Network.MPD
 import Data.ConfigFile
 import Control.Monad.Error
 import Control.Concurrent.MVar
 import Control.Concurrent
 import System.Posix.Unistd
+import Text.HTML.TagSoup.Entity (lookupEntity)
 import qualified System.IO.UTF8 as I
 import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.UTF8 as U
@@ -60,14 +61,14 @@ onMessage s m
     | msg == "?t" = do
         tfile <- getTitleFile chan
         title <- I.readFile tfile
-        send s m $ decodeHtml title
+        send s m $ unescapeEntities title
     | B.isPrefixOf "?t " msg = do
         let url = flip stringRegex "(http(s)?://)?(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*" $ takeWhile (/=' ') $ stringDropCmd msg
         if length url > 0 then do
             title <- getTitle url
             tfile <- getTitleFile chan
             I.writeFile tfile title
-            send s m $ decodeHtml title
+            send s m $ unescapeEntities title
             else return ()
     | B.isPrefixOf "?eval " msg = do
         let eq = stringDropCmd msg
@@ -78,7 +79,7 @@ onMessage s m
         let eq = map (\x -> if x=='!' then ' ' else x) $ stringDropCmd msg
         out <- runCmd "dc" [] (eq++" n")
         send s m $ address nick $ unwords.lines $ out
-    | msg == "?mt" = do
+{-    | msg == "?mt" = do
         cur <- withMPD $ currentSong
         stat <- withMPD $ status
         let curr = show cur
@@ -89,7 +90,7 @@ onMessage s m
         let times = stringRegex stats "(?<=stTime = \\()[^\\)]*"
         let curtime = time $ read $ stringRegex times "[^\\.]*"
         let lentime = time $ read $ stringRegex times "(?<=,).*"
-        send s m $ state == "Stopped" ? state $ concat [state, ": ", song, " - ", artist, " [", curtime, "/", lentime, "]"]
+        send s m $ state == "Stopped" ? state $ concat [state, ": ", song, " - ", artist, " [", curtime, "/", lentime, "]"] -}
     | B.isPrefixOf "?tell " msg = do
         let (mnick, message) = span (/=' ') $ stringDropCmd msg
 --        if all (\a -> any (\b -> b==a) (['_']++['a'..'z']++['A'..'Z'])) mnick then do
@@ -115,7 +116,7 @@ onMessage s m
         send s m $ concat ["Cool, I'll remind you on ", newtime]-}
     | B.isPrefixOf "?trans " msg = do
         trans <- translate (dropCommand msg) Nothing English
-        send s m $ address nick $ decodeHtml $ U.toString $ either (\e -> U.fromString e) (\r -> r) trans
+        send s m $ address nick $ unescapeEntities $ U.toString $ either (\e -> U.fromString e) (\r -> r) trans
     | B.isPrefixOf "?d " msg = do
         ds <- collapseroll $ map (droll) $ map (\a -> (dieD a, dieMulti a, dieOffset a, dieLoop a)) $ map (head) $ listRegex (stringDropCmd msg) "([0-9]?\\|)?([0-9]+)?d([0-9]+|%)((\\+|-)[0-9]+)?"
         send s m $ address nick ds
@@ -395,6 +396,15 @@ readConfig file = do
 dropConfigs :: [FilePath] -> [FilePath]
 dropConfigs [] = []
 dropConfigs (f:fs) = if f=="." || f==".." || f=="default.irc" || (not $ isInfixOf ".irc" f) then dropConfigs fs else f: dropConfigs fs
+
+unescapeEntities :: String -> String
+unescapeEntities [] = []
+unescapeEntities ('&':xs) = 
+  let (b, a) = break (== ';') xs in
+  case (lookupEntity b, a) of
+    (Just c, ';':as) ->  c  : unescapeEntities as    
+    _                -> '&' : unescapeEntities xs
+unescapeEntities (x:xs) = x : unescapeEntities xs
 
 main = do
     configdir <- initConfig
