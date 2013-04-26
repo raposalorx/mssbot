@@ -16,7 +16,7 @@ import System.Exit
 import System.Process
 import System.Random
 import System.Directory
-import Language.Translate.Google
+--import Language.Translate.Google
 --import Web.Encodings
 --import Network.MPD
 import Data.ConfigFile
@@ -37,7 +37,7 @@ help s m "ping"		= send s m "?ping [url] - Ping a site and return it's response 
 help s m "dc"       = send s m "?dc <equation> - Arbitrary precision reverse polish calculator."
 help s m "eval"     = send s m "?eval <expression> - Haskell expression"
 help s m "t"		= send s m "?t [url] - Gets either url or the previous URL from the channel."
-help s m "trans"    = send s m "?trans <string> - Translate string into english."
+--help s m "trans"    = send s m "?trans <string> - Translate string into english."
 help s m "g"		= send s m "?g <query> - Return the first google search result matching query."
 help s m "wik"		= send s m "?wik <query> - Return the first wikipedia search result matching query."
 help s m "tube"		= send s m "?tube <query> - Return the first youtube search result matching query."
@@ -114,9 +114,9 @@ onMessage s m
         remindFile <- getRemindFile
         I.appendFile remindFile $ concat [show (mnick, dropWhile (==' ') message, newtime),"\n"]
         send s m $ concat ["Cool, I'll remind you on ", newtime]-}
-    | B.isPrefixOf "?trans " msg = do
+{-    | B.isPrefixOf "?trans " msg = do
         trans <- translate (dropCommand msg) Nothing English
-        send s m $ address nick $ unescapeEntities $ U.toString $ either (\e -> U.fromString e) (\r -> r) trans
+        send s m $ address nick $ unescapeEntities $ U.toString $ either (\e -> U.fromString e) (\r -> r) trans -}
     | B.isPrefixOf "?d " msg = do
         ds <- collapseroll $ map (droll) $ map (\a -> (dieD a, dieMulti a, dieOffset a, dieLoop a)) $ map (head) $ listRegex (stringDropCmd msg) "([0-9]?\\|)?([0-9]+)?d([0-9]+|%)((\\+|-)[0-9]+)?"
         send s m $ address nick ds
