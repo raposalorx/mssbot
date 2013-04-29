@@ -52,7 +52,7 @@ getTitle url = do
 --    putStrLn $ concat ["Getting ", patchedUrl] 
     download patchedUrl urlFile
     usable <- flip elem ["HTML", "xHTML", "XML"] <$> takeWhile (/=' ') <$> runCmd "file" ["-b", urlFile] ""
---    putStrLn $ concat ["It's a ", ftype, " document"]
+--    putStrLn $ concat ["It's a ", show usable, " document"]
     if usable then do
         html <- I.readFile urlFile
         let title = matchTitle html

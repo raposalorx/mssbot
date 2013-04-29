@@ -28,8 +28,10 @@ onMessage s m
     let url = matchUrl . B.unpack $ msg
     if length url > 0 then do
       title <- getTitle url
-      tfile <- getTitleFile chan
-      I.writeFile tfile title
+      if length title > 0 then do
+        tfile <- getTitleFile chan
+        I.writeFile tfile title
+      else return ()
     else return ()
   where channel = fromJust $ mChan m
         chan = U.toString channel
