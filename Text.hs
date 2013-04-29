@@ -14,12 +14,12 @@ import Text.Regex.PCRE
 import Text.HTML.TagSoup.Entity (lookupEntity)
 
 helpstr = "Commands (prefix ?): " ++
-          "h [command] (help), " ++
+          "h[elp] [command], " ++
 --          "tell <nick> <message>, " ++
           "ping [url], " ++
 --          "dc <equation>, " ++
 --          "eval <expression>, " ++
-          "t [url], " ++
+          "t[itle] [url], " ++
 --          "trans <string>, " ++
 --          "g <query>, " ++
 --          "wik <query>, " ++
@@ -29,12 +29,12 @@ helpstr = "Commands (prefix ?): " ++
 --          "Passive: Report titles for urls;"
           ""
 
-helpstrs =  [("h", "?h [command] - A help dialog for command, Or a list of commands.")
+helpstrs =  [("h", "?h[elp] [command] - A help dialog for command, Or a list of commands.")
             ,("ping", "?ping [url] - Ping a site and return it's response time. Or just pong the user.")
 --            ,("tell", "?tell <nick> <message> - Send \"<nick> tell message\" as a PM to nick next time they speak.")
 --            ,("dc", "?dc <equation> - Arbitrary precision reverse polish calculator.")
 --            ,("eval", "?eval <expression> - Haskell expression")
-            ,("t", "?t [url] - Gets either url or the previous URL from the channel.")
+            ,("t", "?t[itle] [url] - Gets either url or the previous URL from the channel.")
 --            ,("trans", "?trans <string> - Translate string into english.")
 --            ,("g", "?g <query> - Return the first google search result matching query.")
 --            ,("wik", "?wik <query> - Return the first wikipedia search result matching query.")
