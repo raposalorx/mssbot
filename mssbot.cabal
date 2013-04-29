@@ -27,7 +27,8 @@ Library
                     utf8-string >= 0.3.6,
                     process >= 1.0.1.3,
                     bytestring >= 0.9.1.7,
-                    regex-pcre >= 0.94.1
+                    regex-pcre >= 0.94.1,
+                    tagsoup >= 0.12.8
 
 Executable mssbot
   Main-is:          main.hs
@@ -40,5 +41,6 @@ Executable mssbot
                     utf8-string >= 0.3.6,
                     process >= 1.0.1.3,
                     bytestring >= 0.9.1.7,
-                    regex-pcre >= 0.94.1
+                    regex-pcre >= 0.94.1,
+                    tagsoup >= 0.12.8
 
