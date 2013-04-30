@@ -21,6 +21,9 @@ onRaw s m = putStrLn $ show m
 
 onMessage :: EventFunc
 onMessage s m
+  | B.isPrefixOf "?g " msg = say . address nick =<< (getRedirectTitle . googlestr . spaceToPlus . killSpaces . stringDropCmd $ msg)
+  | B.isPrefixOf "?wik " msg = say . address nick =<< (getRedirectTitle . wikistr . spaceToPlus . killSpaces . stringDropCmd $ msg)
+  | B.isPrefixOf "?tube " msg = say . address nick =<< (getRedirectTitle . youstr . spaceToPlus . killSpaces . stringDropCmd $ msg)
   | B.isPrefixOf "?h" msg = say . maybe helpstr id . flip lookup helpstrs . takeWhile (/=' ') . stringDropCmd $ msg
   | B.isPrefixOf "?ping" msg = say . address nick =<< ping msg
   | B.isPrefixOf "?t" msg = say . address nick =<< title msg chan
