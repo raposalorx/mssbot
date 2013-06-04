@@ -32,8 +32,8 @@ readConfig file = do
         network <- get x "DEFAULT" "network"
         name <- get x "DEFAULT" "name"
         channels <- get x "DEFAULT" "channels"
-        return defaultConfig {cAddr = network, cNick = name, cUsername = name, cRealname = name, cChannels = (read channels ::[String]), cEvents = events}
-    return $ either (\a -> defaultConfig) (\b -> b) rv
+        return $ (mkDefaultConfig network name) {cAddr = network, cNick = name, cUsername = name, cRealname = name, cChannels = (read channels ::[String]), cEvents = events}
+    return $ either (\a -> mkDefaultConfig "dead" "dead") (\b -> b) rv
 
 dropConfigs :: [FilePath] -> [FilePath]
 dropConfigs [] = []
