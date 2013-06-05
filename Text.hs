@@ -55,7 +55,7 @@ regexTitle = "<[^>]*[tT][iI][tT][lL][eE][^>]*>[^<]*<[^>]*/[^>]*[tT][iI][tT][lL][
 
 googlestr = (++) "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q="
 
-wikistr = (++) . googlestr $ "site%3Awww.wikipedia.com+"
+wikistr = (++) . googlestr $ "site%3Awikipedia.org+"
 
 youstr = (++) . googlestr $ "site%3Awww.youtube.com+"
 
