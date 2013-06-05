@@ -14,6 +14,9 @@ import qualified Data.ByteString.Char8 as B
 import Data.Maybe
 import Control.Applicative
 import qualified System.IO.UTF8 as I
+import Control.Exception
+import Control.Monad
+import System.IO.Error
 
 events = [(Privmsg onMessage){-,(Disconnect onDisconnect)-},(RawMsg onRaw)]
 
@@ -47,7 +50,9 @@ title :: B.ByteString -> String -> IO String
 title msg chan = do
   let url = matchUrl . stringDropCmd $ msg
   tfile <- getTitleFile chan
-  unescapeEntities <$> if length url > 0 then getTitle url else I.readFile tfile
+  e <- tryJust (guard . isDoesNotExistError) (I.readFile tfile)
+  unescapeEntities <$> if length url > 0 then getTitle url else
+    return $ either (const "No title to get") (id) e
 
 ping :: B.ByteString -> IO String
 ping msg = do
