@@ -3,6 +3,7 @@ module Events
 ( events
 , onRaw
 , onMessage
+, onDisconnect
 ) where
 
 import IO
@@ -18,9 +19,13 @@ import Control.Exception
 import Control.Monad
 import System.IO.Error
 
-events = [(Privmsg onMessage){-,(Disconnect onDisconnect)-},(RawMsg onRaw)]
+events = [(Privmsg onMessage),(Disconnect onDisconnect),(RawMsg onRaw)]
 
 onRaw s m = putStrLn $ show m
+
+onDisconnect mIrc = do
+    m <- reconnect mIrc
+    either (\err -> putStrLn $ "Unable to reconnect: " ++ show err) (\_ -> putStrLn "Successfully reconnected.") m
 
 onMessage :: EventFunc
 onMessage s m
