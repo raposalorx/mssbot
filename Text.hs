@@ -22,7 +22,7 @@ import Data.Char
 
 helpstr = "Commands (prefix ?): " ++
           "h[elp] [command], " ++
---          "tell <nick> <message>, " ++
+          "tell <nick> <message>, " ++
           "ping [url], " ++
 --          "dc <equation>, " ++
 --          "eval <expression>, " ++
@@ -37,8 +37,8 @@ helpstr = "Commands (prefix ?): " ++
           ""
 
 helpstrs =  [("h", "?h[elp] [command] - A help dialog for command, Or a list of commands.")
+            ,("tell", "?tell <nick> <message> - Send \"<nick> tell message\" as a PM to nick next time they speak.")
             ,("ping", "?ping [url] - Ping a site and return it's response time. Or just pong the user.")
---            ,("tell", "?tell <nick> <message> - Send \"<nick> tell message\" as a PM to nick next time they speak.")
 --            ,("dc", "?dc <equation> - Arbitrary precision reverse polish calculator.")
 --            ,("eval", "?eval <expression> - Haskell expression")
             ,("t", "?t[itle] [url] - Gets either url or the previous URL from the channel.")
