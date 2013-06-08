@@ -11,12 +11,14 @@ module Text
 , youstr
 , spaceToPlus
 , killSpaces
+, lower
 ) where
 
 import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.UTF8 as U
 import Text.Regex.PCRE
 import Text.HTML.TagSoup.Entity (lookupEntity)
+import Data.Char
 
 helpstr = "Commands (prefix ?): " ++
           "h[elp] [command], " ++
@@ -95,4 +97,6 @@ spaceToPlus :: String -> String
 spaceToPlus = map stp . killSpaces
   where stp ' ' = '+'
         stp x = x
+
+lower = map toLower
 

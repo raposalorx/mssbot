@@ -1,9 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Events
 ( events
-, onRaw
-, onMessage
-, onDisconnect
 ) where
 
 import IO
@@ -29,13 +26,15 @@ onDisconnect mIrc = do
 
 onMessage :: EventFunc
 onMessage s m
-  | B.isPrefixOf "?g " msg = say . address nick =<< (getRedirectTitle . googlestr . spaceToPlus . killSpaces . stringDropCmd $ msg)
-  | B.isPrefixOf "?wik " msg = say . address nick =<< (getRedirectTitle . wikistr . spaceToPlus . killSpaces . stringDropCmd $ msg)
-  | B.isPrefixOf "?tube " msg = say . address nick =<< (getRedirectTitle . youstr . spaceToPlus . killSpaces . stringDropCmd $ msg)
+  | B.isPrefixOf "?g " msg = (getRedirectTitle . googlestr . spaceToPlus . killSpaces . stringDropCmd $ msg) >>= mention
+  | B.isPrefixOf "?wik " msg = (getRedirectTitle . wikistr . spaceToPlus . killSpaces . stringDropCmd $ msg) >>= mention
+  | B.isPrefixOf "?tube " msg = (getRedirectTitle . youstr . spaceToPlus . killSpaces . stringDropCmd $ msg) >>= mention
+  | B.isPrefixOf "?tell " msg = saveTell msg nick >>= mention
   | B.isPrefixOf "?h" msg = say . maybe helpstr id . flip lookup helpstrs . takeWhile (/=' ') . stringDropCmd $ msg
-  | B.isPrefixOf "?ping" msg = say . address nick =<< ping msg
-  | B.isPrefixOf "?t" msg = say . address nick =<< title msg chan
+  | B.isPrefixOf "?ping" msg = ping msg >>= mention
+  | B.isPrefixOf "?t" msg = title msg chan >>= mention
   | otherwise = do
+    tell s nick
     let url = matchUrl . B.unpack $ msg
     if length url > 0 then do
       title <- getTitle url
@@ -50,6 +49,7 @@ onMessage s m
         nik = fromJust $ mNick m
         nick = U.toString nik
         say = send s m
+        mention = say . address nick
 
 title :: B.ByteString -> String -> IO String
 title msg chan = do

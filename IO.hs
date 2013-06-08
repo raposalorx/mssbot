@@ -5,6 +5,8 @@ module IO
 , getTitleFile
 , getTitle
 , getRedirectTitle
+, saveTell
+, tell
 ) where
 
 import Text
@@ -17,6 +19,11 @@ import System.Directory
 import qualified Data.ByteString.UTF8 as U
 import qualified System.IO.UTF8 as I
 import Control.Applicative
+import Control.Monad
+import Control.Exception
+import System.IO.Error
+import Data.List
+import Data.Time
 
 address :: String -> String -> String
 address nik s = concat [nik, ": ", s]
@@ -47,6 +54,10 @@ getGoogleFile = do
   home <- getHomeDirectory
   return $ home++"/.mssbot/googletmp"
 
+getTellFile = do
+  home <- getHomeDirectory
+  return $ home++"/.mssbot/telllist"
+
 download :: String -> String -> IO ()
 download url file = runCmd "curl" ["-sSL", "-m", "10", "--user-agent","Mozilla/4.0", "-o",file, url] "" >> return ()
 
@@ -72,3 +83,25 @@ getTitle url = do
       if length title > 0 then return title else return ""
       else return ""
 
+tell :: MIrc -> String -> IO()
+tell s nik = do
+    tfile <- getTellFile
+    e <- tryJust (guard . isDoesNotExistError) (I.readFile tfile)
+    let alltells = either (const "") (id) e
+    let messages = map (\a -> read a :: (String, String, String, String)) $ lines alltells
+    let tells = map (\(a,b,c,t) -> concat $ [t, " UTC <",b,"> tell ",nik," ",c]) $ filter (\(a,b,c,t) -> isPrefixOf (lower a) (lower nik)) messages
+    goTell s nik tells
+    I.writeFile tfile $ unlines $ map (show) $ filter (\(a,b,c,t) -> not (isPrefixOf (lower a) (lower nik))) messages
+  where
+      goTell _ _ [] = return ()
+      goTell s nik (t:ts) = do
+        sendRaw s $ U.fromString $ concat ["PRIVMSG ", nik, " :", t]
+        goTell s nik ts
+
+saveTell :: U.ByteString -> String -> IO String
+saveTell msg from = do
+  let (mnick, message) = span (/=' ') $ stringDropCmd msg
+  time <- flip stringRegex "[^\\.]*(?=:[0-9]{2}\\.)" . show <$> getCurrentTime
+  tfile <- getTellFile
+  I.appendFile tfile $ concat [show (mnick, from, concat [dropWhile (==' ') message], time),"\n"]
+  return "I'll totally pass that on for you!"
