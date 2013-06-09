@@ -69,7 +69,9 @@ ping msg = do
   else return "pong!"
 
 dice :: String -> IO String
-dice msg = collapseroll $ map droll $ wrapDie $ matchDice msg
+dice msg = do
+  s <- map droll $ wrapDie $ matchDice msg
+  collapseroll s
   where droll :: (Int, Int, Int, Int) -> IO [Int]
         droll (_, _, _, 0) = return []
         droll (d, multi, offset, num) = do
