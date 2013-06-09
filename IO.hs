@@ -87,15 +87,14 @@ tell :: MIrc -> String -> IO()
 tell s nik = do
     tfile <- getTellFile
     e <- tryJust (guard . isDoesNotExistError) (I.readFile tfile)
-    let alltells = either (const "") (id) e
-    let messages = map (\a -> read a :: (String, String, String, String)) $ lines alltells
-    let tells = map (\(a,b,c,t) -> concat $ [t, " UTC <",b,"> tell ",nik," ",c]) $ filter (\(a,b,c,t) -> isPrefixOf (lower a) (lower nik)) messages
-    goTell s nik tells
-    I.writeFile tfile $ unlines $ map (show) $ filter (\(a,b,c,t) -> not (isPrefixOf (lower a) (lower nik))) messages
+    let messages = map (\a -> read a :: (String, String, String, String)) . lines . either (const "") (id) $ e
+    goTell s nik . map (\(a,b,c,t) -> concat [t, " UTC <",b,"> tell ",nik," ",c]) . matchnik $ messages
+    I.writeFile tfile . unlines . map (show) . matchnik $ messages
   where
+      matchnik = filter (\(a,b,c,t) -> isPrefixOf (lower a) (lower nik))
       goTell _ _ [] = return ()
       goTell s nik (t:ts) = do
-        sendRaw s $ U.fromString $ concat ["PRIVMSG ", nik, " :", t]
+        sendRaw s . U.fromString . concat $ ["PRIVMSG ", nik, " :", t]
         goTell s nik ts
 
 saveTell :: U.ByteString -> String -> IO String
