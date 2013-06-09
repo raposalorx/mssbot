@@ -69,23 +69,10 @@ ping msg = do
   else return "pong!"
 
 dice :: String -> IO String
-dice msg = do
-  s <- map droll $ wrapDie $ matchDice msg
-  collapseroll s
+dice msg = fmap collapseroll $ sequence $ map droll $ wrapDie $ matchDice msg
   where droll :: (Int, Int, Int, Int) -> IO [Int]
-        droll (_, _, _, 0) = return []
-        droll (d, multi, offset, num) = do
-          m <- (dmulti d multi)
-          m2 <- droll (d, multi, offset, num-1)
-          return $ (m+offset):m2
-        dmulti _ 0 = return 0
-        dmulti dm mul = do
-          r <- roll dm
-          r2 <- dmulti dm (mul-1)
-          return $ r+r2
-        collapseroll :: [IO [Int]] -> IO String
-        collapseroll [] = return ""
-        collapseroll (i:is) = do
-          a <- i
-          b <- collapseroll is
-          return $ unwords [(unwords $ map (show) a),b]
+        droll (d, multi, offset, num) = fmap (map (+offset)) $ sequence $ replicate num (
+                                          fmap sum $ sequence $ replicate multi (roll d))
+        collapseroll :: [[Int]] -> String
+        collapseroll [] =  ""
+        collapseroll (i:is) = unwords [unwords $ map show i, collapseroll is]
