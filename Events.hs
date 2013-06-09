@@ -32,6 +32,7 @@ onMessage s m
   | B.isPrefixOf "?tell " msg = saveTell msg nick >>= mention
   | B.isPrefixOf "?h" msg = say . maybe helpstr id . flip lookup helpstrs . takeWhile (/=' ') . stringDropCmd $ msg
   | B.isPrefixOf "?ping" msg = ping msg >>= mention
+  | B.isPrefixOf "?d " msg = (dice . stringDropCmd $ msg) >>= mention
   | B.isPrefixOf "?t" msg = title msg chan >>= mention
   | otherwise = do
     tell s nick
@@ -66,3 +67,23 @@ ping msg = do
     time <- flip stringRegex "(?<=time=)[0-9]*" <$> runCmd "ping" ["-c 2 -w 3", url] ""
     return $ if length time > 0 then concat [time, "ms"] else "Can't connect."
   else return "pong!"
+
+dice :: String -> IO String
+dice msg = collapseroll $ map droll $ wrapDie $ matchDice msg
+  where droll :: (Int, Int, Int, Int) -> IO [Int]
+        droll (_, _, _, 0) = return []
+        droll (d, multi, offset, num) = do
+          m <- (dmulti d multi)
+          m2 <- droll (d, multi, offset, num-1)
+          return $ (m+offset):m2
+        dmulti _ 0 = return 0
+        dmulti dm mul = do
+          r <- roll dm
+          r2 <- dmulti dm (mul-1)
+          return $ r+r2
+        collapseroll :: [IO [Int]] -> IO String
+        collapseroll [] = return ""
+        collapseroll (i:is) = do
+          a <- i
+          b <- collapseroll is
+          return $ unwords [(unwords $ map (show) a),b]

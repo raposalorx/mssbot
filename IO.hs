@@ -25,6 +25,7 @@ import Control.Exception
 import System.IO.Error
 import Data.List
 import Data.Time
+import System.Random
 
 address :: String -> String -> String
 address nik s = concat [nik, ": ", s]

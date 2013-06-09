@@ -2,6 +2,8 @@ module Text
 ( stringDropCmd
 , matchUrl
 , matchTitle
+, matchDice
+, wrapDie
 , stringRegex
 , helpstr
 , helpstrs
@@ -32,7 +34,7 @@ helpstr = "Commands (prefix ?): " ++
           "wik <query>, " ++
           "tube <query>, " ++
 --          "weather <location>[,province[,country]], " ++
---          "d <[x|]<y>d<z>[+/-w]>..., tatl #; " ++
+          "d <[x|]<y>d<z>[+/-w]>..." ++
 --          "Passive: Report titles for urls;"
           ""
 
@@ -47,7 +49,7 @@ helpstrs =  [("h", "?h[elp] [command] - A help dialog for command, Or a list of 
             ,("wik", "?wik <query> - Return the first wikipedia search result matching query.")
             ,("tube", "?tube <query> - Return the first youtube search result matching query.")
 --            ,("weather", "?weather <location>[,province[,country]] - Get the weather from location.")
---            ,("d", "?d <[x|]<y>d<z>[+/-w]>... - Sum of the values of y dice with z sides, plus or minus w, x times.")
+            ,("d", "?d <[x|]<y>d<z>[+/-w]>... - Sum of the values of y dice with z (% gives a percent) sides, plus or minus w, x times.")
 --            ,("tatl", "?tatl # - Link the sentance numbered # from tatoeba.org")
             ]
 
@@ -60,6 +62,10 @@ googlestr = (++) "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe
 wikistr = (++) . googlestr $ "site%3Awikipedia.org+"
 
 youstr = (++) . googlestr $ "site%3Awww.youtube.com+"
+
+regexDice = "([0-9]?\\|)?([0-9]+)?d([0-9]+|%)((\\+|-)[0-9]+)?"
+
+matchDice = map head . flip listRegex regexDice
 
 matchUrl :: String -> String
 matchUrl = flip stringRegex regexUrl
@@ -100,18 +106,20 @@ spaceToPlus = map stp . killSpaces
 
 lower = map toLower
 
+wrapDie = map (\a -> (dieD a, dieMulti a, dieOffset a, dieLoop a))
+
 dieMulti :: String -> Int
-dieMulti a = length b == 0 ? 1 $ read b ::Int
+dieMulti a = if length b == 0 then 1 else read b ::Int
     where b = stringRegex a "([0-9]+)?(?=d)"
 
 dieOffset :: String -> Int
-dieOffset a = length b == 0 ? 0 $ if head b == '+' then read $ drop 1 b ::Int else read b ::Int
+dieOffset a = if length b == 0 then 0 else if head b == '+' then read $ drop 1 b ::Int else read b ::Int
     where b = stringRegex a "(\\+|-)[0-9]+"
 
 dieLoop :: String -> Int
-dieLoop a = length b == 0 ? 1 $ read b ::Int
+dieLoop a = if length b == 0 then 1 else read b ::Int
     where b = stringRegex a "[0-9]+(?=\\|)"
 
 dieD :: String -> Int
-dieD a = b == "%" ? 100 $ read b ::Int
+dieD a = if b == "%" then 100 else read b ::Int
     where b = stringRegex a "(?<=d)([0-9]+|%)"
