@@ -7,6 +7,7 @@ module IO
 , getRedirectTitle
 , saveTell
 , tell
+, roll
 ) where
 
 import Text
@@ -104,3 +105,6 @@ saveTell msg from = do
   tfile <- getTellFile
   I.appendFile tfile $ concat [show (mnick, from, concat [dropWhile (==' ') message], time),"\n"]
   return "I'll totally pass that on for you!"
+
+roll :: Int -> IO Int
+roll d = getStdRandom (randomR (1,d))

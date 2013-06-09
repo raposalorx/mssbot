@@ -100,3 +100,18 @@ spaceToPlus = map stp . killSpaces
 
 lower = map toLower
 
+dieMulti :: String -> Int
+dieMulti a = length b == 0 ? 1 $ read b ::Int
+    where b = stringRegex a "([0-9]+)?(?=d)"
+
+dieOffset :: String -> Int
+dieOffset a = length b == 0 ? 0 $ if head b == '+' then read $ drop 1 b ::Int else read b ::Int
+    where b = stringRegex a "(\\+|-)[0-9]+"
+
+dieLoop :: String -> Int
+dieLoop a = length b == 0 ? 1 $ read b ::Int
+    where b = stringRegex a "[0-9]+(?=\\|)"
+
+dieD :: String -> Int
+dieD a = b == "%" ? 100 $ read b ::Int
+    where b = stringRegex a "(?<=d)([0-9]+|%)"
