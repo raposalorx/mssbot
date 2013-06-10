@@ -40,9 +40,9 @@ send s m msg = do
 
 runCmd :: String -> [String] -> String -> IO String
 runCmd cmd args stdin= do
-  (exit,out,err) <- readProcessWithExitCode cmd (args) stdin
-  putStrLn $ show exit
-  if exit==ExitSuccess then return out else return "Command Failed"
+  (exit,out,err) <- readProcessWithExitCode cmd args stdin
+  print exit
+  return $ if exit==ExitSuccess then out else "Command Failed"
 
 getTitleFile chan = do
   home <- getHomeDirectory
@@ -61,7 +61,7 @@ getTellFile = do
   return $ home++"/.mssbot/telllist"
 
 download :: String -> String -> IO ()
-download url file = runCmd "curl" ["-sSL", "-m", "10", "--user-agent","Mozilla/4.0", "-o",file, url] "" >> return ()
+download url file = void $ runCmd "curl" ["-sSL", "-m", "10", "--user-agent","Mozilla/4.0", "-o",file, url] ""
 
 getRedirectTitle :: String -> IO String
 getRedirectTitle search = do
@@ -74,7 +74,7 @@ getRedirectTitle search = do
 getTitle :: String -> IO String
 getTitle url = do
   urlFile <- getUrlFile
-  let patchedUrl = if (length $ stringRegex url "(http(s)?://)?(www.)?youtube.com(/)?[^ ()[\\]`'\"]*") > 0 then url++"&gl=CA&hl=en" else url
+  let patchedUrl = if not . null $ stringRegex url "(http(s)?://)?(www.)?youtube.com(/)?[^ ()[\\]`'\"]*" then url++"&gl=CA&hl=en" else url
 --    putStrLn $ concat ["Getting ", patchedUrl] 
   download patchedUrl urlFile
   usable <- flip elem ["HTML", "xHTML", "XML"] <$> takeWhile (/=' ') <$> runCmd "file" ["-b", urlFile] ""
@@ -82,16 +82,16 @@ getTitle url = do
   if usable then do
       html <- I.readFile urlFile
       let title = matchTitle html
-      if length title > 0 then return title else return ""
+      return $ if not . null $ title then title else ""
       else return ""
 
 tell :: MIrc -> String -> IO()
 tell s nik = do
     tfile <- getTellFile
     e <- tryJust (guard . isDoesNotExistError) (I.readFile tfile)
-    let messages = map (\a -> read a :: (String, String, String, String)) . lines . either (const "") (id) $ e
+    let messages = map (\a -> read a :: (String, String, String, String)) . lines . either (const "") id $ e
     goTell s nik . map (\(a,b,c,t) -> concat [t, " UTC <",b,"> tell ",nik," ",c]) . matchnik $ messages
-    I.writeFile tfile . unlines . map (show) . matchnik $ messages
+    I.writeFile tfile . unlines . map show . matchnik $ messages
   where
       matchnik = filter (\(a,b,c,t) -> isPrefixOf (lower a) (lower nik))
       goTell _ _ [] = return ()
@@ -104,7 +104,7 @@ saveTell msg from = do
   let (mnick, message) = span (/=' ') $ stringDropCmd msg
   time <- flip stringRegex "[^\\.]*(?=:[0-9]{2}\\.)" . show <$> getCurrentTime
   tfile <- getTellFile
-  I.appendFile tfile $ concat [show (mnick, from, concat [dropWhile (==' ') message], time),"\n"]
+  I.appendFile tfile $ show (mnick, from, dropWhile (==' ') message, time) ++ "\n"
   return "I'll totally pass that on for you!"
 
 roll :: Int -> IO Int

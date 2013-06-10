@@ -88,7 +88,7 @@ stringDropCmd = U.toString . dropCommand
 killSpaces :: String -> String
 killSpaces [] = ""
 killSpaces (a:[]) = if a=='\t' || a=='\n' then [] else [a]
-killSpaces (a:b:ss) = (if (a == ' ' && b == ' ') || a=='\t' || a=='\n' then (\z->z) else (a:)) $ killSpaces $ b:ss
+killSpaces (a:b:ss) = (if (a == ' ' && b == ' ') || a=='\t' || a=='\n' then id else (a:)) $ killSpaces $ b:ss
 
 unescapeEntities :: String -> String
 unescapeEntities [] = []
@@ -109,17 +109,26 @@ lower = map toLower
 wrapDie = map (\a -> (dieD a, dieMulti a, dieOffset a, dieLoop a))
 
 dieMulti :: String -> Int
-dieMulti a = if length b == 0 then 1 else read b ::Int
-    where b = stringRegex a "([0-9]+)?(?=d)"
+dieMulti a
+  | null b = 1
+  | otherwise = read b ::Int
+  where b = stringRegex a "([0-9]+)?(?=d)"
 
 dieOffset :: String -> Int
-dieOffset a = if length b == 0 then 0 else if head b == '+' then read $ drop 1 b ::Int else read b ::Int
-    where b = stringRegex a "(\\+|-)[0-9]+"
+dieOffset a
+  | null b = 0
+  | head b == '+' = read $ drop 1 b ::Int
+  | otherwise = read b ::Int
+  where b = stringRegex a "(\\+|-)[0-9]+"
 
 dieLoop :: String -> Int
-dieLoop a = if length b == 0 then 1 else read b ::Int
-    where b = stringRegex a "[0-9]+(?=\\|)"
+dieLoop a
+  | null b = 1
+  | otherwise = read b ::Int
+  where b = stringRegex a "[0-9]+(?=\\|)"
 
 dieD :: String -> Int
-dieD a = if b == "%" then 100 else read b ::Int
-    where b = stringRegex a "(?<=d)([0-9]+|%)"
+dieD a
+  | b == "%" = 100
+  | otherwise = read b ::Int
+  where b = stringRegex a "(?<=d)([0-9]+|%)"

@@ -10,6 +10,7 @@ import Data.ConfigFile
 import Network.SimpleIRC
 import System.Directory
 import Control.Monad.Error
+import Control.Monad
 import Data.List
 import qualified System.IO.UTF8 as I
 
@@ -18,9 +19,11 @@ initConfig = do
     home <- getHomeDirectory
     let configdir = home ++ "/.mssbot"
     exists <- doesDirectoryExist configdir
-    if not exists then createDirectory configdir else return ()
+    unless exists $
+      createDirectory configdir
     fileexists <- doesFileExist (configdir++"/default.irc")	
-    if not fileexists then I.writeFile (configdir++"/default.irc") $ unlines ["network: irc.network.net", "name: botName", "channels = [\"#chan\"]"] else return ()
+    unless fileexists $
+      I.writeFile (configdir++"/default.irc") $ unlines ["network: irc.network.net", "name: botName", "channels = [\"#chan\"]"]
     fullfilelist <- getDirectoryContents configdir
     return (configdir,fullfilelist)
 
@@ -32,9 +35,14 @@ readConfig file = do
         network <- get x "DEFAULT" "network"
         name <- get x "DEFAULT" "name"
         channels <- get x "DEFAULT" "channels"
-        return $ (mkDefaultConfig network name) {cAddr = network, cNick = name, cUsername = name, cRealname = name, cChannels = (read channels ::[String]), cEvents = events}
-    return $ either (\a -> mkDefaultConfig "dead" "dead") (\b -> b) rv
+        return $ (mkDefaultConfig network name) { cAddr = network
+                                                , cNick = name
+                                                , cUsername = name
+                                                , cRealname = name
+                                                , cChannels = read channels ::[String]
+                                                , cEvents = events}
+    return $ either (\a -> mkDefaultConfig "dead" "dead") id rv
 
 dropConfigs :: [FilePath] -> [FilePath]
 dropConfigs [] = []
-dropConfigs (f:fs) = if f=="." || f==".." || f=="default.irc" || (head f == '.') || (not $ isInfixOf ".irc" f) then dropConfigs fs else f: dropConfigs fs
+dropConfigs (f:fs) = if f=="." || f==".." || f=="default.irc" || (head f == '.') || not (".irc" `isInfixOf` f) then dropConfigs fs else f: dropConfigs fs

@@ -16,9 +16,9 @@ import Control.Exception
 import Control.Monad
 import System.IO.Error
 
-events = [(Privmsg onMessage),(Disconnect onDisconnect),(RawMsg onRaw)]
+events = [Privmsg onMessage,Disconnect onDisconnect,RawMsg onRaw]
 
-onRaw s m = putStrLn $ show m
+onRaw s = print
 
 onDisconnect mIrc = do
     m <- reconnect mIrc
@@ -26,25 +26,24 @@ onDisconnect mIrc = do
 
 onMessage :: EventFunc
 onMessage s m
-  | B.isPrefixOf "?g " msg = (getRedirectTitle . googlestr . spaceToPlus . killSpaces . stringDropCmd $ msg) >>= mention
-  | B.isPrefixOf "?wik " msg = (getRedirectTitle . wikistr . spaceToPlus . killSpaces . stringDropCmd $ msg) >>= mention
-  | B.isPrefixOf "?tube " msg = (getRedirectTitle . youstr . spaceToPlus . killSpaces . stringDropCmd $ msg) >>= mention
-  | B.isPrefixOf "?tell " msg = saveTell msg nick >>= mention
-  | B.isPrefixOf "?h" msg = say . maybe helpstr id . flip lookup helpstrs . takeWhile (/=' ') . stringDropCmd $ msg
-  | B.isPrefixOf "?ping" msg = ping msg >>= mention
-  | B.isPrefixOf "?d " msg = (dice . stringDropCmd $ msg) >>= mention
-  | B.isPrefixOf "?t" msg = title msg chan >>= mention
+  | iscmd "?g " = (getRedirectTitle . googlestr . spaceToPlus . killSpaces . stringDropCmd $ msg) >>= mention
+  | iscmd "?wik " = (getRedirectTitle . wikistr . spaceToPlus . killSpaces . stringDropCmd $ msg) >>= mention
+  | iscmd "?tube " = (getRedirectTitle . youstr . spaceToPlus . killSpaces . stringDropCmd $ msg) >>= mention
+  | iscmd "?tell " = saveTell msg nick >>= mention
+  | iscmd "?h" = say . fromMaybe helpstr . flip lookup helpstrs . takeWhile (/=' ') . stringDropCmd $ msg
+  | iscmd "?ping" = ping msg >>= mention
+  | iscmd "?d " = (dice . stringDropCmd $ msg) >>= mention
+  | iscmd "?t" = title msg chan >>= mention
   | otherwise = do
     tell s nick
     let url = matchUrl . B.unpack $ msg
-    if length url > 0 then do
+    unless (null url) $ do
       title <- getTitle url
-      if length title > 0 then do
+      unless (null title) $ do
         tfile <- getTitleFile chan
         I.writeFile tfile title
-      else return ()
-    else return ()
-  where channel = fromJust $ mChan m
+  where iscmd = flip B.isPrefixOf msg
+        channel = fromJust $ mChan m
         chan = U.toString channel
         msg = mMsg m
         nik = fromJust $ mNick m
@@ -57,22 +56,22 @@ title msg chan = do
   let url = matchUrl . stringDropCmd $ msg
   tfile <- getTitleFile chan
   e <- tryJust (guard . isDoesNotExistError) (I.readFile tfile)
-  unescapeEntities <$> if length url > 0 then getTitle url else
-    return $ either (const "No title to get") (id) e
+  unescapeEntities <$> if not . null $ url then getTitle url else
+    return $ either (const "No title to get") id e
 
 ping :: B.ByteString -> IO String
 ping msg = do
   let url = matchUrl . stringDropCmd $ msg
-  if length url > 0 then do
+  if not . null $ url then do
     time <- flip stringRegex "(?<=time=)[0-9]*" <$> runCmd "ping" ["-c 2 -w 3", url] ""
-    return $ if length time > 0 then concat [time, "ms"] else "Can't connect."
+    return $ if not . null $ time then time ++ "ms" else "Can't connect."
   else return "pong!"
 
 dice :: String -> IO String
-dice msg = fmap collapseroll $ sequence $ map droll $ wrapDie $ matchDice msg
+dice msg = fmap collapseroll $ mapM droll $ wrapDie $ matchDice msg
   where droll :: (Int, Int, Int, Int) -> IO [Int]
-        droll (d, multi, offset, num) = fmap (map (+offset)) $ sequence $ replicate num (
-                                          fmap sum $ sequence $ replicate multi (roll d))
+        droll (d, multi, offset, num) = fmap (map (+offset)) $ replicateM num (
+                                          fmap sum $ replicateM multi (roll d))
         collapseroll :: [[Int]] -> String
         collapseroll [] =  ""
         collapseroll (i:is) = unwords [unwords $ map show i, collapseroll is]
