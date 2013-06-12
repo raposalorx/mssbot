@@ -26,14 +26,14 @@ onDisconnect mIrc = do
 
 onMessage :: EventFunc
 onMessage s m
-  | iscmd "?g " = (getRedirectTitle . googlestr . spaceToPlus . killSpaces . stringDropCmd $ msg) >>= mention
-  | iscmd "?wik " = (getRedirectTitle . wikistr . spaceToPlus . killSpaces . stringDropCmd $ msg) >>= mention
-  | iscmd "?tube " = (getRedirectTitle . youstr . spaceToPlus . killSpaces . stringDropCmd $ msg) >>= mention
-  | iscmd "?tell " = saveTell msg nick >>= mention
+  | iscmd "?g " = mention <=< getRedirectTitle . googlestr . spaceToPlus . killSpaces . stringDropCmd $ msg
+  | iscmd "?wik " = mention <=< getRedirectTitle . wikistr . spaceToPlus . killSpaces . stringDropCmd $ msg
+  | iscmd "?tube " = mention <=< getRedirectTitle . youstr . spaceToPlus . killSpaces . stringDropCmd $ msg
+  | iscmd "?tell " = mention =<< saveTell msg nick
   | iscmd "?h" = say . fromMaybe helpstr . flip lookup helpstrs . takeWhile (/=' ') . stringDropCmd $ msg
-  | iscmd "?ping" = ping msg >>= mention
-  | iscmd "?d " = (dice . stringDropCmd $ msg) >>= mention
-  | iscmd "?t" = title msg chan >>= mention
+  | iscmd "?ping" = mention <=< ping $ msg
+  | iscmd "?d " = mention <=< dice . stringDropCmd $ msg
+  | iscmd "?t" = mention =<< title msg chan
   | otherwise = do
     tell s nick
     let url = matchUrl . B.unpack $ msg
