@@ -105,7 +105,7 @@ saveTell msg from = do
   time <- flip stringRegex "[^\\.]*(?=:[0-9]{2}\\.)" . show <$> getCurrentTime
   tfile <- getTellFile
   I.appendFile tfile $ show (mnick, from, dropWhile (==' ') message, time) ++ "\n"
-  return "I'll like totes pass that on for you *giggle*!"
+  return "I'll be sure to pass that on for you."
 
 roll :: Int -> IO Int
 roll d = getStdRandom (randomR (1,d))
