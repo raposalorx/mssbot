@@ -18,7 +18,6 @@ import System.Process
 import System.Exit
 import System.Directory
 import qualified Data.ByteString.UTF8 as U
-import qualified System.IO.UTF8 as I
 import Control.Applicative
 import Control.Monad
 import Control.Exception
@@ -67,7 +66,7 @@ getRedirectTitle :: String -> IO String
 getRedirectTitle search = do
   googleFile <- getGoogleFile
   download search googleFile
-  url <- flip stringRegex "(?<=\"url\":\")[^\"]*" <$> I.readFile googleFile
+  url <- flip stringRegex "(?<=\"url\":\")[^\"]*" <$> readFile googleFile
   title <- getTitle url
   return $ concat [url, " -- ", title]
 
@@ -80,7 +79,7 @@ getTitle url = do
   usable <- flip elem ["HTML", "xHTML", "XML"] <$> takeWhile (/=' ') <$> runCmd "file" ["-b", urlFile] ""
 --    putStrLn $ concat ["It's a ", show usable, " document"]
   if usable then do
-      html <- I.readFile urlFile
+      html <- readFile urlFile
       let title = matchTitle html
       return $ if not . null $ title then title else ""
       else return ""
@@ -88,10 +87,10 @@ getTitle url = do
 tell :: MIrc -> String -> IO()
 tell s nik = do
     tfile <- getTellFile
-    e <- tryJust (guard . isDoesNotExistError) (I.readFile tfile)
+    e <- tryJust (guard . isDoesNotExistError) (readFile tfile)
     let messages = map (\a -> read a :: (String, String, String, String)) . lines . either (const "") id $ e
     goTell s nik . map (\(a,b,c,t) -> concat [t, " UTC <",b,"> tell ",nik," ",c]) . matchnik $ messages
-    I.writeFile tfile . unlines . map show . matchnik $ messages
+    writeFile tfile . unlines . map show . matchnik $ messages
   where
       matchnik = filter (\(a,b,c,t) -> isPrefixOf (lower a) (lower nik))
       goTell _ _ [] = return ()
@@ -104,7 +103,7 @@ saveTell msg from = do
   let (mnick, message) = span (/=' ') $ stringDropCmd msg
   time <- flip stringRegex "[^\\.]*(?=:[0-9]{2}\\.)" . show <$> getCurrentTime
   tfile <- getTellFile
-  I.appendFile tfile $ show (mnick, from, dropWhile (==' ') message, time) ++ "\n"
+  appendFile tfile $ show (mnick, from, dropWhile (==' ') message, time) ++ "\n"
   return "I'll be sure to pass that on for you."
 
 roll :: Int -> IO Int

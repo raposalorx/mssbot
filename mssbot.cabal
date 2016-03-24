@@ -22,7 +22,7 @@ Library
   build-depends:    base >= 4 && <= 5,
                     ConfigFile >= 1.0.6,
                     time >= 1.4,
-                    simpleirc >= 0.3.0,
+                    simpleirc >= 0.3.1,
                     directory >= 1.0.1.1,
                     mtl >= 1.1.0.2,
                     utf8-string >= 0.3.6,
@@ -38,7 +38,7 @@ Executable mssbot
   Build-Depends:    base >= 4 && <= 5,
                     ConfigFile >= 1.0.6,
                     time >= 1.4,
-                    simpleirc >= 0.3.0,
+                    simpleirc >= 0.3.1,
                     directory >= 1.0.1.1,
                     mtl >= 1.1.0.2,
                     utf8-string >= 0.3.6,
@@ -47,5 +47,9 @@ Executable mssbot
                     regex-pcre >= 0.94.1,
                     tagsoup >= 0.12.8,
                     random >= 1.0.1.1
+  Other-Modules:    Config,
+                    Events,
+                    IO,
+                    Text
 
 

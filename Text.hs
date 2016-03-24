@@ -95,7 +95,7 @@ unescapeEntities [] = []
 unescapeEntities ('&':xs) = 
   let (b, a) = break (== ';') xs in
   case (lookupEntity b, a) of
-    (Just c, ';':as) ->  c  : unescapeEntities as    
+    (Just c, ';':as) ->  c  ++ unescapeEntities as    
     _                -> '&' : unescapeEntities xs
 unescapeEntities (x:xs) = x : unescapeEntities xs
 

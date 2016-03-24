@@ -1,0 +1,11 @@
+docker:
+  enable: true
+  repo: fpco/stack-build
+packages:
+- '.'
+- location:
+    git: https://github.com/dom96/SimpleIRC.git
+    commit: 3b72618984f71cef56e2381e1e41fde34a6f5135
+  extra-dep: true
+resolver: lts-5.9
+

@@ -11,7 +11,6 @@ import qualified Data.ByteString.UTF8 as U
 import qualified Data.ByteString.Char8 as B
 import Data.Maybe
 import Control.Applicative
-import qualified System.IO.UTF8 as I
 import Control.Exception
 import Control.Monad
 import System.IO.Error
@@ -41,7 +40,7 @@ onMessage s m
       title <- getTitle url
       unless (null title) $ do
         tfile <- getTitleFile chan
-        I.writeFile tfile title
+        writeFile tfile title
   where iscmd = flip B.isPrefixOf msg
         channel = fromJust $ mChan m
         chan = U.toString channel
@@ -55,7 +54,7 @@ title :: B.ByteString -> String -> IO String
 title msg chan = do
   let url = matchUrl . stringDropCmd $ msg
   tfile <- getTitleFile chan
-  e <- tryJust (guard . isDoesNotExistError) (I.readFile tfile)
+  e <- tryJust (guard . isDoesNotExistError) (readFile tfile)
   unescapeEntities <$> if not . null $ url then getTitle url else
     return $ either (const "No title to get") id e
 

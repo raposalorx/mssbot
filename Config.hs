@@ -9,10 +9,10 @@ import Events
 import Data.ConfigFile
 import Network.SimpleIRC
 import System.Directory
-import Control.Monad.Error
+import Control.Monad.Except
 import Control.Monad
 import Data.List
-import qualified System.IO.UTF8 as I
+--import qualified System.IO.UTF8 as I
 
 initConfig :: IO (FilePath,[FilePath])
 initConfig = do
@@ -21,15 +21,15 @@ initConfig = do
     exists <- doesDirectoryExist configdir
     unless exists $
       createDirectory configdir
-    fileexists <- doesFileExist (configdir++"/default.irc")	
+    fileexists <- doesFileExist (configdir++"/default.irc")
     unless fileexists $
-      I.writeFile (configdir++"/default.irc") $ unlines ["network: irc.network.net", "name: botName", "channels = [\"#chan\"]"]
+      writeFile (configdir++"/default.irc") $ unlines ["network: irc.network.net", "name: botName", "channels = [\"#chan\"]"]
     fullfilelist <- getDirectoryContents configdir
     return (configdir,fullfilelist)
 
 readConfig :: FilePath -> IO IrcConfig
 readConfig file = do 
-    rv <- runErrorT $ do
+    rv <- runExceptT $ do
         cp <- join $ liftIO $ readfile emptyCP file
         let x = cp
         network <- get x "DEFAULT" "network"
