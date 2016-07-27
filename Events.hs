@@ -15,12 +15,16 @@ import Control.Exception
 import Control.Monad
 import System.IO.Error
 
-events = [Privmsg onMessage,Disconnect onDisconnect,RawMsg onRaw]
+events = [Privmsg onMessage,Disconnect onDisconnect,RawMsg onRaw, Quit onQuit]
 
 onRaw s = print
 
 onDisconnect mIrc = do
     m <- reconnect mIrc
+    either (\err -> putStrLn $ "Unable to reconnect: " ++ show err) (\_ -> putStrLn "Successfully reconnected.") m
+
+onQuit s mIrc = do
+    m <- reconnect s
     either (\err -> putStrLn $ "Unable to reconnect: " ++ show err) (\_ -> putStrLn "Successfully reconnected.") m
 
 onMessage :: EventFunc

@@ -45,19 +45,19 @@ runCmd cmd args stdin= do
 
 getTitleFile chan = do
   home <- getHomeDirectory
-  return $ home++"/.mssbot/"++chan++"title"
+  return $ "/app/mssbot/"++chan++"title" --home++"/.mssbot/"++chan++"title"
 
 getUrlFile = do
   home <- getHomeDirectory
-  return $ home++"/.mssbot/urltmp"
+  return $ "/app/mssbot/urltmp" --home++"/.mssbot/urltmp"
 
 getGoogleFile = do
   home <- getHomeDirectory
-  return $ home++"/.mssbot/googletmp"
+  return $ "/app/mssbot/googletmp" --home++"/.mssbot/googletmp"
 
 getTellFile = do
   home <- getHomeDirectory
-  return $ home++"/.mssbot/telllist"
+  return $ "/app/mssbot/telllist" --home++"/.mssbot/telllist"
 
 download :: String -> String -> IO ()
 download url file = void $ runCmd "curl" ["-sSL", "-m", "10", "--user-agent","Mozilla/4.0", "-o",file, url] ""

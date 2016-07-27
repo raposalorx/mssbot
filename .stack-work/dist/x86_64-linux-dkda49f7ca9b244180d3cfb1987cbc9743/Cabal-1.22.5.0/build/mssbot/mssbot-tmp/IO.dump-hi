@@ -1,0 +1,975 @@
+
+==================== FINAL INTERFACE ====================
+2016-03-24 23:33:59.486932 UTC
+
+interface main@main:IO 7103
+  interface hash: 88bb437eb3da6c19f60e1de2f41199f3
+  ABI hash: 79785ee2714a171a87b20d6cc030471b
+  export-list hash: d1c3687da48736066dc357b0434a0e52
+  orphan hash: eedaab0618d1636c5c0533046b15c9bc
+  flag hash: 3b180ddd375b7a9066131d9716430888
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  IO.address
+  IO.getRedirectTitle
+  IO.getTitle
+  IO.getTitleFile
+  IO.roll
+  IO.runCmd
+  IO.saveTell
+  IO.send
+  IO.tell
+module dependencies: Text
+package dependencies: array-0.5.1.0@array_67iodizgJQIIxYVTp4emlA
+                      asn1-encoding-0.9.3@asn1e_A0jeMIoYyiZ4PSPkybrUpF
+                      asn1-parse-0.9.4@asn1p_LrLFPvrxagO8jGmFd1SmqK
+                      asn1-types-0.3.2@asn1t_BR43uodYA6j1oMVNuWbt5p
+                      async-2.1.0@async_KuqnF1GrhHK5nNp6Zzm3jy base-4.8.2.0
+                      base64-bytestring-1.0.0.1@base6_AkCk8zInckjJsyQ4AIFHPN
+                      byteable-0.1.1@bytea_38yjJsjDRm9KusCn8Yo4aB
+                      bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6
+                      cereal-0.5.1.0@cerea_843xOxvPj94HAJ9SD4EJuq
+                      connection-0.2.5@conne_CuwSS0Usisp8tvPFRsfl8I
+                      containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU
+                      cryptonite-0.10@crypt_9z0j8QI27Av2VIWw0mEkTO
+                      data-default-class-0.0.1@datad_K91y8NcZUJI9yaBI61rgdD
+                      deepseq-1.4.1.1@deeps_6vMKxt5sPFR0XsbRWvvq59
+                      directory-1.2.2.0@direc_0hFG6ZxK1nk4zsyOqbNHfm
+                      filepath-1.4.0.0@filep_Ey7a1in9roBAE8bUFJ5R9m ghc-prim-0.4.0.0
+                      hourglass-0.2.10@hourg_LCfvpegcEVDEeuH0foNCGl integer-gmp-1.0.0.0
+                      memory-0.11@memor_0EiEBIg44i8KGjAeoKnPDs
+                      mtl-2.2.1@mtl_Aue4leSeVkpKLsfHIV51E8
+                      network-2.6.2.1@netwo_A6pE0dLgMEk2GtUa1JtTJQ
+                      pem-0.2.2@pem_68T9LQQkAB02O0OO4VHaxc
+                      process-1.2.3.0@proce_52AgREEfSrnJLlkGV9YZZJ
+                      random-1.1@rando_9Kgekc9yEaLHLNUuw6paWL
+                      regex-base-0.93.2@regex_47KXx9dLqeO8MNJeizLKhP
+                      regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU
+                      simpleirc-0.3.1@simpl_8XLCtlyIFxlHjx0Q1X3hDR
+                      socks-0.5.4@socks_BZJ6e1EePGtK56UKTxGOcA
+                      stm-2.4.4.1@stm_EyxFXFfnfY05IrjGaqCxeD
+                      tagsoup-0.13.9@tagso_3I5x83DoCVBIz4INMBLU3R
+                      time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn
+                      tls-1.3.4@tls_JvHmsuTo5yN8FKXS7TwXzo
+                      transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF
+                      unix-2.7.1.0@unix_KZL8h98IqDM57kQSPo1mKx
+                      utf8-string-1.0.1.1@utf8s_L8eKHa7Iv9q7FVKUYW6u4b
+                      x509-1.6.3@x509_EUmMVSl6w2w3X0XDEe6o9j
+                      x509-store-1.6.1@x509s_DRxbulEQC602MUMwjQ8WGy
+                      x509-system-1.6.3@x509s_F9nR2A13AOT6cAw1re7jUB
+                      x509-validation-1.6.3@x509v_JPQPXw7FuFXLx3vcY0f8CP
+orphans: base-4.8.2.0:GHC.Base base-4.8.2.0:GHC.Float
+         bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString.Builder
+         network-2.6.2.1@netwo_A6pE0dLgMEk2GtUa1JtTJQ:Network.Socket
+         network-2.6.2.1@netwo_A6pE0dLgMEk2GtUa1JtTJQ:Network.Socket.Types
+         regex-base-0.93.2@regex_47KXx9dLqeO8MNJeizLKhP:Text.Regex.Base.Context
+         regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU:Text.Regex.PCRE.ByteString
+         regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU:Text.Regex.PCRE.ByteString.Lazy
+         regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU:Text.Regex.PCRE.Sequence
+         regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU:Text.Regex.PCRE.String
+         stm-2.4.4.1@stm_EyxFXFfnfY05IrjGaqCxeD:Control.Monad.STM
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Calendar.Gregorian
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Format.Parse
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.LocalTime.LocalTime
+         transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF:Control.Monad.Trans.Error
+family instance modules: base-4.8.2.0:Control.Applicative
+                         base-4.8.2.0:Data.Either base-4.8.2.0:Data.Functor.Identity
+                         base-4.8.2.0:Data.Monoid base-4.8.2.0:Data.Type.Equality
+                         base-4.8.2.0:Data.Void base-4.8.2.0:GHC.Exts
+                         base-4.8.2.0:GHC.Generics
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntMap.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntSet.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Map.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Sequence
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Set.Base
+import  -/  base-4.8.2.0:Control.Applicative a8ebf5ad4932b411ad7725da68be9801
+import  -/  base-4.8.2.0:Control.Exception e9090e246fba030faecf7b81b3e8e320
+import  -/  base-4.8.2.0:Control.Exception.Base b99410eaf0cc6bb119b1d45a497c1b10
+import  -/  base-4.8.2.0:Control.Monad 480c5067477275068c9b98be08410df9
+import  -/  base-4.8.2.0:Data.Either e8724afd65fd432cfe9a54014f5f762d
+import  -/  base-4.8.2.0:Data.Foldable 2ce969969ad5231eb40bd713f94f05ad
+import  -/  base-4.8.2.0:Data.Functor 5c701b0af1708f0192a25dfe14ce6274
+import  -/  base-4.8.2.0:Data.List 3f0782c8d4bf50eecefcd5ea1798aac8
+import  -/  base-4.8.2.0:Data.Maybe 1cb58de2b04ee3c0c0a7dc9201184aff
+import  -/  base-4.8.2.0:Data.OldList d8fd80b0e14aa085ce6219cd89dad356
+import  -/  base-4.8.2.0:GHC.Base 1db77db5dae73d8c424c85b09fbadb89
+import  -/  base-4.8.2.0:GHC.IO.Exception e38c1261b70caecb7af416b94c82c925
+import  -/  base-4.8.2.0:GHC.List 0c736920522bbd14b770342776012ab6
+import  -/  base-4.8.2.0:GHC.Show 0e1d8380a8fb0cfb07ebeda3b70cbf38
+import  -/  base-4.8.2.0:Prelude 694dcaf039efe62df1c44834e2dbd2fb
+import  -/  base-4.8.2.0:System.Exit f5581af4ad998e898da01fdc74c2769b
+import  -/  base-4.8.2.0:System.IO 0248c1e850b7ea124cf7a2e1669ebf67
+import  -/  base-4.8.2.0:System.IO.Error f5a335c06e44d129ccf60f6e0a972e9f
+import  -/  base-4.8.2.0:Text.Read ef0ef92fb7358ae94bab089940adfd2a
+import  -/  bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString.Internal 9f30be13d4c49eabc652d3eef55cc512
+import  -/  directory-1.2.2.0@direc_0hFG6ZxK1nk4zsyOqbNHfm:System.Directory 5cce0d33f34c5d512c68e0bc0b4b8374
+import  -/  ghc-prim-0.4.0.0:GHC.Classes e1f4ff80f7b5262008a595d29986fb18
+import  -/  ghc-prim-0.4.0.0:GHC.Types 6b27fb3fdbd0e3f0925a4496c66513bb
+import  -/  Text 99ec93713a08824116c17091cf1441eb
+  exports: d57d626558e0e5c33684c47dc77356be
+  lower 46cf7823b510ab72bba1581887dc489f
+  matchTitle a294c983438684cd51db42c4cd47dc44
+  stringDropCmd 43f7492417542d5c1aa4423a82f99656
+  stringRegex 2296148bda8f0b52b4416f31c7ac6f72
+import  -/  process-1.2.3.0@proce_52AgREEfSrnJLlkGV9YZZJ:System.Process 150b22a0fc4f895a72de5ff596ed3fd9
+import  -/  random-1.1@rando_9Kgekc9yEaLHLNUuw6paWL:System.Random 103ad55b56caf6eb812c579b8e1813b0
+import  -/  simpleirc-0.3.1@simpl_8XLCtlyIFxlHjx0Q1X3hDR:Network.SimpleIRC 1e1ba7f38153741070330d813e6c11ad
+import  -/  simpleirc-0.3.1@simpl_8XLCtlyIFxlHjx0Q1X3hDR:Network.SimpleIRC.Core d0486eaab900e767b022a4fdc0ccdfb5
+import  -/  simpleirc-0.3.1@simpl_8XLCtlyIFxlHjx0Q1X3hDR:Network.SimpleIRC.Messages 0ca356ebd116583e9fefe65751288355
+import  -/  time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time a2d73c55a7f1d05c80d05f2fdc3f0548
+import  -/  time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Clock d0842b26d5f17282efeb78ae564d6724
+import  -/  utf8-string-1.0.1.1@utf8s_L8eKHa7Iv9q7FVKUYW6u4b:Data.ByteString.UTF8 152d1b03b46906bf362d6f6ba297a986
+cb5bded845bf563250648ac59d122cde
+  $s$fRead(,,,) ::
+    GHC.Read.Read
+      ([GHC.Types.Char],
+       [GHC.Types.Char],
+       [GHC.Types.Char],
+       [GHC.Types.Char])
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ ([GHC.Types.Char],
+                     [GHC.Types.Char],
+                     [GHC.Types.Char],
+                     [GHC.Types.Char])
+                  IO.$s$fRead(,,,)4
+                  IO.$s$fRead(,,,)1
+                  (GHC.Read.$fRead(,,,)_$creadPrec
+                     @ [GHC.Types.Char]
+                     @ [GHC.Types.Char]
+                     @ [GHC.Types.Char]
+                     @ [GHC.Types.Char]
+                     GHC.Read.$fRead[]_$s$fRead[]1
+                     GHC.Read.$fRead[]_$s$fRead[]1
+                     GHC.Read.$fRead[]_$s$fRead[]1
+                     GHC.Read.$fRead[]_$s$fRead[]1)
+                  (GHC.Read.$fRead(,,,)_$creadListPrec
+                     @ [GHC.Types.Char]
+                     @ [GHC.Types.Char]
+                     @ [GHC.Types.Char]
+                     @ [GHC.Types.Char]
+                     GHC.Read.$fRead[]_$s$fRead[]1
+                     GHC.Read.$fRead[]_$s$fRead[]1
+                     GHC.Read.$fRead[]_$s$fRead[]1
+                     GHC.Read.$fRead[]_$s$fRead[]1) -}
+a8efff4831280ff6c1092d8a636359c2
+  $s$fRead(,,,)1 ::
+    Text.ParserCombinators.ReadP.ReadS
+      [([GHC.Types.Char],
+        [GHC.Types.Char],
+        [GHC.Types.Char],
+        [GHC.Types.Char])]
+  {- Arity: 1,
+     Unfolding: (Text.ParserCombinators.ReadP.run
+                   @ [([GHC.Types.Char],
+                       [GHC.Types.Char],
+                       [GHC.Types.Char],
+                       [GHC.Types.Char])]
+                   IO.$s$fRead(,,,)2) -}
+57e5437f25055f7498ea44b4f4e44fc1
+  $s$fRead(,,,)2 ::
+    Text.ParserCombinators.ReadP.P
+      [([GHC.Types.Char],
+        [GHC.Types.Char],
+        [GHC.Types.Char],
+        [GHC.Types.Char])]
+  {- Unfolding: (GHC.Read.$wa
+                   @ ([GHC.Types.Char],
+                      [GHC.Types.Char],
+                      [GHC.Types.Char],
+                      [GHC.Types.Char])
+                   IO.$s$fRead(,,,)3
+                     `cast`
+                   (Trans
+                        (<Text.ParserCombinators.ReadPrec.Prec>_R
+                         ->_R Sym (Text.ParserCombinators.ReadP.NTCo:ReadP[0]
+                                       <([GHC.Types.Char],
+                                         [GHC.Types.Char],
+                                         [GHC.Types.Char],
+                                         [GHC.Types.Char])>_R))
+                        (Sym (Text.ParserCombinators.ReadPrec.NTCo:ReadPrec[0]
+                                  <([GHC.Types.Char],
+                                    [GHC.Types.Char],
+                                    [GHC.Types.Char],
+                                    [GHC.Types.Char])>_R)))
+                   @ [([GHC.Types.Char],
+                       [GHC.Types.Char],
+                       [GHC.Types.Char],
+                       [GHC.Types.Char])]
+                   (Text.ParserCombinators.ReadP.$fApplicativeP_$creturn
+                      @ [([GHC.Types.Char],
+                          [GHC.Types.Char],
+                          [GHC.Types.Char],
+                          [GHC.Types.Char])])) -}
+fa61fc0a6c6f767626e28c24696b4fef
+  $s$fRead(,,,)3 ::
+    Text.ParserCombinators.ReadPrec.Prec
+    -> forall b1.
+       (([GHC.Types.Char],
+         [GHC.Types.Char],
+         [GHC.Types.Char],
+         [GHC.Types.Char])
+        -> Text.ParserCombinators.ReadP.P b1)
+       -> Text.ParserCombinators.ReadP.P b1
+  {- Arity: 2,
+     Unfolding: (\ w4 :: Text.ParserCombinators.ReadPrec.Prec
+                   @ b1
+                   w5 :: ([GHC.Types.Char],
+                          [GHC.Types.Char],
+                          [GHC.Types.Char],
+                          [GHC.Types.Char])
+                         -> Text.ParserCombinators.ReadP.P b1[OneShot] ->
+                 GHC.Read.$wa5
+                   @ [GHC.Types.Char]
+                   @ [GHC.Types.Char]
+                   @ [GHC.Types.Char]
+                   @ [GHC.Types.Char]
+                   GHC.Read.$fRead[]_$s$fRead[]1
+                   GHC.Read.$fRead[]_$s$fRead[]1
+                   GHC.Read.$fRead[]_$s$fRead[]1
+                   GHC.Read.$fRead[]_$s$fRead[]1
+                   @ b1
+                   w5) -}
+70b539c613d71c7c601119fb4e4552f3
+  $s$fRead(,,,)4 ::
+    GHC.Types.Int
+    -> Text.ParserCombinators.ReadP.ReadS
+         ([GHC.Types.Char],
+          [GHC.Types.Char],
+          [GHC.Types.Char],
+          [GHC.Types.Char])
+  {- Arity: 2, Strictness: <L,A>,
+     Unfolding: InlineRule (1, True, False)
+                (\ eta :: GHC.Types.Int ->
+                 Text.ParserCombinators.ReadP.run
+                   @ ([GHC.Types.Char],
+                      [GHC.Types.Char],
+                      [GHC.Types.Char],
+                      [GHC.Types.Char])
+                   (GHC.Read.$wa5
+                      @ [GHC.Types.Char]
+                      @ [GHC.Types.Char]
+                      @ [GHC.Types.Char]
+                      @ [GHC.Types.Char]
+                      GHC.Read.$fRead[]_$s$fRead[]1
+                      GHC.Read.$fRead[]_$s$fRead[]1
+                      GHC.Read.$fRead[]_$s$fRead[]1
+                      GHC.Read.$fRead[]_$s$fRead[]1
+                      @ ([GHC.Types.Char],
+                         [GHC.Types.Char],
+                         [GHC.Types.Char],
+                         [GHC.Types.Char])
+                      (Text.ParserCombinators.ReadP.$fApplicativeP_$creturn
+                         @ ([GHC.Types.Char],
+                            [GHC.Types.Char],
+                            [GHC.Types.Char],
+                            [GHC.Types.Char])))) -}
+d3a307be85fffb3101614e2e2ad5e731
+  $sread ::
+    GHC.Base.String
+    -> (GHC.Base.String,
+        GHC.Base.String,
+        GHC.Base.String,
+        GHC.Base.String)
+  {- Arity: 1, Strictness: <L,U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ s :: GHC.Base.String ->
+                 case Text.Read.readEither
+                        @ (GHC.Base.String,
+                           GHC.Base.String,
+                           GHC.Base.String,
+                           GHC.Base.String)
+                        IO.$sread1
+                        s of wild {
+                   Data.Either.Left x
+                   -> GHC.Err.error
+                        @ (GHC.Base.String,
+                           GHC.Base.String,
+                           GHC.Base.String,
+                           GHC.Base.String)
+                        x
+                   Data.Either.Right y -> y }) -}
+f2e40b0b0073a72f18a0c05bbc5c172f
+  $sread1 ::
+    GHC.Read.Read
+      (GHC.Base.String,
+       GHC.Base.String,
+       GHC.Base.String,
+       GHC.Base.String)
+  {- Strictness: m,
+     Unfolding: InlineRule (0, True, True) IO.$s$fRead(,,,) -}
+9a0b913aa4fd876687f2e57037467865
+  $wa ::
+    GHC.Prim.MVar# GHC.Prim.RealWorld Network.SimpleIRC.Core.IrcServer
+    -> Network.SimpleIRC.Messages.IrcMessage
+    -> GHC.Base.String
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 4,
+     Strictness: <L,U><L,1*U(1*U,A,A,A,A,A,1*U,A,A,A)><L,1*U><L,U>,
+     Inline: [0] -}
+558f77fb2bbc99f21cc7cdf5334cb666
+  address :: GHC.Base.String -> GHC.Base.String -> GHC.Base.String
+  {- Arity: 2, Strictness: <S,1*U><L,1*U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ nik :: GHC.Base.String s :: GHC.Base.String ->
+                 GHC.Base.augment
+                   @ GHC.Types.Char
+                   (\ @ b c :: GHC.Types.Char -> b -> b[OneShot] n :: b[OneShot] ->
+                    GHC.Base.foldr @ GHC.Types.Char @ b c n nik)
+                   (GHC.Base.augment
+                      @ GHC.Types.Char
+                      (\ @ b c :: GHC.Types.Char -> b -> b[OneShot] n :: b[OneShot] ->
+                       GHC.Base.foldr @ GHC.Types.Char @ b c n IO.address1)
+                      s)) -}
+25ff4ca9a0b10105fedd5ca8f9e5b6c5
+  address1 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# ": "#) -}
+22bd2f180875ee604226f8d51eaf8c3f
+  getRedirectTitle :: GHC.Base.String -> GHC.Types.IO GHC.Base.String
+  {- Arity: 2, Strictness: <L,U><L,U>,
+     Unfolding: InlineRule (0, True, True)
+                IO.getRedirectTitle1
+                  `cast`
+                (<GHC.Base.String>_R
+                 ->_R Sym (GHC.Types.NTCo:IO[0] <GHC.Base.String>_R)) -}
+ee3fa14a9307031d96e050c5452b8736
+  getRedirectTitle1 ::
+    GHC.Base.String
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, GHC.Base.String #)
+  {- Arity: 2, Strictness: <L,U><L,U>,
+     Unfolding: (\ search :: GHC.Base.String
+                   eta :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 case GHC.Prim.catch#
+                        @ GHC.Base.String
+                        @ GHC.Exception.SomeException
+                        System.Directory.getHomeDirectory4
+                        System.Directory.getHomeDirectory2
+                        eta of ds1 { (#,#) ipv ipv1 ->
+                 case IO.getRedirectTitle20
+                        search
+                        IO.getRedirectTitle_ipv2
+                        ipv of ds2 { (#,#) ipv2 ipv3 ->
+                 case GHC.IO.Handle.FD.openFile1
+                        IO.getRedirectTitle_ipv2
+                        GHC.IO.IOMode.ReadMode
+                        ipv2 of ds3 { (#,#) ipv4 ipv5 ->
+                 case GHC.IO.Handle.Text.hGetContents1
+                        ipv5
+                        ipv4 of ds { (#,#) ipv6 ipv7 ->
+                 let {
+                   url :: GHC.Base.String
+                   = Text.stringRegex ipv7 IO.getRedirectTitle28
+                 } in
+                 case IO.getRedirectTitle3 url ipv6 of ds4 { (#,#) ipv8 ipv9 ->
+                 (# ipv8,
+                    GHC.Base.++
+                      @ GHC.Types.Char
+                      url
+                      (GHC.Base.++
+                         @ GHC.Types.Char
+                         IO.getRedirectTitle2
+                         ipv9) #) } } } } }) -}
+3e79c7afcaf1be5ec76938dd3e2cc20f
+  getRedirectTitle10 ::
+    GHC.Types.Char -> [GHC.Types.Char] -> [GHC.Types.Char]
+  {- Arity: 2, HasNoCafRefs,
+     Unfolding: (\ x :: GHC.Types.Char r :: [GHC.Types.Char][OneShot] ->
+                 case x of wild { GHC.Types.C# c1 ->
+                 case c1 of wild1 {
+                   DEFAULT -> GHC.Types.: @ GHC.Types.Char wild r
+                   ' ' -> GHC.Types.[] @ GHC.Types.Char } }) -}
+ecf20b97f4ae6c6ffdd2cfa5a3b240a9
+  getRedirectTitle11 :: GHC.Types.Char -> GHC.Types.Bool
+  {- Arity: 1, HasNoCafRefs, Strictness: <S(S),1*U(1*U)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: GHC.Types.Char ->
+                 case ds of wild { GHC.Types.C# c1 ->
+                 case c1 of wild1 {
+                   DEFAULT -> GHC.Types.True ' ' -> GHC.Types.False } }) -}
+8e23e642e650b9c4df2a0c258ae1d39e
+  getRedirectTitle12 :: System.Process.Internals.CreateProcess
+  {- Unfolding: (System.Process.Internals.CreateProcess
+                   IO.getRedirectTitle13
+                   (GHC.Base.Nothing @ GHC.IO.FilePath)
+                   (GHC.Base.Nothing @ [(GHC.Base.String, GHC.Base.String)])
+                   System.Process.Internals.Inherit
+                   System.Process.Internals.Inherit
+                   System.Process.Internals.Inherit
+                   GHC.Types.False
+                   GHC.Types.False
+                   GHC.Types.False) -}
+3c4ea6eea8c02d11529dc5567a2de50a
+  getRedirectTitle13 :: System.Process.Internals.CmdSpec
+  {- Unfolding: (System.Process.Internals.RawCommand
+                   IO.getRedirectTitle17
+                   IO.getRedirectTitle14) -}
+815d7ecc5f79649a43e0cf2387a82144
+  getRedirectTitle14 :: [GHC.Base.String]
+  {- Unfolding: (GHC.Types.:
+                   @ GHC.Base.String
+                   IO.getRedirectTitle16
+                   IO.getRedirectTitle15) -}
+2da6e1aff3b03e0cf74b15625287b8ba
+  getRedirectTitle15 :: [GHC.Base.String]
+  {- Unfolding: (GHC.Types.:
+                   @ GHC.Base.String
+                   IO.getRedirectTitle_ipv1
+                   (GHC.Types.[] @ GHC.Base.String)) -}
+d58d5e509d3bfaad91fae3c46c1207e2
+  getRedirectTitle16 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "-b"#) -}
+4adb68ef62f78cb2fd4717dffad238ae
+  getRedirectTitle17 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "file"#) -}
+85588b01c77f4905a864f83fa20ab21c
+  getRedirectTitle18 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "&gl=CA&hl=en"#) -}
+1de9ab138b0b80d4c3cd90bfbaec692e
+  getRedirectTitle19 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "(http(s)?://)?(www.)?youtube.com(/)?[^ ()[\\]`'\"]*"#) -}
+6b37e325a4c4691532a318bb60e78437
+  getRedirectTitle2 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# " -- "#) -}
+1d761548c47f336511daf00a63c22f8f
+  getRedirectTitle20 ::
+    GHC.Base.String
+    -> GHC.Base.String
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 3, Strictness: <L,U><L,U><L,U>,
+     Unfolding: (\ url :: GHC.Base.String
+                   file :: GHC.Base.String
+                   s :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 case System.Process.readCreateProcessWithExitCode1
+                        (System.Process.Internals.CreateProcess
+                           (System.Process.Internals.RawCommand
+                              IO.getRedirectTitle27
+                              (GHC.Types.:
+                                 @ GHC.Base.String
+                                 IO.getRedirectTitle26
+                                 (GHC.Types.:
+                                    @ GHC.Base.String
+                                    IO.getRedirectTitle25
+                                    (GHC.Types.:
+                                       @ GHC.Base.String
+                                       IO.getRedirectTitle24
+                                       (GHC.Types.:
+                                          @ GHC.Base.String
+                                          IO.getRedirectTitle23
+                                          (GHC.Types.:
+                                             @ GHC.Base.String
+                                             IO.getRedirectTitle22
+                                             (GHC.Types.:
+                                                @ GHC.Base.String
+                                                IO.getRedirectTitle21
+                                                (GHC.Types.:
+                                                   @ GHC.Base.String
+                                                   file
+                                                   (GHC.Types.:
+                                                      @ GHC.Base.String
+                                                      url
+                                                      (GHC.Types.[] @ GHC.Base.String))))))))))
+                           (GHC.Base.Nothing @ GHC.IO.FilePath)
+                           (GHC.Base.Nothing @ [(GHC.Base.String, GHC.Base.String)])
+                           System.Process.Internals.Inherit
+                           System.Process.Internals.Inherit
+                           System.Process.Internals.Inherit
+                           GHC.Types.False
+                           GHC.Types.False
+                           GHC.Types.False)
+                        (GHC.Types.[] @ GHC.Types.Char)
+                        s of ds1 { (#,#) ipv ipv1 ->
+                 case ipv1 of wild { (,,) exit out err ->
+                 case GHC.IO.Handle.Text.hPutStr2
+                        GHC.IO.Handle.FD.stdout
+                        (GHC.IO.Exception.$fExceptionExitCode_$cshow exit)
+                        GHC.Types.True
+                        ipv of ds2 { (#,#) ipv2 ipv3 ->
+                 (# ipv2, GHC.Tuple.() #) } } }) -}
+5a08c20a5bd632ee4d057cbf92b5a977
+  getRedirectTitle21 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "-o"#) -}
+89c4e4a6147f7e9f59ecb84540297be1
+  getRedirectTitle22 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Mozilla/4.0"#) -}
+5af44187f6f3949cb1c8dd9db86e6231
+  getRedirectTitle23 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "--user-agent"#) -}
+fb1a11304acb1ee88bcff19ddb515154
+  getRedirectTitle24 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "10"#) -}
+08b4fb4c8c110839781a7e84a9099042
+  getRedirectTitle25 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "-m"#) -}
+55105840ea2007930a9acc1acd8282df
+  getRedirectTitle26 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "-sSL"#) -}
+d1d927c030b8f3bb89bfee3d5ca4b73d
+  getRedirectTitle27 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "curl"#) -}
+91b8b364e2bf76147deaa8d51b1e8838
+  getRedirectTitle28 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "(?<=\"url\":\")[^\"]*"#) -}
+70c2c9743b2cddb3d69578bad204af38
+  getRedirectTitle3 ::
+    GHC.Base.String
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, GHC.Base.String #)
+  {- Arity: 2, Strictness: <L,U><L,U>,
+     Unfolding: (\ url :: GHC.Base.String
+                   eta :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 case GHC.Prim.catch#
+                        @ GHC.Base.String
+                        @ GHC.Exception.SomeException
+                        System.Directory.getHomeDirectory4
+                        System.Directory.getHomeDirectory2
+                        eta of ds1 { (#,#) ipv ipv1 ->
+                 case IO.getRedirectTitle20
+                        (case Text.stringRegex url IO.getRedirectTitle19 of wild {
+                           [] -> url
+                           : ds2 ds3
+                           -> GHC.Base.++ @ GHC.Types.Char url IO.getRedirectTitle18 })
+                        IO.getRedirectTitle_ipv1
+                        ipv of ds2 { (#,#) ipv2 ipv3 ->
+                 case System.Process.readCreateProcessWithExitCode1
+                        IO.getRedirectTitle12
+                        (GHC.Types.[] @ GHC.Types.Char)
+                        ipv2 of ds3 { (#,#) ipv4 ipv5 ->
+                 case ipv5 of wild { (,,) exit out err ->
+                 case GHC.IO.Handle.Text.hPutStr2
+                        GHC.IO.Handle.FD.stdout
+                        (GHC.IO.Exception.$fExceptionExitCode_$cshow exit)
+                        GHC.Types.True
+                        ipv4 of ds4 { (#,#) ipv6 ipv7 ->
+                 case GHC.List.elem
+                        @ [GHC.Types.Char]
+                        GHC.Classes.$fEq[]_$s$fEq[]1
+                        (case exit of wild1 {
+                           GHC.IO.Exception.ExitSuccess
+                           -> GHC.List.takeWhile @ GHC.Types.Char IO.getRedirectTitle11 out
+                           GHC.IO.Exception.ExitFailure a3 -> IO.getRedirectTitle9 })
+                        IO.getRedirectTitle_x of wild1 {
+                   GHC.Types.False -> (# ipv6, GHC.Types.[] @ GHC.Types.Char #)
+                   GHC.Types.True
+                   -> case GHC.IO.Handle.FD.openFile1
+                             IO.getRedirectTitle_ipv1
+                             GHC.IO.IOMode.ReadMode
+                             ipv6 of ds5 { (#,#) ipv8 ipv9 ->
+                      case GHC.IO.Handle.Text.hGetContents1
+                             ipv9
+                             ipv8 of ds6 { (#,#) ipv10 ipv11 ->
+                      (# ipv10, Text.matchTitle ipv11 #) } } } } } } } }) -}
+59061ede81e86108f6a028ad8b7be345
+  getRedirectTitle4 :: [[GHC.Types.Char]]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ [GHC.Types.Char]
+                   IO.getRedirectTitle7
+                   IO.getRedirectTitle5) -}
+cd6a954e0efcbb0ab8a7e487f6839ce0
+  getRedirectTitle5 :: [[GHC.Types.Char]]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ [GHC.Types.Char]
+                   IO.getRedirectTitle6
+                   (GHC.Types.[] @ [GHC.Types.Char])) -}
+25cc5e6d0637b7d76372249e0a2d0aea
+  getRedirectTitle6 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "XML"#) -}
+83be7ab6bff6d44a94c49d6465f133bd
+  getRedirectTitle7 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "xHTML"#) -}
+c1fb74c0c04693538bf9a3a55b3b3d40
+  getRedirectTitle8 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "HTML"#) -}
+015b3369dcd74acde25a7f722cbdd681
+  getRedirectTitle9 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackFoldrCString#
+                   @ [GHC.Types.Char]
+                   "Command Failed"#
+                   IO.getRedirectTitle10
+                   (GHC.Types.[] @ GHC.Types.Char)) -}
+604b04f0ed85bddc6b908e06836eed55
+  getRedirectTitle_ipv1 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "/app/mssbot/urltmp"#) -}
+89cbd4dc474ccaa2a7da15b6c67bb2e9
+  getRedirectTitle_ipv2 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "/app/mssbot/googletmp"#) -}
+4be07bcaa94a0ec3f2fa51e7a5804f85
+  getRedirectTitle_x :: [[GHC.Types.Char]]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ [GHC.Types.Char]
+                   IO.getRedirectTitle8
+                   IO.getRedirectTitle4) -}
+40767b734948a74f3184a0e950bbd435
+  getTitle :: GHC.Base.String -> GHC.Types.IO GHC.Base.String
+  {- Arity: 2, Strictness: <L,U><L,U>,
+     Unfolding: InlineRule (0, True, True)
+                IO.getRedirectTitle3
+                  `cast`
+                (<GHC.Base.String>_R
+                 ->_R Sym (GHC.Types.NTCo:IO[0] <GHC.Base.String>_R)) -}
+e8226fdfbafcdb842cde53ef5a006f73
+  getTitleFile :: [GHC.Types.Char] -> GHC.Types.IO [GHC.Types.Char]
+  {- Arity: 2, Strictness: <L,1*U><L,U>,
+     Unfolding: InlineRule (0, True, True)
+                IO.getTitleFile1
+                  `cast`
+                (<[GHC.Types.Char]>_R
+                 ->_R Sym (GHC.Types.NTCo:IO[0] <[GHC.Types.Char]>_R)) -}
+521c050154072684133f942012fd9f46
+  getTitleFile1 ::
+    [GHC.Types.Char]
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+  {- Arity: 2, Strictness: <L,1*U><L,U>,
+     Unfolding: (\ chan :: [GHC.Types.Char]
+                   eta :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 case GHC.Prim.catch#
+                        @ GHC.Base.String
+                        @ GHC.Exception.SomeException
+                        System.Directory.getHomeDirectory4
+                        System.Directory.getHomeDirectory2
+                        eta of ds1 { (#,#) ipv ipv1 ->
+                 (# ipv,
+                    GHC.CString.unpackAppendCString#
+                      "/app/mssbot/"#
+                      (GHC.Base.++ @ GHC.Types.Char chan IO.getTitleFile2) #) }) -}
+3f220052ffa616ad882a88950b8a4d51
+  getTitleFile2 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "title"#) -}
+bb06bb55b386b042d5ff2ad66df11ce1
+  roll :: GHC.Types.Int -> GHC.Types.IO GHC.Types.Int
+  {- Arity: 2, Strictness: <L,1*U(U)><L,U>m,
+     Unfolding: InlineRule (0, True, True)
+                IO.roll1
+                  `cast`
+                (<GHC.Types.Int>_R
+                 ->_R Sym (GHC.Types.NTCo:IO[0] <GHC.Types.Int>_R)) -}
+519bda469d5f54dabf2488336e7225bc
+  roll1 ::
+    GHC.Types.Int
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, GHC.Types.Int #)
+  {- Arity: 2, Strictness: <L,1*U(U)><L,U>m,
+     Unfolding: (\ d :: GHC.Types.Int
+                   eta :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 case System.Random.theStdGen
+                        `cast`
+                      (GHC.IORef.NTCo:IORef[0] <System.Random.StdGen>_N) of wild { GHC.STRef.STRef r# ->
+                 let {
+                   a3 :: GHC.Integer.Type.Integer
+                   = case d of wild1 { GHC.Types.I# i ->
+                     GHC.Integer.Type.smallInteger i }
+                 } in
+                 case GHC.Prim.atomicModifyMutVar#
+                        @ GHC.Prim.RealWorld
+                        @ System.Random.StdGen
+                        @ (System.Random.StdGen, GHC.Types.Int)
+                        @ GHC.Types.Int
+                        r#
+                        (\ a4 :: System.Random.StdGen ->
+                         case System.Random.$wrandomIvalInteger
+                                @ System.Random.StdGen
+                                @ GHC.Types.Int
+                                System.Random.$fRandomGenStdGen
+                                GHC.Num.$fNumInt
+                                IO.roll_a3
+                                a3
+                                a4 of ww2 { (#,#) ww3 ww4 ->
+                         case ww4 of a'1 { System.Random.StdGen ipv ipv1 -> (a'1, ww3) } })
+                        eta of ds1 { (#,#) ipv ipv1 ->
+                 case ipv1 of b1 { GHC.Types.I# ipv2 -> ds1 } } }) -}
+0d8425613a0e714ad67e97fb1abd0cf9
+  roll_a3 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (__integer 1) -}
+9e41d924d9efe3d6b20c48c5e276f043
+  runCmd ::
+    GHC.Base.String
+    -> [GHC.Base.String]
+    -> GHC.Base.String
+    -> GHC.Types.IO GHC.Base.String
+  {- Arity: 4, Strictness: <L,U><L,U><L,1*U><L,U>,
+     Unfolding: InlineRule (0, True, True)
+                IO.runCmd1
+                  `cast`
+                (<GHC.Base.String>_R
+                 ->_R <[GHC.Base.String]>_R
+                 ->_R <GHC.Base.String>_R
+                 ->_R Sym (GHC.Types.NTCo:IO[0] <GHC.Base.String>_R)) -}
+13766ba6d10b46d6972a75c32eb951aa
+  runCmd1 ::
+    GHC.Base.String
+    -> [GHC.Base.String]
+    -> GHC.Base.String
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, GHC.Base.String #)
+  {- Arity: 4, Strictness: <L,U><L,U><L,1*U><L,U>,
+     Unfolding: (\ cmd :: GHC.Base.String
+                   args :: [GHC.Base.String]
+                   stdin :: GHC.Base.String
+                   eta :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 case System.Process.readCreateProcessWithExitCode1
+                        (System.Process.Internals.CreateProcess
+                           (System.Process.Internals.RawCommand cmd args)
+                           (GHC.Base.Nothing @ GHC.IO.FilePath)
+                           (GHC.Base.Nothing @ [(GHC.Base.String, GHC.Base.String)])
+                           System.Process.Internals.Inherit
+                           System.Process.Internals.Inherit
+                           System.Process.Internals.Inherit
+                           GHC.Types.False
+                           GHC.Types.False
+                           GHC.Types.False)
+                        stdin
+                        eta of ds1 { (#,#) ipv ipv1 ->
+                 case ipv1 of wild { (,,) exit out err ->
+                 case GHC.IO.Handle.Text.hPutStr2
+                        GHC.IO.Handle.FD.stdout
+                        (GHC.IO.Exception.$fExceptionExitCode_$cshow exit)
+                        GHC.Types.True
+                        ipv of ds2 { (#,#) ipv2 ipv3 ->
+                 (# ipv2,
+                    case exit of wild1 {
+                      GHC.IO.Exception.ExitSuccess -> out
+                      GHC.IO.Exception.ExitFailure a3 -> IO.runCmd2 } #) } } }) -}
+265b1293a4639b205eccd5018a550b08
+  runCmd2 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Command Failed"#) -}
+928b277a992c780a3b5a201cab2bd4fb
+  saveTell ::
+    Data.ByteString.Internal.ByteString
+    -> GHC.Base.String -> GHC.Types.IO GHC.Base.String
+  {- Arity: 3, Strictness: <L,1*U(U,U,U,U)><L,U><L,U>,
+     Unfolding: InlineRule (0, True, True)
+                IO.saveTell1
+                  `cast`
+                (<Data.ByteString.Internal.ByteString>_R
+                 ->_R <GHC.Base.String>_R
+                 ->_R Sym (GHC.Types.NTCo:IO[0] <GHC.Base.String>_R)) -}
+43c95e6f08b00ab63884dcd60c4e99ae
+  saveTell1 ::
+    Data.ByteString.Internal.ByteString
+    -> GHC.Base.String
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, GHC.Base.String #)
+  {- Arity: 3, Strictness: <L,1*U(U,U,U,U)><L,U><L,U>,
+     Unfolding: (\ msg :: Data.ByteString.Internal.ByteString
+                   from :: GHC.Base.String
+                   eta :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 case Data.Time.Clock.POSIX.getPOSIXTime1
+                        eta of ds { (#,#) ipv ipv1 ->
+                 case GHC.Prim.catch#
+                        @ GHC.Base.String
+                        @ GHC.Exception.SomeException
+                        System.Directory.getHomeDirectory4
+                        System.Directory.getHomeDirectory2
+                        ipv of ds1 { (#,#) ipv2 ipv3 ->
+                 case Control.Exception.Base.bracket1
+                        @ GHC.IO.Handle.Types.Handle
+                        @ ()
+                        @ ()
+                        IO.saveTell7
+                          `cast`
+                        (Sym (GHC.Types.NTCo:IO[0] <GHC.IO.Handle.Types.Handle>_R))
+                        GHC.IO.Handle.hClose1
+                          `cast`
+                        (<GHC.IO.Handle.Types.Handle>_R
+                         ->_R Sym (GHC.Types.NTCo:IO[0] <()>_R))
+                        (\ hdl :: GHC.IO.Handle.Types.Handle[OneShot]
+                           eta1 :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                         GHC.IO.Handle.Text.hPutStr2
+                           hdl
+                           (GHC.Base.++
+                              @ GHC.Types.Char
+                              (GHC.Types.:
+                                 @ GHC.Types.Char
+                                 GHC.Show.shows9
+                                 (GHC.Types.:
+                                    @ GHC.Types.Char
+                                    GHC.Show.shows6
+                                    (case GHC.List.$wspan
+                                            @ GHC.Types.Char
+                                            IO.getRedirectTitle11
+                                            (Text.stringDropCmd msg) of ww { (#,#) ww1 ww2 ->
+                                     GHC.Show.showLitString
+                                       ww1
+                                       (GHC.Types.:
+                                          @ GHC.Types.Char
+                                          GHC.Show.shows6
+                                          (GHC.Types.:
+                                             @ GHC.Types.Char
+                                             GHC.Show.showList__1
+                                             (GHC.Show.$fShow(,,,)_$sgo
+                                                (\ eta2 :: GHC.Base.String ->
+                                                 GHC.Show.shows_$cshowList from eta2)
+                                                (let {
+                                                   ww4 :: [GHC.Types.Char]
+                                                   = Text.stringRegex
+                                                       (case Data.Time.Clock.POSIX.$wposixSecondsToUTCTime
+                                                               ipv1 of ww7 { (#,#) ww8 ww9 ->
+                                                        case Data.Time.LocalTime.LocalTime.$wutcToLocalTime
+                                                               Data.Time.LocalTime.TimeZone.utc
+                                                               ww8
+                                                               ww9 of ww3 { (#,#) ww10 ww5 ->
+                                                        Data.Time.LocalTime.LocalTime.$w$cshow1
+                                                          ww10
+                                                          ww5
+                                                          Data.Time.LocalTime.TimeZone.utc } })
+                                                       IO.saveTell6
+                                                 } in
+                                                 GHC.Types.:
+                                                   @ GHC.Show.ShowS
+                                                   (let {
+                                                      eta2 :: [GHC.Types.Char]
+                                                      = GHC.List.dropWhile
+                                                          @ GHC.Types.Char
+                                                          IO.saveTell5
+                                                          ww2
+                                                    } in
+                                                    \ eta3 :: GHC.Base.String ->
+                                                    GHC.Show.shows_$cshowList eta2 eta3)
+                                                   (GHC.Types.:
+                                                      @ GHC.Show.ShowS
+                                                      (\ eta2 :: GHC.Base.String ->
+                                                       GHC.Show.shows_$cshowList ww4 eta2)
+                                                      (GHC.Types.[] @ GHC.Show.ShowS)))
+                                                IO.saveTell4))) })))
+                              IO.saveTell3)
+                           GHC.Types.False
+                           eta1)
+                          `cast`
+                        (<GHC.IO.Handle.Types.Handle>_R
+                         ->_R Sym (GHC.Types.NTCo:IO[0] <()>_R))
+                        ipv2 of ds2 { (#,#) ipv4 ipv5 ->
+                 (# ipv4, IO.saveTell2 #) } } }) -}
+57759a1faf76a0abf791f9c4f38d9dd8
+  saveTell2 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "I'll be sure to pass that on for you."#) -}
+3d43eadedb308880eb6c6af79ae7c5dc
+  saveTell3 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "\n"#) -}
+a843e3cefeb99d59a20f6c0a075a5138
+  saveTell4 :: [GHC.Types.Char]
+  {- HasNoCafRefs,
+     Unfolding: (GHC.Types.:
+                   @ GHC.Types.Char
+                   GHC.Show.shows8
+                   (GHC.Types.[] @ GHC.Types.Char)) -}
+31d8e6d8eefe2804e491021e0c412d2e
+  saveTell5 :: GHC.Types.Char -> GHC.Types.Bool
+  {- Arity: 1, HasNoCafRefs, Strictness: <S(S),1*U(1*U)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: GHC.Types.Char ->
+                 case ds of wild { GHC.Types.C# c1 ->
+                 case c1 of wild1 {
+                   DEFAULT -> GHC.Types.False ' ' -> GHC.Types.True } }) -}
+a0a19a74fa3b74791e3cd4dc61a1cddf
+  saveTell6 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "[^\\.]*(?=:[0-9]{2}\\.)"#) -}
+c810c1d593ff7af8cafe6a31f3305f93
+  saveTell7 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld,
+          GHC.IO.Handle.Types.Handle #)
+  {- Arity: 1,
+     Unfolding: (GHC.IO.Handle.FD.openFile1
+                   IO.saveTell8
+                   GHC.IO.IOMode.AppendMode) -}
+41ed6673dc85fcdfdf97e91b899dde5d
+  saveTell8 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "/app/mssbot/telllist"#) -}
+09d48d462f3fcc3c546168cf5cdd3d17
+  send ::
+    Network.SimpleIRC.Core.MIrc
+    -> Network.SimpleIRC.Messages.IrcMessage
+    -> GHC.Base.String
+    -> GHC.Types.IO ()
+  {- Arity: 4,
+     Strictness: <S,1*U(U)><L,1*U(1*U,A,A,A,A,A,1*U,A,A,A)><L,1*U><L,U>,
+     Unfolding: InlineRule (0, True, True)
+                IO.send1
+                  `cast`
+                (<Network.SimpleIRC.Core.MIrc>_R
+                 ->_R <Network.SimpleIRC.Messages.IrcMessage>_R
+                 ->_R <GHC.Base.String>_R
+                 ->_R Sym (GHC.Types.NTCo:IO[0] <()>_R)) -}
+a4271690268fd8954f42e8343a60b5ca
+  send1 ::
+    Network.SimpleIRC.Core.MIrc
+    -> Network.SimpleIRC.Messages.IrcMessage
+    -> GHC.Base.String
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 4,
+     Strictness: <S,1*U(U)><L,1*U(1*U,A,A,A,A,A,1*U,A,A,A)><L,1*U><L,U>,
+     Inline: INLINE[0],
+     Unfolding: InlineRule (4, True, False)
+                (\ w :: Network.SimpleIRC.Core.MIrc
+                   w1 :: Network.SimpleIRC.Messages.IrcMessage
+                   w2 :: GHC.Base.String
+                   w3 :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 case w of ww { GHC.MVar.MVar ww1 -> IO.$wa ww1 w1 w2 w3 }) -}
+6a28d52b1476147d7d841e0a63708f27
+  tell ::
+    Network.SimpleIRC.Core.MIrc -> GHC.Base.String -> GHC.Types.IO ()
+  {- Arity: 3, Strictness: <L,1*U(U)><L,U><L,U>,
+     Unfolding: InlineRule (0, True, True)
+                IO.tell1
+                  `cast`
+                (<Network.SimpleIRC.Core.MIrc>_R
+                 ->_R <GHC.Base.String>_R
+                 ->_R Sym (GHC.Types.NTCo:IO[0] <()>_R)) -}
+e3542dbed460c468a670cc52a52fcfcd
+  tell1 ::
+    Network.SimpleIRC.Core.MIrc
+    -> GHC.Base.String
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 3, Strictness: <L,1*U(U)><L,U><L,U> -}
+"SPEC/IO $fRead(,,,) @ [Char] @ [Char] @ [Char] @ [Char]" [ALWAYS] forall $dRead :: GHC.Read.Read
+                                                                                      [GHC.Types.Char]
+                                                                          $dRead1 :: GHC.Read.Read
+                                                                                       [GHC.Types.Char]
+                                                                          $dRead2 :: GHC.Read.Read
+                                                                                       [GHC.Types.Char]
+                                                                          $dRead3 :: GHC.Read.Read
+                                                                                       [GHC.Types.Char]
+  GHC.Read.$fRead(,,,) @ [GHC.Types.Char]
+                       @ [GHC.Types.Char]
+                       @ [GHC.Types.Char]
+                       @ [GHC.Types.Char]
+                       $dRead
+                       $dRead1
+                       $dRead2
+                       $dRead3
+  = IO.$s$fRead(,,,)
+"SPEC/IO read @ (String, String, String, String)" [ALWAYS] forall $dRead :: GHC.Read.Read
+                                                                              (GHC.Base.String,
+                                                                               GHC.Base.String,
+                                                                               GHC.Base.String,
+                                                                               GHC.Base.String)
+  Text.Read.read @ (GHC.Base.String,
+                    GHC.Base.String,
+                    GHC.Base.String,
+                    GHC.Base.String)
+                 $dRead
+  = IO.$sread
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: none
+require own pkg trusted: False
+

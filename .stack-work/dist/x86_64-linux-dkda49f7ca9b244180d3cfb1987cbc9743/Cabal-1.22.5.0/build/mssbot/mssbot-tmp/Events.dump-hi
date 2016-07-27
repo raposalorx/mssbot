@@ -1,0 +1,297 @@
+
+==================== FINAL INTERFACE ====================
+2016-04-06 22:56:34.127002 UTC
+
+interface main@main:Events 7103
+  interface hash: 2d4c8aa11c82b7bb168d005383b19562
+  ABI hash: d2a9b8dad65c239f8a0cc74e7ebe5531
+  export-list hash: 798d8c85074e47ecb1e44e9334d45a5f
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: ffd98667f1842b8322b977e61c7d9d88
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Events.events
+module dependencies: IO Text
+package dependencies: array-0.5.1.0@array_67iodizgJQIIxYVTp4emlA
+                      asn1-encoding-0.9.3@asn1e_A0jeMIoYyiZ4PSPkybrUpF
+                      asn1-parse-0.9.4@asn1p_LrLFPvrxagO8jGmFd1SmqK
+                      asn1-types-0.3.2@asn1t_BR43uodYA6j1oMVNuWbt5p
+                      async-2.1.0@async_KuqnF1GrhHK5nNp6Zzm3jy base-4.8.2.0
+                      base64-bytestring-1.0.0.1@base6_AkCk8zInckjJsyQ4AIFHPN
+                      byteable-0.1.1@bytea_38yjJsjDRm9KusCn8Yo4aB
+                      bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6
+                      cereal-0.5.1.0@cerea_843xOxvPj94HAJ9SD4EJuq
+                      connection-0.2.5@conne_CuwSS0Usisp8tvPFRsfl8I
+                      containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU
+                      cryptonite-0.10@crypt_9z0j8QI27Av2VIWw0mEkTO
+                      data-default-class-0.0.1@datad_K91y8NcZUJI9yaBI61rgdD
+                      deepseq-1.4.1.1@deeps_6vMKxt5sPFR0XsbRWvvq59
+                      directory-1.2.2.0@direc_0hFG6ZxK1nk4zsyOqbNHfm
+                      filepath-1.4.0.0@filep_Ey7a1in9roBAE8bUFJ5R9m ghc-prim-0.4.0.0
+                      hourglass-0.2.10@hourg_LCfvpegcEVDEeuH0foNCGl integer-gmp-1.0.0.0
+                      memory-0.11@memor_0EiEBIg44i8KGjAeoKnPDs
+                      mtl-2.2.1@mtl_Aue4leSeVkpKLsfHIV51E8
+                      network-2.6.2.1@netwo_A6pE0dLgMEk2GtUa1JtTJQ
+                      pem-0.2.2@pem_68T9LQQkAB02O0OO4VHaxc
+                      process-1.2.3.0@proce_52AgREEfSrnJLlkGV9YZZJ
+                      random-1.1@rando_9Kgekc9yEaLHLNUuw6paWL
+                      regex-base-0.93.2@regex_47KXx9dLqeO8MNJeizLKhP
+                      regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU
+                      simpleirc-0.3.1@simpl_8XLCtlyIFxlHjx0Q1X3hDR
+                      socks-0.5.4@socks_BZJ6e1EePGtK56UKTxGOcA
+                      stm-2.4.4.1@stm_EyxFXFfnfY05IrjGaqCxeD
+                      tagsoup-0.13.9@tagso_3I5x83DoCVBIz4INMBLU3R
+                      time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn
+                      tls-1.3.4@tls_JvHmsuTo5yN8FKXS7TwXzo
+                      transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF
+                      unix-2.7.1.0@unix_KZL8h98IqDM57kQSPo1mKx
+                      utf8-string-1.0.1.1@utf8s_L8eKHa7Iv9q7FVKUYW6u4b
+                      x509-1.6.3@x509_EUmMVSl6w2w3X0XDEe6o9j
+                      x509-store-1.6.1@x509s_DRxbulEQC602MUMwjQ8WGy
+                      x509-system-1.6.3@x509s_F9nR2A13AOT6cAw1re7jUB
+                      x509-validation-1.6.3@x509v_JPQPXw7FuFXLx3vcY0f8CP
+orphans: base-4.8.2.0:GHC.Base base-4.8.2.0:GHC.Float
+         bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString.Builder
+         network-2.6.2.1@netwo_A6pE0dLgMEk2GtUa1JtTJQ:Network.Socket
+         network-2.6.2.1@netwo_A6pE0dLgMEk2GtUa1JtTJQ:Network.Socket.Types
+         regex-base-0.93.2@regex_47KXx9dLqeO8MNJeizLKhP:Text.Regex.Base.Context
+         regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU:Text.Regex.PCRE.ByteString
+         regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU:Text.Regex.PCRE.ByteString.Lazy
+         regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU:Text.Regex.PCRE.Sequence
+         regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU:Text.Regex.PCRE.String
+         stm-2.4.4.1@stm_EyxFXFfnfY05IrjGaqCxeD:Control.Monad.STM
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Calendar.Gregorian
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Format.Parse
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.LocalTime.LocalTime
+         transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF:Control.Monad.Trans.Error
+family instance modules: base-4.8.2.0:Control.Applicative
+                         base-4.8.2.0:Data.Either base-4.8.2.0:Data.Functor.Identity
+                         base-4.8.2.0:Data.Monoid base-4.8.2.0:Data.Type.Equality
+                         base-4.8.2.0:Data.Void base-4.8.2.0:GHC.Exts
+                         base-4.8.2.0:GHC.Generics
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntMap.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntSet.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Map.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Sequence
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Set.Base
+import  -/  base-4.8.2.0:Control.Applicative a8ebf5ad4932b411ad7725da68be9801
+import  -/  base-4.8.2.0:Control.Exception e9090e246fba030faecf7b81b3e8e320
+import  -/  base-4.8.2.0:Control.Exception.Base b99410eaf0cc6bb119b1d45a497c1b10
+import  -/  base-4.8.2.0:Control.Monad 480c5067477275068c9b98be08410df9
+import  -/  base-4.8.2.0:Data.Either e8724afd65fd432cfe9a54014f5f762d
+import  -/  base-4.8.2.0:Data.Foldable 2ce969969ad5231eb40bd713f94f05ad
+import  -/  base-4.8.2.0:Data.Functor 5c701b0af1708f0192a25dfe14ce6274
+import  -/  base-4.8.2.0:Data.Maybe 1cb58de2b04ee3c0c0a7dc9201184aff
+import  -/  base-4.8.2.0:Data.OldList d8fd80b0e14aa085ce6219cd89dad356
+import  -/  base-4.8.2.0:Data.Traversable 7576318f4ef8587ad947f87012b65abf
+import  -/  base-4.8.2.0:GHC.Base 1db77db5dae73d8c424c85b09fbadb89
+import  -/  base-4.8.2.0:GHC.List 0c736920522bbd14b770342776012ab6
+import  -/  base-4.8.2.0:GHC.Num 9f42750c866f5832ca565146bd660c60
+import  -/  base-4.8.2.0:GHC.Show 0e1d8380a8fb0cfb07ebeda3b70cbf38
+import  -/  base-4.8.2.0:Prelude 694dcaf039efe62df1c44834e2dbd2fb
+import  -/  base-4.8.2.0:System.IO 0248c1e850b7ea124cf7a2e1669ebf67
+import  -/  base-4.8.2.0:System.IO.Error f5a335c06e44d129ccf60f6e0a972e9f
+import  -/  bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString 4d711736b0a2cbe42c3b3c3f195a9aad
+import  -/  bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString.Char8 37d7fc2450e7a10cf43b1635ae1e21a8
+import  -/  bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString.Internal 9f30be13d4c49eabc652d3eef55cc512
+import  -/  ghc-prim-0.4.0.0:GHC.Classes e1f4ff80f7b5262008a595d29986fb18
+import  -/  ghc-prim-0.4.0.0:GHC.Types 6b27fb3fdbd0e3f0925a4496c66513bb
+import  -/  IO 79785ee2714a171a87b20d6cc030471b
+  exports: d1c3687da48736066dc357b0434a0e52
+  address 558f77fb2bbc99f21cc7cdf5334cb666
+  getRedirectTitle 22bd2f180875ee604226f8d51eaf8c3f
+  getTitle 40767b734948a74f3184a0e950bbd435
+  getTitleFile e8226fdfbafcdb842cde53ef5a006f73
+  roll bb06bb55b386b042d5ff2ad66df11ce1
+  runCmd 9e41d924d9efe3d6b20c48c5e276f043
+  saveTell 928b277a992c780a3b5a201cab2bd4fb
+  send 09d48d462f3fcc3c546168cf5cdd3d17
+  tell 6a28d52b1476147d7d841e0a63708f27
+import  -/  Text 99ec93713a08824116c17091cf1441eb
+  exports: d57d626558e0e5c33684c47dc77356be
+  googlestr 4b290d0e40b3b55ccf2c102d0e43f7b3
+  helpstr f5540c929cc199d836516e1eccfd30e0
+  helpstrs 2ff3cb0280d30757636ed7a88128b563
+  killSpaces 5aa77f6c6aad93b624d408bceafdc996
+  matchDice 736a59aab2b463d5c06c157a0d8fbce0
+  matchUrl 8185c1958101d9c417821a6ea5be49c0
+  spaceToPlus db31c58d567b44f391d82f016f7bbdb5
+  stringDropCmd 43f7492417542d5c1aa4423a82f99656
+  stringRegex 2296148bda8f0b52b4416f31c7ac6f72
+  unescapeEntities a4e75691350bbc12878da231e7749c82
+  wikistr 0a40067bfc50f184a2bfc9f3fdb55732
+  wrapDie 87aa4dfbb0760028dfb9e39546901a0c
+  youstr fd294da7969474fc59acbb8f26943460
+import  -/  simpleirc-0.3.1@simpl_8XLCtlyIFxlHjx0Q1X3hDR:Network.SimpleIRC 1e1ba7f38153741070330d813e6c11ad
+import  -/  simpleirc-0.3.1@simpl_8XLCtlyIFxlHjx0Q1X3hDR:Network.SimpleIRC.Core d0486eaab900e767b022a4fdc0ccdfb5
+import  -/  simpleirc-0.3.1@simpl_8XLCtlyIFxlHjx0Q1X3hDR:Network.SimpleIRC.Messages 0ca356ebd116583e9fefe65751288355
+import  -/  utf8-string-1.0.1.1@utf8s_L8eKHa7Iv9q7FVKUYW6u4b:Data.ByteString.UTF8 152d1b03b46906bf362d6f6ba297a986
+d27e51db6f4067bc071172e8ebdaada7
+  $wa ::
+    Network.SimpleIRC.Core.MIrc
+    -> GHC.Base.Maybe Data.ByteString.Internal.ByteString
+    -> GHC.Prim.Addr#
+    -> GHC.ForeignPtr.ForeignPtrContents
+    -> GHC.Prim.Int#
+    -> GHC.Prim.Int#
+    -> GHC.Base.Maybe Data.ByteString.Internal.ByteString
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 8,
+     Strictness: <L,1*U(U)><L,U><L,U><L,U><L,U><L,U><L,U><L,U>,
+     Inline: [0] -}
+56aef13bbc6757bad06000176a789490
+  events :: [Network.SimpleIRC.Core.IrcEvent]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Network.SimpleIRC.Core.IrcEvent
+                   Events.events11
+                   Events.events1) -}
+ba1145e6a2d81154018d3e411178f20c
+  events1 :: [Network.SimpleIRC.Core.IrcEvent]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Network.SimpleIRC.Core.IrcEvent
+                   Events.events10
+                   Events.events2) -}
+d6b00feff1c233d951f637191505ecfd
+  events10 :: Network.SimpleIRC.Core.IrcEvent
+  {- Strictness: m14,
+     Unfolding: (Network.SimpleIRC.Core.Disconnect
+                   Events.events6
+                     `cast`
+                   (<Network.SimpleIRC.Core.MIrc>_R
+                    ->_R Sym (GHC.Types.NTCo:IO[0] <()>_R))) -}
+795433f5237e913aa570ecd0b1fde5c7
+  events11 :: Network.SimpleIRC.Core.IrcEvent
+  {- Strictness: m1,
+     Unfolding: (Network.SimpleIRC.Core.Privmsg
+                   Events.events12
+                     `cast`
+                   (<Network.SimpleIRC.Core.MIrc>_R
+                    ->_R <Network.SimpleIRC.Messages.IrcMessage>_R
+                    ->_R Sym (GHC.Types.NTCo:IO[0] <()>_R))) -}
+cc19a21da5a0da8097ed509563961254
+  events12 ::
+    Network.SimpleIRC.Core.MIrc
+    -> Network.SimpleIRC.Messages.IrcMessage
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 3,
+     Strictness: <L,1*U(U)><S(LLLLLSLLLL),1*U(U,A,A,A,A,1*U(U,U,U,U),U,A,A,A)><L,U>,
+     Inline: INLINE[0],
+     Unfolding: InlineRule (3, True, False)
+                (\ w :: Network.SimpleIRC.Core.MIrc
+                   w1 :: Network.SimpleIRC.Messages.IrcMessage
+                   w2 :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 case w1 of ww { Network.SimpleIRC.Messages.IrcMessage ww1 ww2 ww3 ww4 ww5 ww6 ww7 ww8 ww9 ww10 ->
+                 case ww6 of ww11 { Data.ByteString.Internal.PS ww12 ww13 ww14 ww15 ->
+                 Events.$wa w ww1 ww12 ww13 ww14 ww15 ww7 w2 } }) -}
+456150214f35122e6a24dc9cd329970b
+  events2 :: [Network.SimpleIRC.Core.IrcEvent]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Network.SimpleIRC.Core.IrcEvent
+                   Events.events8
+                   Events.events3) -}
+6a46cde3cb1df534716dae3976637d1d
+  events3 :: [Network.SimpleIRC.Core.IrcEvent]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Network.SimpleIRC.Core.IrcEvent
+                   Events.events4
+                   (GHC.Types.[] @ Network.SimpleIRC.Core.IrcEvent)) -}
+502df09854b96f9b68b2a43b8e370538
+  events4 :: Network.SimpleIRC.Core.IrcEvent
+  {- Strictness: m10,
+     Unfolding: (Network.SimpleIRC.Core.Quit
+                   Events.events5
+                     `cast`
+                   (<Network.SimpleIRC.Core.MIrc>_R
+                    ->_R <Network.SimpleIRC.Messages.IrcMessage>_R
+                    ->_R Sym (GHC.Types.NTCo:IO[0] <()>_R))) -}
+eac02e8d9f4e818e0eb7c660052bf1cb
+  events5 ::
+    Network.SimpleIRC.Core.MIrc
+    -> Network.SimpleIRC.Messages.IrcMessage
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 3, Strictness: <L,1*U(U)><L,A><L,U>, Inline: INLINE[0],
+     Unfolding: InlineRule (3, True, True)
+                (\ w :: Network.SimpleIRC.Core.MIrc
+                   w1 :: Network.SimpleIRC.Messages.IrcMessage
+                   w2 :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 Events.events6 w w2) -}
+c5b21ede2826716d499ca23f32edfc5d
+  events6 ::
+    Network.SimpleIRC.Core.MIrc
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 2, Strictness: <L,1*U(U)><L,U>,
+     Unfolding: (\ mIrc :: Network.SimpleIRC.Core.MIrc
+                   eta :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 case Network.SimpleIRC.Core.reconnect1
+                        mIrc
+                        eta of ds1 { (#,#) ipv ipv1 ->
+                 case ipv1 of wild {
+                   Data.Either.Left x
+                   -> GHC.IO.Handle.Text.hPutStr2
+                        GHC.IO.Handle.FD.stdout
+                        (GHC.CString.unpackAppendCString#
+                           "Unable to reconnect: "#
+                           (case x of ww { GHC.IO.Exception.IOError ww1 ww2 ww3 ww4 ww5 ww6 ->
+                            GHC.IO.Exception.$w$cshowsPrec2
+                              ww1
+                              ww2
+                              ww3
+                              ww4
+                              ww6
+                              (GHC.Types.[] @ GHC.Types.Char) }))
+                        GHC.Types.True
+                        ipv
+                   Data.Either.Right y
+                   -> GHC.IO.Handle.Text.hPutStr2
+                        GHC.IO.Handle.FD.stdout
+                        Events.events7
+                        GHC.Types.True
+                        ipv } }) -}
+dcc1626c0a3868ed93b5c7da3b3f8dd4
+  events7 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "Successfully reconnected."#) -}
+632a8eccb189764073b7f64d1c58c183
+  events8 :: Network.SimpleIRC.Core.IrcEvent
+  {- Strictness: m13,
+     Unfolding: (Network.SimpleIRC.Core.RawMsg
+                   Events.events9
+                     `cast`
+                   (<Network.SimpleIRC.Core.MIrc>_R
+                    ->_R <Network.SimpleIRC.Messages.IrcMessage>_R
+                    ->_R Sym (GHC.Types.NTCo:IO[0] <()>_R))) -}
+7ad8362b881acebfec31253231410e0e
+  events9 ::
+    Network.SimpleIRC.Core.MIrc
+    -> Network.SimpleIRC.Messages.IrcMessage
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 3,
+     Strictness: <L,A><L,1*U(1*U,1*U,1*U,1*U,U(U,U,U,U),U(U,U,U,U),1*U,1*U,1*U,U(U,U,U,U))><L,U>,
+     Unfolding: InlineRule (3, True, False)
+                (\ s :: Network.SimpleIRC.Core.MIrc
+                   eta :: Network.SimpleIRC.Messages.IrcMessage
+                   eta1 :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 GHC.IO.Handle.Text.hPutStr2
+                   GHC.IO.Handle.FD.stdout
+                   (Network.SimpleIRC.Messages.$fShowIrcMessage_$cshow eta)
+                   GHC.Types.True
+                   eta1) -}
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: none
+require own pkg trusted: False
+

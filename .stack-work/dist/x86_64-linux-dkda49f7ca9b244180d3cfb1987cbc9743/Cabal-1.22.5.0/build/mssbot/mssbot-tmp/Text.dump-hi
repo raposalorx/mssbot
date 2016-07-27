@@ -1,0 +1,800 @@
+
+==================== FINAL INTERFACE ====================
+2016-03-24 21:59:30.474158 UTC
+
+interface main@main:Text [hpc] 7103
+  interface hash: 9a703317d76685b983be6a969e475d18
+  ABI hash: f8423c19e17ce87b83ec87fa35c933e1
+  export-list hash: d57d626558e0e5c33684c47dc77356be
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: c4fbf4309edd68639f60c0a155598f35
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Text.googlestr
+  Text.helpstr
+  Text.helpstrs
+  Text.killSpaces
+  Text.lower
+  Text.matchDice
+  Text.matchTitle
+  Text.matchUrl
+  Text.spaceToPlus
+  Text.stringDropCmd
+  Text.stringRegex
+  Text.unescapeEntities
+  Text.wikistr
+  Text.wrapDie
+  Text.youstr
+module dependencies:
+package dependencies: array-0.5.1.0@array_67iodizgJQIIxYVTp4emlA
+                      base-4.8.2.0 bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6
+                      containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU
+                      deepseq-1.4.1.1@deeps_6vMKxt5sPFR0XsbRWvvq59 ghc-prim-0.4.0.0
+                      integer-gmp-1.0.0.0 regex-base-0.93.2@regex_47KXx9dLqeO8MNJeizLKhP
+                      regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU
+                      tagsoup-0.13.9@tagso_3I5x83DoCVBIz4INMBLU3R
+                      utf8-string-1.0.1.1@utf8s_L8eKHa7Iv9q7FVKUYW6u4b
+orphans: base-4.8.2.0:GHC.Base base-4.8.2.0:GHC.Float
+         regex-base-0.93.2@regex_47KXx9dLqeO8MNJeizLKhP:Text.Regex.Base.Context
+         regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU:Text.Regex.PCRE.ByteString
+         regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU:Text.Regex.PCRE.ByteString.Lazy
+         regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU:Text.Regex.PCRE.Sequence
+         regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU:Text.Regex.PCRE.String
+family instance modules: base-4.8.2.0:Control.Applicative
+                         base-4.8.2.0:Data.Either base-4.8.2.0:Data.Functor.Identity
+                         base-4.8.2.0:Data.Monoid base-4.8.2.0:Data.Type.Equality
+                         base-4.8.2.0:Data.Void base-4.8.2.0:GHC.Exts
+                         base-4.8.2.0:GHC.Generics
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntMap.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntSet.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Map.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Sequence
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Set.Base
+import  -/  base-4.8.2.0:Data.Char c8f827952d4111ae2e47c0b105217cdb
+import  -/  base-4.8.2.0:Data.Foldable 2ce969969ad5231eb40bd713f94f05ad
+import  -/  base-4.8.2.0:Data.OldList d8fd80b0e14aa085ce6219cd89dad356
+import  -/  base-4.8.2.0:GHC.Base 1db77db5dae73d8c424c85b09fbadb89
+import  -/  base-4.8.2.0:GHC.List 0c736920522bbd14b770342776012ab6
+import  -/  base-4.8.2.0:GHC.Unicode cdf84fc3abbaf34ba6b6645291cef991
+import  -/  base-4.8.2.0:Prelude 694dcaf039efe62df1c44834e2dbd2fb
+import  -/  base-4.8.2.0:Text.Read ef0ef92fb7358ae94bab089940adfd2a
+import  -/  bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString 4d711736b0a2cbe42c3b3c3f195a9aad
+import  -/  bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString.Char8 37d7fc2450e7a10cf43b1635ae1e21a8
+import  -/  bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString.Internal 9f30be13d4c49eabc652d3eef55cc512
+import  -/  ghc-prim-0.4.0.0:GHC.Classes e1f4ff80f7b5262008a595d29986fb18
+import  -/  regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU:Text.Regex.PCRE 5893601fa221f57c0033f7c16decd9a8
+import  -/  regex-pcre-0.94.4@regex_D90DoxwgsTHEvoLrkciZPU:Text.Regex.PCRE.Wrap aa8ed8a094f5049b0e26f4cf7e1fdd5b
+import  -/  tagsoup-0.13.9@tagso_3I5x83DoCVBIz4INMBLU3R:Text.HTML.TagSoup.Entity fe5ef5c1323a548cefdab9c8629333ba
+import  -/  utf8-string-1.0.1.1@utf8s_L8eKHa7Iv9q7FVKUYW6u4b:Data.ByteString.UTF8 152d1b03b46906bf362d6f6ba297a986
+054773e187d8e169ac7ad0f5ac5df86c
+  $wa ::
+    GHC.Base.String
+    -> (# GHC.Types.Int, GHC.Types.Int, GHC.Types.Int, GHC.Types.Int #)
+  {- Arity: 1, Strictness: <L,U>, Inline: [0],
+     Unfolding: (\ w :: GHC.Base.String ->
+                 case {__scc {main@main:Text.wrapDie} False True} {__scc {main@main:Text.wrapDie.\} True False} ({__scc {main@main:Text.wrapDie.\} False True} {__scc {main@main:Text.dieD} True True} let {
+                                                                                                                                                                                                         b :: GHC.Base.String
+                                                                                                                                                                                                         = {__scc {main@main:Text.dieD.b} True True} Text.stringRegex
+                                                                                                                                                                                                                                                       w
+                                                                                                                                                                                                                                                       Text.wrapDie21
+                                                                                                                                                                                                       } in
+                                                                                                                                                                                                       case GHC.Base.eqString
+                                                                                                                                                                                                              b
+                                                                                                                                                                                                              Text.wrapDie20 of wild {
+                                                                                                                                                                                                         GHC.Types.False
+                                                                                                                                                                                                         -> case Text.Read.readEither6
+                                                                                                                                                                                                                   @ GHC.Types.Int
+                                                                                                                                                                                                                   (Text.ParserCombinators.ReadP.run
+                                                                                                                                                                                                                      @ GHC.Types.Int
+                                                                                                                                                                                                                      Text.wrapDie19
+                                                                                                                                                                                                                      b) of wild1 {
+                                                                                                                                                                                                              []
+                                                                                                                                                                                                              -> Text.wrapDie18
+                                                                                                                                                                                                              : x ds
+                                                                                                                                                                                                              -> case ds of wild2 {
+                                                                                                                                                                                                                   []
+                                                                                                                                                                                                                   -> x
+                                                                                                                                                                                                                   : ipv ipv1
+                                                                                                                                                                                                                   -> Text.wrapDie17 } }
+                                                                                                                                                                                                         GHC.Types.True
+                                                                                                                                                                                                         -> Text.wrapDie16 },
+                                                                                                                 {__scc {main@main:Text.wrapDie.\} False True} {__scc {main@main:Text.dieMulti} True True} case {__scc {main@main:Text.dieMulti.b} True True} Text.stringRegex
+                                                                                                                                                                                                                                                                w
+                                                                                                                                                                                                                                                                Text.wrapDie15 of wild {
+                                                                                                                                                                                                             []
+                                                                                                                                                                                                             -> Text.wrapDie14
+                                                                                                                                                                                                             : ds1 ds2
+                                                                                                                                                                                                             -> case Text.Read.readEither6
+                                                                                                                                                                                                                       @ GHC.Types.Int
+                                                                                                                                                                                                                       (Text.ParserCombinators.ReadP.run
+                                                                                                                                                                                                                          @ GHC.Types.Int
+                                                                                                                                                                                                                          Text.wrapDie13
+                                                                                                                                                                                                                          wild) of wild1 {
+                                                                                                                                                                                                                  []
+                                                                                                                                                                                                                  -> Text.wrapDie12
+                                                                                                                                                                                                                  : x ds
+                                                                                                                                                                                                                  -> case ds of wild2 {
+                                                                                                                                                                                                                       []
+                                                                                                                                                                                                                       -> x
+                                                                                                                                                                                                                       : ipv ipv1
+                                                                                                                                                                                                                       -> Text.wrapDie11 } } },
+                                                                                                                 {__scc {main@main:Text.wrapDie.\} False True} {__scc {main@main:Text.dieOffset} True True} case {__scc {main@main:Text.dieOffset.b} True True} Text.stringRegex
+                                                                                                                                                                                                                                                                  w
+                                                                                                                                                                                                                                                                  Text.wrapDie10 of wild {
+                                                                                                                                                                                                              []
+                                                                                                                                                                                                              -> Text.wrapDie9
+                                                                                                                                                                                                              : ds1 ds2
+                                                                                                                                                                                                              -> case ds1 of wild1 { GHC.Types.C# c1 ->
+                                                                                                                                                                                                                 case c1 of wild2 {
+                                                                                                                                                                                                                   DEFAULT
+                                                                                                                                                                                                                   -> case Text.Read.readEither6
+                                                                                                                                                                                                                             @ GHC.Types.Int
+                                                                                                                                                                                                                             (Text.ParserCombinators.ReadP.run
+                                                                                                                                                                                                                                @ GHC.Types.Int
+                                                                                                                                                                                                                                Text.wrapDie8
+                                                                                                                                                                                                                                wild) of wild3 {
+                                                                                                                                                                                                                        []
+                                                                                                                                                                                                                        -> Text.wrapDie7
+                                                                                                                                                                                                                        : x ds
+                                                                                                                                                                                                                        -> case ds of wild4 {
+                                                                                                                                                                                                                             []
+                                                                                                                                                                                                                             -> x
+                                                                                                                                                                                                                             : ipv ipv1
+                                                                                                                                                                                                                             -> Text.wrapDie6 } }
+                                                                                                                                                                                                                   '+'
+                                                                                                                                                                                                                   -> case Text.Read.readEither6
+                                                                                                                                                                                                                             @ GHC.Types.Int
+                                                                                                                                                                                                                             (Text.ParserCombinators.ReadP.run
+                                                                                                                                                                                                                                @ GHC.Types.Int
+                                                                                                                                                                                                                                Text.wrapDie8
+                                                                                                                                                                                                                                (Text.$wunsafeDrop
+                                                                                                                                                                                                                                   @ GHC.Types.Char
+                                                                                                                                                                                                                                   1
+                                                                                                                                                                                                                                   wild)) of wild3 {
+                                                                                                                                                                                                                        []
+                                                                                                                                                                                                                        -> Text.wrapDie7
+                                                                                                                                                                                                                        : x ds
+                                                                                                                                                                                                                        -> case ds of wild4 {
+                                                                                                                                                                                                                             []
+                                                                                                                                                                                                                             -> x
+                                                                                                                                                                                                                             : ipv ipv1
+                                                                                                                                                                                                                             -> Text.wrapDie6 } } } } },
+                                                                                                                 {__scc {main@main:Text.wrapDie.\} False True} {__scc {main@main:Text.dieLoop} True True} case {__scc {main@main:Text.dieLoop.b} True True} Text.stringRegex
+                                                                                                                                                                                                                                                              w
+                                                                                                                                                                                                                                                              Text.wrapDie5 of wild {
+                                                                                                                                                                                                            []
+                                                                                                                                                                                                            -> Text.wrapDie14
+                                                                                                                                                                                                            : ds1 ds2
+                                                                                                                                                                                                            -> case Text.Read.readEither6
+                                                                                                                                                                                                                      @ GHC.Types.Int
+                                                                                                                                                                                                                      (Text.ParserCombinators.ReadP.run
+                                                                                                                                                                                                                         @ GHC.Types.Int
+                                                                                                                                                                                                                         Text.wrapDie4
+                                                                                                                                                                                                                         wild) of wild1 {
+                                                                                                                                                                                                                 []
+                                                                                                                                                                                                                 -> Text.wrapDie3
+                                                                                                                                                                                                                 : x ds
+                                                                                                                                                                                                                 -> case ds of wild2 {
+                                                                                                                                                                                                                      []
+                                                                                                                                                                                                                      -> x
+                                                                                                                                                                                                                      : ipv ipv1
+                                                                                                                                                                                                                      -> Text.wrapDie2 } } }) of ww { (,,,) ww1 ww2 ww3 ww4 ->
+                 (# ww1, ww2, ww3, ww4 #) }) -}
+41ba520f52c1ec499c5f973753e1c688
+  $wunsafeDrop :: GHC.Prim.Int# -> [a1] -> [a1]
+  {- Arity: 2, HasNoCafRefs, Strictness: <L,1*U><S,1*U>,
+     Inline: [0] -}
+6c4a0f60f8a2bb89ecaee1149654c8aa
+  googlestr :: [GHC.Types.Char] -> [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.googlestr} True True} GHC.Base.++
+                                                                @ GHC.Types.Char
+                                                                Text.googlestr1) -}
+65dc250d00cafec47d3f9f22adfa434d
+  googlestr1 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.googlestr} False True} GHC.CString.unpackCString#
+                                                                 "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&safe=off&q="#) -}
+57e3f7f31f9abe4179bc7a646234dc4e
+  helpstr :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstr} True True} GHC.CString.unpackCString#
+                                                              "Commands (prefix ?): h[elp] [command], tell <nick> <message>, ping [url], t[itle] [url], g <query>, wik <query>, tube <query>, d <[x|]<y>d<z>[+/-w]>..."#) -}
+222554453ba85bca333ab2f7c31c446e
+  helpstrs :: [([GHC.Types.Char], [GHC.Types.Char])]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} True False} GHC.Types.:
+                                                                @ ([GHC.Types.Char],
+                                                                   [GHC.Types.Char])
+                                                                Text.helpstrs29
+                                                                Text.helpstrs1) -}
+aacb667aee5c13d23c21a8bc5f717056
+  helpstrs1 :: [([GHC.Types.Char], [GHC.Types.Char])]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ ([GHC.Types.Char], [GHC.Types.Char])
+                   Text.helpstrs26
+                   Text.helpstrs2) -}
+da78682f9860cadc8af1c19ced13f71f
+  helpstrs10 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "d"#) -}
+9239a30f22b7893ab1d1d95c966a5677
+  helpstrs11 :: ([GHC.Types.Char], [GHC.Types.Char])
+  {- Strictness: m,
+     Unfolding: ((Text.helpstrs13, Text.helpstrs12)) -}
+62ddf4a336463e8a9b9f79b82609fbbd
+  helpstrs12 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "?tube <query> - Return the first youtube search result matching query."#) -}
+e9c12516295d34c52cacd6d1d889a77e
+  helpstrs13 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "tube"#) -}
+36378fff2b88abd9d08cc2094ac0c29c
+  helpstrs14 :: ([GHC.Types.Char], [GHC.Types.Char])
+  {- Strictness: m,
+     Unfolding: ((Text.helpstrs16, Text.helpstrs15)) -}
+f0bff9e34fee0447b2a366f2d1c22f38
+  helpstrs15 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "?wik <query> - Return the first wikipedia search result matching query."#) -}
+9b15c1dbf520e4775399a884c265c9ca
+  helpstrs16 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "wik"#) -}
+612ccaac81e6b92781a43475dc8923d8
+  helpstrs17 :: ([GHC.Types.Char], [GHC.Types.Char])
+  {- Strictness: m,
+     Unfolding: ((Text.helpstrs19, Text.helpstrs18)) -}
+302f78628b17be9364715015fcbf6349
+  helpstrs18 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "?g <query> - Return the first google search result matching query."#) -}
+dcc6c6b951559219d2ea060dad83d914
+  helpstrs19 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "g"#) -}
+1697d42aac15c433fb9382cd95e5b80e
+  helpstrs2 :: [([GHC.Types.Char], [GHC.Types.Char])]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ ([GHC.Types.Char], [GHC.Types.Char])
+                   Text.helpstrs23
+                   Text.helpstrs3) -}
+87bd6e9c75a6f6ccc76f0ea57edc5564
+  helpstrs20 :: ([GHC.Types.Char], [GHC.Types.Char])
+  {- Strictness: m,
+     Unfolding: ((Text.helpstrs22, Text.helpstrs21)) -}
+04bc4c1bf523409e5157a908b37989b9
+  helpstrs21 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "?t[itle] [url] - Gets either url or the previous URL from the channel."#) -}
+c02d695f4ea0bd3f7874f1aa849a8b9d
+  helpstrs22 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "t"#) -}
+b63e10f497d3967e86f8d6585fe03f75
+  helpstrs23 :: ([GHC.Types.Char], [GHC.Types.Char])
+  {- Strictness: m,
+     Unfolding: ((Text.helpstrs25, Text.helpstrs24)) -}
+14e320d6cbe7a851cfd4b95d59e32a6e
+  helpstrs24 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "?ping [url] - Ping a site and return it's response time. Or just pong the user."#) -}
+ee401480127b148076ea9a7ed3635363
+  helpstrs25 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "ping"#) -}
+592198da83fa7c3d63d23451b3d788c5
+  helpstrs26 :: ([GHC.Types.Char], [GHC.Types.Char])
+  {- Strictness: m,
+     Unfolding: ((Text.helpstrs28, Text.helpstrs27)) -}
+fea15f5ea4fa933638e498e7b5ac2d18
+  helpstrs27 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "?tell <nick> <message> - Send \"<nick> tell message\" as a PM to nick next time they speak."#) -}
+70b36a9c7c19ae48c8de7a18524e2c8b
+  helpstrs28 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "tell"#) -}
+2bd37a462b7b81b0d298f92443121c61
+  helpstrs29 :: ([GHC.Types.Char], [GHC.Types.Char])
+  {- Strictness: m,
+     Unfolding: ((Text.helpstrs31, Text.helpstrs30)) -}
+351ed129d67e80ce7ad163f24da3bd7f
+  helpstrs3 :: [([GHC.Types.Char], [GHC.Types.Char])]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ ([GHC.Types.Char], [GHC.Types.Char])
+                   Text.helpstrs20
+                   Text.helpstrs4) -}
+40e3282e728643da09bd25194956857e
+  helpstrs30 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "?h[elp] [command] - A help dialog for command, Or a list of commands."#) -}
+c34b745b281016ba08b0c4c021aa0c13
+  helpstrs31 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "h"#) -}
+12dcca15e72e8e933b25985a8da8a9c8
+  helpstrs4 :: [([GHC.Types.Char], [GHC.Types.Char])]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ ([GHC.Types.Char], [GHC.Types.Char])
+                   Text.helpstrs17
+                   Text.helpstrs5) -}
+f5732306655d73646c925854d2a941fd
+  helpstrs5 :: [([GHC.Types.Char], [GHC.Types.Char])]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ ([GHC.Types.Char], [GHC.Types.Char])
+                   Text.helpstrs14
+                   Text.helpstrs6) -}
+4cd94ccc280ac865072a32a21123d3e2
+  helpstrs6 :: [([GHC.Types.Char], [GHC.Types.Char])]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ ([GHC.Types.Char], [GHC.Types.Char])
+                   Text.helpstrs11
+                   Text.helpstrs7) -}
+9cbd08cc7474a628ec392a3174b93949
+  helpstrs7 :: [([GHC.Types.Char], [GHC.Types.Char])]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ ([GHC.Types.Char], [GHC.Types.Char])
+                   Text.helpstrs8
+                   (GHC.Types.[] @ ([GHC.Types.Char], [GHC.Types.Char]))) -}
+124004caf308f89db33734c92a6480a4
+  helpstrs8 :: ([GHC.Types.Char], [GHC.Types.Char])
+  {- Strictness: m, Unfolding: ((Text.helpstrs10, Text.helpstrs9)) -}
+c26dcd3e2ead9deed0fb8aa3314e56db
+  helpstrs9 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.helpstrs} False True} GHC.CString.unpackCString#
+                                                                "?d <[x|]<y>d<z>[+/-w]>... - Sum of the values of y dice with z (% gives a percent) sides, plus or minus w, x times."#) -}
+5aa77f6c6aad93b624d408bceafdc996
+  killSpaces :: GHC.Base.String -> GHC.Base.String
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U> -}
+299bf54dd4cee1a87ad8a3fb3ac28042
+  lower :: [GHC.Types.Char] -> [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.lower} True True} GHC.Base.map
+                                                            @ GHC.Types.Char
+                                                            @ GHC.Types.Char
+                                                            GHC.Unicode.toLower) -}
+3a83525cbc4fede746f25ab7878f1a22
+  matchDice :: GHC.Base.String -> [GHC.Base.String]
+  {- Unfolding: ({__scc {main@main:Text.matchDice} True False} \ x :: GHC.Base.String ->
+                                                               {__scc {main@main:Text.matchDice} False True} ({__scc {main@main:Text.matchDice} False True} GHC.Base.map
+                                                                                                                                                              @ [GHC.Base.String]
+                                                                                                                                                              @ GHC.Base.String
+                                                                                                                                                              (GHC.List.head
+                                                                                                                                                                 @ GHC.Base.String))
+                                                                                                               ({__scc {main@main:Text.matchDice} False True} {__scc {main@main:Text.listRegex} True True} Text.Regex.Base.Context.$fRegexContextabAllTextMatches9
+                                                                                                                                                                                                             @ [GHC.Types.Char]
+                                                                                                                                                                                                             (Text.Regex.PCRE.String.$fRegexLikeRegex[]_$cmatchAllText
+                                                                                                                                                                                                                Text.matchDice1
+                                                                                                                                                                                                                x))) -}
+2737555c5948bec04c509a81ae87ded4
+  matchDice1 :: Text.Regex.PCRE.Wrap.Regex
+  {- Unfolding: ({__scc {main@main:Text.matchDice} False True} {__scc {main@main:Text.matchDice} False True} {__scc {main@main:Text.listRegex} False True} Text.Regex.PCRE.String.$fRegexMakerRegexCompOptionExecOption[]_$cmakeRegexOpts
+                                                                                                                                                             Text.Regex.PCRE.Wrap.compMultiline1
+                                                                                                                                                               `cast`
+                                                                                                                                                             (Trans
+                                                                                                                                                                  (Sym (Foreign.C.Types.NTCo:CInt[0]))
+                                                                                                                                                                  (Sym (Text.Regex.PCRE.Wrap.NTCo:CompOption[0])))
+                                                                                                                                                             Text.Regex.PCRE.Wrap.execBlank1
+                                                                                                                                                               `cast`
+                                                                                                                                                             (Trans
+                                                                                                                                                                  (Sym (Foreign.C.Types.NTCo:CInt[0]))
+                                                                                                                                                                  (Sym (Text.Regex.PCRE.Wrap.NTCo:ExecOption[0])))
+                                                                                                                                                             Text.regexDice) -}
+2aff63bca67251e496a57c4c56577949
+  matchTitle :: GHC.Base.String -> GHC.Base.String
+  {- Unfolding: ({__scc {main@main:Text.matchTitle} True False} \ x :: GHC.Base.String ->
+                                                                {__scc {main@main:Text.matchTitle} False True} Text.killSpaces
+                                                                                                                 ({__scc {main@main:Text.matchTitle} False True} ({__scc {main@main:Text.matchTitle} False True} GHC.Base.map
+                                                                                                                                                                                                                   @ GHC.Types.Char
+                                                                                                                                                                                                                   @ GHC.Types.Char
+                                                                                                                                                                                                                   Text.matchTitle2)
+                                                                                                                                                                   ({__scc {main@main:Text.matchTitle} False True} let {
+                                                                                                                                                                                                                     y :: GHC.Base.String
+                                                                                                                                                                                                                     = {__scc {main@main:Text.matchTitle} False True} let {
+                                                                                                                                                                                                                                                                        y1 :: GHC.Base.String
+                                                                                                                                                                                                                                                                        = {__scc {main@main:Text.matchTitle} False True} case Data.OldList.lines
+                                                                                                                                                                                                                                                                                                                                x of wild {
+                                                                                                                                                                                                                                                                                                                           []
+                                                                                                                                                                                                                                                                                                                           -> GHC.Types.[]
+                                                                                                                                                                                                                                                                                                                                @ GHC.Types.Char
+                                                                                                                                                                                                                                                                                                                           : w ws
+                                                                                                                                                                                                                                                                                                                           -> GHC.Base.++
+                                                                                                                                                                                                                                                                                                                                @ GHC.Types.Char
+                                                                                                                                                                                                                                                                                                                                w
+                                                                                                                                                                                                                                                                                                                                (Data.OldList.unwords_go
+                                                                                                                                                                                                                                                                                                                                   ws) }
+                                                                                                                                                                                                                                                                      } in
+                                                                                                                                                                                                                                                                      {__scc {main@main:Text.matchTitle} False True} Text.stringRegex
+                                                                                                                                                                                                                                                                                                                       y1
+                                                                                                                                                                                                                                                                                                                       Text.regexTitle
+                                                                                                                                                                                                                   } in
+                                                                                                                                                                                                                   {__scc {main@main:Text.matchTitle} False True} Text.stringRegex
+                                                                                                                                                                                                                                                                    y
+                                                                                                                                                                                                                                                                    Text.matchTitle1))) -}
+b805c8ed905a8d5f794b545e8b406e8f
+  matchTitle1 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.matchTitle} False True} GHC.CString.unpackCString#
+                                                                  "(?<=>)[^<]*"#) -}
+8ca673404f928f106b62872d2989b891
+  matchTitle2 :: GHC.Types.Char -> GHC.Types.Char
+  {- Arity: 1, HasNoCafRefs, Strictness: <S(S),1*U(U)>m,
+     Unfolding: InlineRule (1, True, False)
+                (\ x :: GHC.Types.Char ->
+                 {__scc {main@main:Text.matchTitle} False True} {__scc {main@main:Text.matchTitle.\} True True} case x of wild { GHC.Types.C# c1 ->
+                                                                                                                case c1 of wild1 {
+                                                                                                                  DEFAULT
+                                                                                                                  -> wild
+                                                                                                                  '\r'
+                                                                                                                  -> Text.matchTitle3 } }) -}
+37c91cd91159895b17691c077f7f20e5
+  matchTitle3 :: GHC.Types.Char
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.C# ' ') -}
+412407bd6031f84ab0d94c6137ef7409
+  matchUrl :: GHC.Base.String -> GHC.Base.String
+  {- Unfolding: ({__scc {main@main:Text.matchUrl} True False} \ y :: GHC.Base.String ->
+                                                              {__scc {main@main:Text.matchUrl} False True} Text.stringRegex
+                                                                                                             y
+                                                                                                             Text.regexUrl) -}
+ccf9fcb09451d9be352fbf7b75f86b68
+  regexDice :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.regexDice} True True} GHC.CString.unpackCString#
+                                                                "([0-9]?\\|)?([0-9]+)?d([0-9]+|%)((\\+|-)[0-9]+)?"#) -}
+78668cf3c89d9baae0d551ba7ea65854
+  regexTitle :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.regexTitle} True True} GHC.CString.unpackCString#
+                                                                 "<[^>]*[tT][iI][tT][lL][eE][^>]*>[^<]*<[^>]*/[^>]*[tT][iI][tT][lL][eE][^>]*>"#) -}
+65925c6f707a945a8f6f728671db192b
+  regexUrl :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.regexUrl} True True} GHC.CString.unpackCString#
+                                                               "(http(s)?://)?(www.)?([a-zA-Z0-9\\-_]{1,}\\.){1,}[a-zA-Z]{2,4}(/)?[^ ]*"#) -}
+43dc7a8373f18ddd4a221517b15f1bfe
+  spaceToPlus :: GHC.Base.String -> GHC.Base.String
+  {- Unfolding: ({__scc {main@main:Text.spaceToPlus} True False} \ x :: GHC.Base.String ->
+                                                                 {__scc {main@main:Text.spaceToPlus} False True} GHC.Base.map
+                                                                                                                   @ GHC.Types.Char
+                                                                                                                   @ GHC.Types.Char
+                                                                                                                   Text.spaceToPlus1
+                                                                                                                   (Text.killSpaces
+                                                                                                                      x)) -}
+3c20a613336a50ac310e096d60315781
+  spaceToPlus1 :: GHC.Types.Char -> GHC.Types.Char
+  {- Unfolding: ({__scc {main@main:Text.spaceToPlus} False True} Text.spaceToPlus_stp) -}
+a8ecce0a79bc03d32d733f127d33963f
+  spaceToPlus2 :: GHC.Types.Char
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.C# '+') -}
+fe4c6a17b64dbe479277ce2b5f5aa294
+  spaceToPlus_stp :: GHC.Types.Char -> GHC.Types.Char
+  {- Arity: 1, HasNoCafRefs, Strictness: <S(S),1*U(U)>m,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: GHC.Types.Char ->
+                 {__scc {main@main:Text.spaceToPlus.stp} True True} case ds of wild { GHC.Types.C# ds1 ->
+                                                                    case ds1 of ds2 {
+                                                                      DEFAULT -> wild
+                                                                      ' '
+                                                                      -> Text.spaceToPlus2 } }) -}
+73d4c60a59c8fc03e8cb49140fc6a1be
+  stringDropCmd ::
+    Data.ByteString.Internal.ByteString -> GHC.Base.String
+  {- Unfolding: ({__scc {main@main:Text.stringDropCmd} True False} \ x :: Data.ByteString.Internal.ByteString ->
+                                                                   {__scc {main@main:Text.stringDropCmd} False True} {__scc {main@main:Text.dropCommand} True False} case x of wild { Data.ByteString.Internal.PS dt dt1 dt2 dt3 ->
+                                                                                                                                                                     case {__scc {main@main:Text.dropCommand} False True} let {
+                                                                                                                                                                                                                            l :: GHC.Types.Int
+                                                                                                                                                                                                                              {- Strictness: m -}
+                                                                                                                                                                                                                            = GHC.Types.I#
+                                                                                                                                                                                                                                dt3
+                                                                                                                                                                                                                          } in
+                                                                                                                                                                                                                          letrec {
+                                                                                                                                                                                                                            $wa1 :: GHC.Prim.Addr#
+                                                                                                                                                                                                                                    -> GHC.Prim.Int#
+                                                                                                                                                                                                                                    -> GHC.Prim.State#
+                                                                                                                                                                                                                                         GHC.Prim.RealWorld
+                                                                                                                                                                                                                                    -> (# GHC.Prim.State#
+                                                                                                                                                                                                                                            GHC.Prim.RealWorld,
+                                                                                                                                                                                                                                          GHC.Types.Int #)
+                                                                                                                                                                                                                              {- Arity: 3,
+                                                                                                                                                                                                                                 Strictness: <L,U><L,U><L,U>,
+                                                                                                                                                                                                                                 Inline: [0] -}
+                                                                                                                                                                                                                            = \ ww :: GHC.Prim.Addr#
+                                                                                                                                                                                                                                ww1 :: GHC.Prim.Int#
+                                                                                                                                                                                                                                w :: GHC.Prim.State#
+                                                                                                                                                                                                                                       GHC.Prim.RealWorld[OneShot] ->
+                                                                                                                                                                                                                              case GHC.Prim.tagToEnum#
+                                                                                                                                                                                                                                     @ GHC.Types.Bool
+                                                                                                                                                                                                                                     (GHC.Prim.>=#
+                                                                                                                                                                                                                                        ww1
+                                                                                                                                                                                                                                        dt3) of wild1 {
+                                                                                                                                                                                                                                GHC.Types.False
+                                                                                                                                                                                                                                -> case GHC.Prim.readWord8OffAddr#
+                                                                                                                                                                                                                                          @ GHC.Prim.RealWorld
+                                                                                                                                                                                                                                          ww
+                                                                                                                                                                                                                                          0
+                                                                                                                                                                                                                                          w of ds2 { (#,#) ipv2 ipv3 ->
+                                                                                                                                                                                                                                   case GHC.Prim.chr#
+                                                                                                                                                                                                                                          (GHC.Prim.word2Int#
+                                                                                                                                                                                                                                             ipv3) of wild2 {
+                                                                                                                                                                                                                                     DEFAULT
+                                                                                                                                                                                                                                     -> $wa1
+                                                                                                                                                                                                                                          (GHC.Prim.plusAddr#
+                                                                                                                                                                                                                                             ww
+                                                                                                                                                                                                                                             1)
+                                                                                                                                                                                                                                          (GHC.Prim.+#
+                                                                                                                                                                                                                                             ww1
+                                                                                                                                                                                                                                             1)
+                                                                                                                                                                                                                                          ipv2
+                                                                                                                                                                                                                                     ' '
+                                                                                                                                                                                                                                     -> (# ipv2,
+                                                                                                                                                                                                                                           GHC.Types.I#
+                                                                                                                                                                                                                                             ww1 #) } }
+                                                                                                                                                                                                                                GHC.Types.True
+                                                                                                                                                                                                                                -> (# w,
+                                                                                                                                                                                                                                      l #) }
+                                                                                                                                                                                                                          } in
+                                                                                                                                                                                                                          $wa1
+                                                                                                                                                                                                                            (GHC.Prim.plusAddr#
+                                                                                                                                                                                                                               dt
+                                                                                                                                                                                                                               dt2)
+                                                                                                                                                                                                                            0
+                                                                                                                                                                                                                            GHC.Prim.realWorld# of ds1 { (#,#) ipv ipv1 ->
+                                                                                                                                                                     case {__scc {main@main:Text.dropCommand} False True} GHC.Prim.touch#
+                                                                                                                                                                                                                            @ GHC.ForeignPtr.ForeignPtrContents
+                                                                                                                                                                                                                            dt1
+                                                                                                                                                                                                                            ipv of s' { DEFAULT ->
+                                                                                                                                                                     case ipv1 of wild1 { GHC.Types.I# y ->
+                                                                                                                                                                     case {__scc {main@main:Text.dropCommand} False True} let {
+                                                                                                                                                                                                                            dt4 :: GHC.Prim.Int#
+                                                                                                                                                                                                                            = GHC.Prim.-#
+                                                                                                                                                                                                                                dt3
+                                                                                                                                                                                                                                y
+                                                                                                                                                                                                                          } in
+                                                                                                                                                                                                                          case GHC.Prim.tagToEnum#
+                                                                                                                                                                                                                                 @ GHC.Types.Bool
+                                                                                                                                                                                                                                 (GHC.Prim.>=#
+                                                                                                                                                                                                                                    1
+                                                                                                                                                                                                                                    dt4) of wild3 {
+                                                                                                                                                                                                                            GHC.Types.False
+                                                                                                                                                                                                                            -> Data.ByteString.Internal.PS
+                                                                                                                                                                                                                                 dt
+                                                                                                                                                                                                                                 dt1
+                                                                                                                                                                                                                                 (GHC.Prim.+#
+                                                                                                                                                                                                                                    (GHC.Prim.+#
+                                                                                                                                                                                                                                       dt2
+                                                                                                                                                                                                                                       y)
+                                                                                                                                                                                                                                    1)
+                                                                                                                                                                                                                                 (GHC.Prim.-#
+                                                                                                                                                                                                                                    dt4
+                                                                                                                                                                                                                                    1)
+                                                                                                                                                                                                                            GHC.Types.True
+                                                                                                                                                                                                                            -> Data.ByteString.empty } of ww { Data.ByteString.Internal.PS ww1 ww2 ww3 ww4 ->
+                                                                                                                                                                     Data.ByteString.UTF8.$wfoldr
+                                                                                                                                                                       @ GHC.Base.String
+                                                                                                                                                                       (GHC.Types.:
+                                                                                                                                                                          @ GHC.Types.Char)
+                                                                                                                                                                       (GHC.Types.[]
+                                                                                                                                                                          @ GHC.Types.Char)
+                                                                                                                                                                       ww1
+                                                                                                                                                                       ww2
+                                                                                                                                                                       ww3
+                                                                                                                                                                       ww4 } } } } }) -}
+3729a771fbcc335c401a4f2aea866aae
+  stringRegex ::
+    GHC.Base.String -> GHC.Base.String -> GHC.Base.String
+  {- Arity: 2, Strictness: <L,U><L,U>,
+     Unfolding: (\ orig :: GHC.Base.String regex :: GHC.Base.String ->
+                 {__scc {main@main:Text.stringRegex} True True} case Text.Regex.PCRE.String.$fRegexContextRegex[][]_$cmatchOnceText
+                                                                       (Text.Regex.PCRE.String.$fRegexMakerRegexCompOptionExecOption[]_$cmakeRegexOpts
+                                                                          Text.Regex.PCRE.Wrap.compMultiline1
+                                                                            `cast`
+                                                                          (Trans
+                                                                               (Sym (Foreign.C.Types.NTCo:CInt[0]))
+                                                                               (Sym (Text.Regex.PCRE.Wrap.NTCo:CompOption[0])))
+                                                                          Text.Regex.PCRE.Wrap.execBlank1
+                                                                            `cast`
+                                                                          (Trans
+                                                                               (Sym (Foreign.C.Types.NTCo:CInt[0]))
+                                                                               (Sym (Text.Regex.PCRE.Wrap.NTCo:ExecOption[0])))
+                                                                          regex)
+                                                                       orig of wild {
+                                                                  GHC.Base.Nothing
+                                                                  -> GHC.Types.[] @ GHC.Types.Char
+                                                                  GHC.Base.Just ds
+                                                                  -> case ds of wild1 { (,,) ds1 ma ds2 ->
+                                                                     case ma of wild2 { GHC.Arr.Array l u dt ds3 ->
+                                                                     case l of wild4 { GHC.Types.I# m ->
+                                                                     case u of wild5 { GHC.Types.I# n ->
+                                                                     case GHC.Prim.tagToEnum#
+                                                                            @ GHC.Types.Bool
+                                                                            (GHC.Prim.<=#
+                                                                               m
+                                                                               0) of wild6 {
+                                                                       GHC.Types.False
+                                                                       -> case Text.stringRegex1
+                                                                                 wild4
+                                                                                 wild5
+                                                                          ret_ty GHC.Base.String
+                                                                          of {}
+                                                                       GHC.Types.True
+                                                                       -> case GHC.Prim.tagToEnum#
+                                                                                 @ GHC.Types.Bool
+                                                                                 (GHC.Prim.<=#
+                                                                                    0
+                                                                                    n) of wild7 {
+                                                                            GHC.Types.False
+                                                                            -> case Text.stringRegex1
+                                                                                      wild4
+                                                                                      wild5
+                                                                               ret_ty GHC.Base.String
+                                                                               of {}
+                                                                            GHC.Types.True
+                                                                            -> case GHC.Prim.indexArray#
+                                                                                      @ (GHC.Base.String,
+                                                                                         (Text.Regex.Base.RegexLike.MatchOffset,
+                                                                                          Text.Regex.Base.RegexLike.MatchLength))
+                                                                                      ds3
+                                                                                      (GHC.Prim.-#
+                                                                                         0
+                                                                                         m) of ds4 { (##) ipv ->
+                                                                               case ipv of wild8 { (,) x ds7 ->
+                                                                               x } } } } } } } } }) -}
+4e1b366453d9f7bf46458ac0c48283eb
+  stringRegex1 :: GHC.Types.Int -> GHC.Types.Int -> GHC.Types.Int
+  {- Arity: 2, Strictness: <L,U><L,U>b -}
+a4e75691350bbc12878da231e7749c82
+  unescapeEntities :: GHC.Base.String -> GHC.Base.String
+  {- Arity: 1, Strictness: <S,1*U> -}
+e68ca1b1782c4a85ac1887672bb36388
+  wikistr :: [GHC.Types.Char] -> [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.wikistr} True True} GHC.Base.++
+                                                              @ GHC.Types.Char
+                                                              Text.wikistr1) -}
+e47f84a631a1f104e8ad6941499dc337
+  wikistr1 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.wikistr} False True} ({__scc {main@main:Text.wikistr} False True} Text.googlestr)
+                                                               Text.wikistr2) -}
+092f4b2c8a6350f8a8a4912994cc4d16
+  wikistr2 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.wikistr} False True} GHC.CString.unpackCString#
+                                                               "site%3Awikipedia.org+"#) -}
+9270168525ed8a1cd2bb7a2c53bd0ddb
+  wrapDie ::
+    [GHC.Base.String]
+    -> [(GHC.Types.Int, GHC.Types.Int, GHC.Types.Int, GHC.Types.Int)]
+  {- Unfolding: ({__scc {main@main:Text.wrapDie} True True} GHC.Base.map
+                                                              @ GHC.Base.String
+                                                              @ (GHC.Types.Int,
+                                                                 GHC.Types.Int,
+                                                                 GHC.Types.Int,
+                                                                 GHC.Types.Int)
+                                                              Text.wrapDie1) -}
+c4d8f8d25755e61e67aa465cb465ef62
+  wrapDie1 ::
+    GHC.Base.String
+    -> (GHC.Types.Int, GHC.Types.Int, GHC.Types.Int, GHC.Types.Int)
+  {- Arity: 1, Strictness: <L,U>m, Inline: INLINE[0],
+     Unfolding: InlineRule (1, True, False)
+                (\ w :: GHC.Base.String ->
+                 case Text.$wa w of ww { (#,,,#) ww1 ww2 ww3 ww4 ->
+                 (ww1, ww2, ww3, ww4) }) -}
+2f6935480c22250f50872d35e5062d69
+  wrapDie10 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.wrapDie} False True} {__scc {main@main:Text.wrapDie.\} False True} {__scc {main@main:Text.dieOffset} False True} {__scc {main@main:Text.dieOffset.b} False True} GHC.CString.unpackCString#
+                                                                                                                                                                                                           "(\\+|-)[0-9]+"#) -}
+0bb63a9da5bfaac19764e9289d79ef90
+  wrapDie11 :: GHC.Types.Int
+  {- Strictness: b -}
+f1ca9aae24b5178b93e2fedba532de08
+  wrapDie12 :: GHC.Types.Int
+  {- Strictness: b -}
+49264b8471876cf28428e77f736dc0d9
+  wrapDie13 :: Text.ParserCombinators.ReadP.P GHC.Types.Int
+  {- Unfolding: ({__scc {main@main:Text.wrapDie} False True} {__scc {main@main:Text.wrapDie.\} False True} {__scc {main@main:Text.dieMulti} False True} (GHC.Read.$fReadInt3
+                                                                                                                                                           GHC.Read.$fReadInt_$sconvertInt
+                                                                                                                                                           Text.ParserCombinators.ReadPrec.minPrec)
+                                                                                                                                                          `cast`
+                                                                                                                                                        (Text.ParserCombinators.ReadP.NTCo:ReadP[0]
+                                                                                                                                                             <GHC.Types.Int>_R)
+                                                                                                                                                          @ GHC.Types.Int
+                                                                                                                                                          (Text.Read.readEither5
+                                                                                                                                                             @ GHC.Types.Int)) -}
+93b5cd72f88b3cfd1f6ca51b5b51b775
+  wrapDie14 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 1) -}
+6296c50d6544a5359a0d14325c3dd7c3
+  wrapDie15 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.wrapDie} False True} {__scc {main@main:Text.wrapDie.\} False True} {__scc {main@main:Text.dieMulti} False True} {__scc {main@main:Text.dieMulti.b} False True} GHC.CString.unpackCString#
+                                                                                                                                                                                                         "([0-9]+)?(?=d)"#) -}
+f9737ba610975605c4ef7059d4a9b389
+  wrapDie16 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 100) -}
+4b4a0e51cbb549394f8a9cd2ebf805fe
+  wrapDie17 :: GHC.Types.Int
+  {- Strictness: b -}
+6e8d57a745ced93f87412eb3e2f8e8f5
+  wrapDie18 :: GHC.Types.Int
+  {- Strictness: b -}
+9ea0d396ee4a83908e59a0755e24ed9b
+  wrapDie19 :: Text.ParserCombinators.ReadP.P GHC.Types.Int
+  {- Unfolding: ({__scc {main@main:Text.wrapDie} False True} {__scc {main@main:Text.wrapDie.\} False True} {__scc {main@main:Text.dieD} False True} (GHC.Read.$fReadInt3
+                                                                                                                                                       GHC.Read.$fReadInt_$sconvertInt
+                                                                                                                                                       Text.ParserCombinators.ReadPrec.minPrec)
+                                                                                                                                                      `cast`
+                                                                                                                                                    (Text.ParserCombinators.ReadP.NTCo:ReadP[0]
+                                                                                                                                                         <GHC.Types.Int>_R)
+                                                                                                                                                      @ GHC.Types.Int
+                                                                                                                                                      (Text.Read.readEither5
+                                                                                                                                                         @ GHC.Types.Int)) -}
+087c0305c454d2720eb3bd5ab451a319
+  wrapDie2 :: GHC.Types.Int
+  {- Strictness: b -}
+dc5f7c7bbb6eb8fb662037f55118670a
+  wrapDie20 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.wrapDie} False True} {__scc {main@main:Text.wrapDie.\} False True} {__scc {main@main:Text.dieD} False True} GHC.CString.unpackCString#
+                                                                                                                                                      "%"#) -}
+b421f052a4daaf7f499e4dd63a43a6c1
+  wrapDie21 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.wrapDie} False True} {__scc {main@main:Text.wrapDie.\} False True} {__scc {main@main:Text.dieD} False True} {__scc {main@main:Text.dieD.b} False True} GHC.CString.unpackCString#
+                                                                                                                                                                                                 "(?<=d)([0-9]+|%)"#) -}
+cada89eddc439ff7565a5942ef84ea0b
+  wrapDie3 :: GHC.Types.Int
+  {- Strictness: b -}
+07f28ab115df657e2e48c21e2d7008b8
+  wrapDie4 :: Text.ParserCombinators.ReadP.P GHC.Types.Int
+  {- Unfolding: ({__scc {main@main:Text.wrapDie} False True} {__scc {main@main:Text.wrapDie.\} False True} {__scc {main@main:Text.dieLoop} False True} (GHC.Read.$fReadInt3
+                                                                                                                                                          GHC.Read.$fReadInt_$sconvertInt
+                                                                                                                                                          Text.ParserCombinators.ReadPrec.minPrec)
+                                                                                                                                                         `cast`
+                                                                                                                                                       (Text.ParserCombinators.ReadP.NTCo:ReadP[0]
+                                                                                                                                                            <GHC.Types.Int>_R)
+                                                                                                                                                         @ GHC.Types.Int
+                                                                                                                                                         (Text.Read.readEither5
+                                                                                                                                                            @ GHC.Types.Int)) -}
+8861af68a1ac889beda8cdf24c225917
+  wrapDie5 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.wrapDie} False True} {__scc {main@main:Text.wrapDie.\} False True} {__scc {main@main:Text.dieLoop} False True} {__scc {main@main:Text.dieLoop.b} False True} GHC.CString.unpackCString#
+                                                                                                                                                                                                       "[0-9]+(?=\\|)"#) -}
+8f591f40b2fc61080f3ecabeaff72589
+  wrapDie6 :: GHC.Types.Int
+  {- Strictness: b -}
+de7b40f0bac7efb8d428ea68dbce1b2d
+  wrapDie7 :: GHC.Types.Int
+  {- Strictness: b -}
+fb025c4d8863ecd7e8068d274278a7d1
+  wrapDie8 :: Text.ParserCombinators.ReadP.P GHC.Types.Int
+  {- Unfolding: ({__scc {main@main:Text.wrapDie} False True} {__scc {main@main:Text.wrapDie.\} False True} {__scc {main@main:Text.dieOffset} False True} (GHC.Read.$fReadInt3
+                                                                                                                                                            GHC.Read.$fReadInt_$sconvertInt
+                                                                                                                                                            Text.ParserCombinators.ReadPrec.minPrec)
+                                                                                                                                                           `cast`
+                                                                                                                                                         (Text.ParserCombinators.ReadP.NTCo:ReadP[0]
+                                                                                                                                                              <GHC.Types.Int>_R)
+                                                                                                                                                           @ GHC.Types.Int
+                                                                                                                                                           (Text.Read.readEither5
+                                                                                                                                                              @ GHC.Types.Int)) -}
+b10ebde1ca36eff81387eb5d7491930d
+  wrapDie9 :: GHC.Types.Int
+  {- HasNoCafRefs, Unfolding: (GHC.Types.I# 0) -}
+dae0e9ab2c2c434debc828a4ae92243e
+  youstr :: [GHC.Types.Char] -> [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.youstr} True True} GHC.Base.++
+                                                             @ GHC.Types.Char
+                                                             Text.youstr1) -}
+e9ba755cab60c5b43238d1b6addc0012
+  youstr1 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.youstr} False True} ({__scc {main@main:Text.youstr} False True} Text.googlestr)
+                                                              Text.youstr2) -}
+b9a6bf8735272da00d32aaa0a9924234
+  youstr2 :: [GHC.Types.Char]
+  {- Unfolding: ({__scc {main@main:Text.youstr} False True} GHC.CString.unpackCString#
+                                                              "site%3Awww.youtube.com+"#) -}
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: none
+require own pkg trusted: False
+

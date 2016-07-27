@@ -16,8 +16,8 @@ import Data.List
 
 initConfig :: IO (FilePath,[FilePath])
 initConfig = do
-    home <- getHomeDirectory
-    let configdir = home ++ "/.mssbot"
+--    home <- getHomeDirectory
+    let configdir = "/app/mssbot" --home ++ "/.mssbot"
     exists <- doesDirectoryExist configdir
     unless exists $
       createDirectory configdir
