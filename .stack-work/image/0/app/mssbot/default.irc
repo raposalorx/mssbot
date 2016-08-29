@@ -1,3 +1,0 @@
-network: irc.network.net
-name: botName
-channels = ["#chan"]

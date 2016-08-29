@@ -60,7 +60,9 @@ getTellFile = do
   return $ "/app/mssbot/telllist" --home++"/.mssbot/telllist"
 
 download :: String -> String -> IO ()
-download url file = void $ runCmd "curl" ["-sSL", "-m", "10", "--user-agent","Mozilla/4.0", "-o",file, url] ""
+download url file = do
+  putStrLn $ concat ["curl","-sSL", "-m", "10", "--user-agent","Mozilla/4.0", "-o",file, url]
+  void $ runCmd "curl" ["-sSL", "-m", "10", "--user-agent","Mozilla/4.0", "-o",file, url] ""
 
 getRedirectTitle :: String -> IO String
 getRedirectTitle search = do
@@ -72,17 +74,23 @@ getRedirectTitle search = do
 
 getTitle :: String -> IO String
 getTitle url = do
+--  putStrLn "geturlfile."
   urlFile <- getUrlFile
-  let patchedUrl = if not . null $ stringRegex url "(http(s)?://)?(www.)?youtube.com(/)?[^ ()[\\]`'\"]*" then url++"&gl=CA&hl=en" else url
---    putStrLn $ concat ["Getting ", patchedUrl] 
-  download patchedUrl urlFile
-  usable <- flip elem ["HTML", "xHTML", "XML"] <$> takeWhile (/=' ') <$> runCmd "file" ["-b", urlFile] ""
---    putStrLn $ concat ["It's a ", show usable, " document"]
-  if usable then do
-      html <- readFile urlFile
-      let title = matchTitle html
-      return $ if not . null $ title then title else ""
-      else return ""
+--  let patchedUrl = if not . null $ stringRegex url "(http(s)?://)?(www.)?youtube.com(/)?[^ ()[\\]`'\"]*" then url++"&gl=CA&hl=en" else url
+--  putStrLn $ concat [url," => ",patchedUrl]
+--  putStrLn "downloading..."
+  download url urlFile --patchedUrl urlFile
+--  putStrLn "finding if usable"
+--  usable <- flip elem ["HTML", "xHTML", "XML"] <$> takeWhile (/=' ') <$> runCmd "file" ["-b", urlFile] ""
+--  putStrLn $ concat ["It's a ", show usable, " document"]
+--  usable <- return True
+--  if usable then do
+--      putStrLn "get html"
+  html <- readFile urlFile
+--      putStrLn "finding title"
+  let title = matchTitle html
+  return $ if not . null $ title then title else ""
+--      else return ""
 
 tell :: MIrc -> String -> IO()
 tell s nik = do
